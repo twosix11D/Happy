@@ -17,78 +17,78 @@
         crossorigin="anonymous"></script>
     <style>
         /* ----------- Hộp quà ----------- */
-#gift-boxes-area {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 1001;
-  transform: translate(-50%, -50%);
-  display: flex;
-  gap: 38px;
-  pointer-events: none;
-}
-.gift-box {
-  width: 78px;
-  height: 90px;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: float 3s ease-in-out infinite;
-  pointer-events: auto;
-  transition: transform 0.24s cubic-bezier(.44,1.5,.55,1.11);
-  will-change: transform;
-}
-.gift-box .box-lid, .gift-box .box-body {
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 75px;
-  left: 0;
-  position: absolute;
-  transition: all 0.5s cubic-bezier(.61,1.2,.39,1.01);
-}
-.gift-box .box-lid {
-  height: 40px;
-  top: 0;
-  z-index: 2;
-  background-image: url('https://i.imgur.com/3m2sQ8L.png'); /* nắp */
-}
-.gift-box .box-body {
-  height: 60px;
-  top: 28px;
-  z-index: 1;
-  background-image: url('https://i.imgur.com/E9lRB0X.png'); /* thân */
-}
-.gift-box.open .box-lid {
-  transform: rotate(-55deg) translate(-10px,-48px) scale(1.1);
-  box-shadow: 0 6px 20px #f9b6cc77;
-}
-.gift-box.open .box-body {
-  filter: brightness(1.12);
-  box-shadow: 0 8px 32px #ffb6d577;
-}
-.gift-box.open {
-  z-index: 2002;
-  transform: scale(1.18) translateY(-16px);
-}
-.gift-box:active:not(.open) {
-  transform: scale(1.06);
-}
-.gift-box.sole-up { transform: translateY(-18px); }
-.gift-box.sole-down { transform: translateY(18px); }
+        #gift-boxes-area {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 1001;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 38px;
+            pointer-events: none;
+        }
+        .gift-box {
+            width: 78px;
+            height: 90px;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: auto;
+            transition: transform 0.24s cubic-bezier(.44,1.5,.55,1.11);
+            will-change: transform;
+        }
+        .gift-box .box-lid, .gift-box .box-body {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 75px;
+            left: 0;
+            position: absolute;
+            transition: all 0.5s cubic-bezier(.61,1.2,.39,1.01);
+        }
+        .gift-box .box-lid {
+            height: 40px;
+            top: 0;
+            z-index: 2;
+            background-image: url('https://i.imgur.com/3m2sQ8L.png');
+        }
+        .gift-box .box-body {
+            height: 60px;
+            top: 28px;
+            z-index: 1;
+            background-image: url('https://i.imgur.com/E9lRB0X.png');
+        }
+        .gift-box.open .box-lid {
+            transform: rotate(-55deg) translate(-10px,-48px) scale(1.1);
+            box-shadow: 0 6px 20px #f9b6cc77;
+        }
+        .gift-box.open .box-body {
+            filter: brightness(1.12);
+            box-shadow: 0 8px 32px #ffb6d577;
+        }
+        .gift-box.open {
+            z-index: 2002;
+            transform: scale(1.18) translateY(-16px);
+        }
+        .gift-box:active:not(.open) {
+            transform: scale(1.06);
+        }
+        .gift-box.sole-up { transform: translateY(-18px); }
+        .gift-box.sole-down { transform: translateY(18px); }
 
-.gift-box:nth-child(2) { animation-delay: 0.6s; }
-.gift-box:nth-child(3) { animation-delay: 1.2s; }
-.gift-box:nth-child(4) { animation-delay: 1.8s; }
-.gift-box:nth-child(5) { animation-delay: 2.4s; }
+        .gift-box:nth-child(2) { animation-delay: 0.6s; }
+        .gift-box:nth-child(3) { animation-delay: 1.2s; }
+        .gift-box:nth-child(4) { animation-delay: 1.8s; }
+        .gift-box:nth-child(5) { animation-delay: 2.4s; }
 
-@keyframes float {
-  0%   { transform: translateY(0);}
-  50%  { transform: translateY(-24px);}
-  100% { transform: translateY(0);}
-}
+        @keyframes float {
+            0%   { transform: translateY(0);}
+            50%  { transform: translateY(-24px);}
+            100% { transform: translateY(0);}
+        }
 
         /* Modal lời chúc */
         #gift-modal {
@@ -114,7 +114,6 @@
             font-size: 1.7rem; color: #f67280; cursor: pointer; font-family: 'Quicksand', Arial, sans-serif;
         }
         /* ----------- Modal PIN ----------- */
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@700&display=swap');
         .cute-pin-box {
             background: #ffe6ed;
             border: 3.4px solid #e497af;
@@ -232,51 +231,22 @@
 </head>
 
 <body>
-    <!-- Hộp quà lơ lửng -->
-<div id="gift-boxes-area">
-  <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖"></div>
-  <div class="gift-box" data-msg="Thêm một tuổi mới, thêm thật nhiều niềm vui nhé! 🎂"></div>
-  <div class="gift-box" data-msg="Chúc mọi điều tốt lành nhất sẽ đến với bạn! 🍀"></div>
-  <div class="gift-box" data-msg="Mong bạn sẽ mãi cười thật tươi mỗi ngày! 😊"></div>
-  <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới thật tuyệt vời nha! 🎉"></div>
-</div>
-<div id="gift-modal">
-  <div id="gift-modal-content">
-    <span id="gift-modal-close">&times;</span>
-    <div id="gift-modal-message"></div>
-  </div>
-</div>
-// TẠO CẤU TRÚC hộp quà 2 phần: nắp/thân
-document.querySelectorAll('.gift-box').forEach((box, i) => {
-  box.innerHTML = `<div class="box-lid"></div><div class="box-body"></div>`;
-  // So le: sole-up, sole-down
-  if (i % 2 === 1) box.classList.add('sole-up');
-  if (i % 2 === 0 && i !== 0) box.classList.add('sole-down');
-});
+    <!-- Hộp quà lơ lửng với nắp bung -->
+    <div id="gift-boxes-area">
+      <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖"></div>
+      <div class="gift-box" data-msg="Thêm một tuổi mới, thêm thật nhiều niềm vui nhé! 🎂"></div>
+      <div class="gift-box" data-msg="Chúc mọi điều tốt lành nhất sẽ đến với bạn! 🍀"></div>
+      <div class="gift-box" data-msg="Mong bạn sẽ mãi cười thật tươi mỗi ngày! 😊"></div>
+      <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới thật tuyệt vời nha! 🎉"></div>
+    </div>
+    <!-- Modal lời chúc -->
+    <div id="gift-modal">
+      <div id="gift-modal-content">
+        <span id="gift-modal-close">&times;</span>
+        <div id="gift-modal-message"></div>
+      </div>
+    </div>
 
-// Sự kiện mở hộp
-document.querySelectorAll('.gift-box').forEach(box => {
-  box.addEventListener('click', function(e) {
-    // Đóng các hộp khác nếu đang mở
-    document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
-    // Mở hộp này
-    this.classList.add('open');
-    setTimeout(() => {
-      document.getElementById('gift-modal-message').textContent = this.getAttribute('data-msg');
-      document.getElementById('gift-modal').style.display = 'flex';
-    }, 650);
-  });
-});
-document.getElementById('gift-modal-close').onclick = function() {
-  document.getElementById('gift-modal').style.display = 'none';
-  document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
-};
-document.getElementById('gift-modal').onclick = function(e) {
-  if(e.target === this) {
-    this.style.display = 'none';
-    document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
-  }
-};
     <!-- Modal nhập mã PIN -->
     <div id="pin-modal"
          style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.96);display:flex;align-items:center;justify-content:center;">
@@ -438,6 +408,37 @@ document.getElementById('gift-modal').onclick = function(e) {
 
 </body>
 <script>
+    // ----------- Hộp quà 2 phần, bung nắp, phóng to, so le ----------
+    document.querySelectorAll('.gift-box').forEach((box, i) => {
+      box.innerHTML = `<div class="box-lid"></div><div class="box-body"></div>`;
+      // So le: sole-up, sole-down
+      if (i % 2 === 1) box.classList.add('sole-up');
+      if (i % 2 === 0 && i !== 0) box.classList.add('sole-down');
+    });
+    // Sự kiện mở hộp
+    document.querySelectorAll('.gift-box').forEach(box => {
+      box.addEventListener('click', function(e) {
+        // Đóng các hộp khác nếu đang mở
+        document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
+        // Mở hộp này (bung nắp, phóng to)
+        this.classList.add('open');
+        setTimeout(() => {
+          document.getElementById('gift-modal-message').textContent = this.getAttribute('data-msg');
+          document.getElementById('gift-modal').style.display = 'flex';
+        }, 650);
+      });
+    });
+    document.getElementById('gift-modal-close').onclick = function() {
+      document.getElementById('gift-modal').style.display = 'none';
+      document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
+    };
+    document.getElementById('gift-modal').onclick = function(e) {
+      if(e.target === this) {
+        this.style.display = 'none';
+        document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
+      }
+    };
+
     // ----------- Modal nhập PIN dễ thương ----------
     const CORRECT_PIN = "1234"; // Đổi mã số tại đây
     const pinModal = document.getElementById('pin-modal');
@@ -519,27 +520,12 @@ document.getElementById('gift-modal').onclick = function(e) {
         else pinDots[i].classList.remove("filled");
       }
     }
-
     // Ẩn trang chính khi chưa nhập đúng PIN
     document.getElementById('wrapper').style.filter = 'blur(8px)';
     document.getElementById('wrapper').style.pointerEvents = 'none';
     updatePinDots();
 
-    // ----------- Hộp quà & modal lời chúc -----------
-    document.querySelectorAll('.gift-box').forEach(box => {
-      box.addEventListener('click', function() {
-        document.getElementById('gift-modal-message').textContent = this.getAttribute('data-msg');
-        document.getElementById('gift-modal').style.display = 'flex';
-      });
-    });
-    document.getElementById('gift-modal-close').onclick = function() {
-      document.getElementById('gift-modal').style.display = 'none';
-    };
-    document.getElementById('gift-modal').onclick = function(e) {
-      if(e.target === this) this.style.display = 'none';
-    };
-
-    // ----------- Birthday animation code -----------
+    // ----------- Birthday animation code giữ nguyên -----------
     let datetxt = "27 May";
     let datatxtletter = "My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we wi[...]";
     let titleLetter = "To you";
