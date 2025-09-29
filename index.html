@@ -14,6 +14,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         crossorigin="anonymous"></script>
     <style>
+        body {
+            background: #ffeae0;
+        }
         #gift-boxes-area {
             position: fixed;
             top: 58%;
@@ -104,40 +107,51 @@
             position: absolute; right: 14px; top: 10px;
             font-size: 1.7rem; color: #f67280; cursor: pointer; font-family: 'Quicksand', Arial, sans-serif;
         }
-    </style>
-</head>
-
-<body>
-    <!-- Modal nhập PIN dễ thương -->
-    <div id="pin-modal" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.96);display:flex;align-items:center;justify-content:center;">
-      <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&family=Quicksand:wght@700&display=swap');
-        .cute-pin-box {
+        /* Modal PIN style - cửa sổ */
+        .window-cute {
           background: #fff0e8;
-          border: 3.5px solid #ff7e85;
+          border: 3px solid #ff7e85;
           border-radius: 22px;
-          min-width: 320px;
-          min-height: 320px;
-          position: relative;
-          padding: 34px 22px 26px 22px;
-          font-family: 'VT323', 'Quicksand', monospace, Arial;
-          color: #d1497a;
+          min-width: 340px;
+          min-height: 340px;
           box-shadow: 0 4px 24px #efb6b488;
-          text-align: center;
+          position: relative;
+          padding: 0 0 32px 0;
+          font-family: 'VT323', monospace;
+          color: #d1497a;
+          display: flex; flex-direction: column; align-items: center;
+          overflow: visible;
+        }
+        .window-cute-titlebar {
+          width: 100%; height: 48px; background: #ff7e85;
+          border-top-left-radius: 19px; border-top-right-radius: 19px;
+          display: flex; align-items: center; gap: 8px; padding: 0 18px;
+          border-bottom: 2px solid #222;
+        }
+        .window-cute-dot {
+          width: 16px; height: 16px; border-radius: 50%;
+          display: inline-block; margin-right: 2px; border: 2px solid #222;
+        }
+        .window-cute-dot.red { background: #ff6464; }
+        .window-cute-dot.yellow { background: #ffe16b;}
+        .window-cute-dot.green { background: #82ffb6;}
+        .window-cute-titlebar-title {
+          font-size: 1.2rem;
+          font-family: 'VT323', monospace;
+          color: #fff;
+          margin-left: 16px;
+          letter-spacing: 1px;
+        }
+        .window-cute-content {
+          padding: 24px 26px 10px 26px;
+          width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-        .cute-pin-titlebar {
-          width: 100%; height: 34px; background: #ff968b;
-          border-top-left-radius: 16px; border-top-right-radius: 16px;
-          display: flex; align-items: center; padding: 0 14px;
-          position: absolute; left: 0; top: 0;
-          border-bottom: 2px solid #222;
-        }
         .cute-pin-dots {
           display: flex; justify-content: center; gap: 20px;
-          margin: 44px 0 26px 0;
+          margin: 30px 0 18px 0;
         }
         .cute-pin-dot {
           width: 22px; height: 22px;
@@ -202,15 +216,22 @@
         .pi-smile1 { left: 18px; top: 38px; width: 26px;}
         .pi-smile2 { right: 24px; top: 63px; width: 26px;}
         @media (max-width: 450px) {
-          .cute-pin-box { min-width: 96vw; padding: 14px 2vw 14px 2vw;}
+          .window-cute { min-width: 96vw; padding: 0 0 16px 0;}
+          .window-cute-content { padding: 16px 2vw 10px 2vw; }
           .cute-pin-keypad { grid-template-columns: repeat(3, 18vw);}
           .cute-pin-key { width: 18vw; height: 18vw; font-size: 1.18rem;}
         }
-      </style>
-      <div class="cute-pin-box">
-        <div class="cute-pin-titlebar"></div>
-        <div style="font-size:2rem;margin-top:14px;font-family:'VT323',monospace;">Nhập mã PIN</div>
-        <div style="font-size:1.11rem;color:#b55;margin-top:2px;font-family:'Quicksand',sans-serif;">Vui lòng nhập mã gồm 4 số để mở quà!</div>
+    </style>
+    <div class="window-cute">
+      <div class="window-cute-titlebar">
+        <span class="window-cute-dot red"></span>
+        <span class="window-cute-dot yellow"></span>
+        <span class="window-cute-dot green"></span>
+        <span class="window-cute-titlebar-title">Mở khóa</span>
+      </div>
+      <div class="window-cute-content">
+        <div style="font-size:1.8rem;margin-top:8px;font-family:'VT323',monospace;">Nhập mã PIN</div>
+        <div style="font-size:1.11rem;color:#b55;margin:4px 0 0 0;font-family:'Quicksand',sans-serif;">Vui lòng nhập mã gồm 4 số để mở quà!</div>
         <div class="cute-pin-dots" id="pin-dots">
           <div class="cute-pin-dot" id="dot-0"></div>
           <div class="cute-pin-dot" id="dot-1"></div>
@@ -219,23 +240,40 @@
         </div>
         <div class="cute-pin-keypad" id="pin-keypad"></div>
         <div class="cute-pin-error" id="pin-error"></div>
-        <div class="pin-icons">
-          <img class="pi-star" src="https://img.icons8.com/color/48/000000/star.png"/>
-          <img class="pi-heart" src="https://img.icons8.com/color/48/000000/heart.png"/>
-          <img class="pi-cloud" src="https://img.icons8.com/ios-filled/50/000000/cloud.png"/>
-          <img class="pi-like" src="https://img.icons8.com/color/96/000000/facebook-like.png"/>
-          <img class="pi-smile1" src="https://img.icons8.com/emoji/48/000000/slightly-smiling-face.png"/>
-          <img class="pi-smile2" src="https://img.icons8.com/emoji/48/000000/smiling-face-with-smiling-eyes.png"/>
-        </div>
+      </div>
+      <div class="pin-icons">
+        <img class="pi-star" src="https://img.icons8.com/color/48/000000/star.png"/>
+        <img class="pi-heart" src="https://img.icons8.com/color/48/000000/heart.png"/>
+        <img class="pi-cloud" src="https://img.icons8.com/ios-filled/50/000000/cloud.png"/>
+        <img class="pi-like" src="https://img.icons8.com/color/96/000000/facebook-like.png"/>
+        <img class="pi-smile1" src="https://img.icons8.com/emoji/48/000000/slightly-smiling-face.png"/>
+        <img class="pi-smile2" src="https://img.icons8.com/emoji/48/000000/smiling-face-with-smiling-eyes.png"/>
       </div>
     </div>
-    <!-- Modal chúc mừng khi nhập đúng -->
-    <div id="pin-success-modal" style="display:none;position:fixed;z-index:10000;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.88);align-items:center;justify-content:center;">
-      <div style="background:#fff0e8;border:3.5px solid #ff7e85;border-radius:22px;min-width:320px;min-height:130px;box-shadow:0 4px 24px #efb6b488;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
-        <div style="font-family:'VT323',monospace;font-size:2rem;color:#d1497a;margin-bottom:24px;">You are beautiful</div>
-        <button id="pin-success-ok" style="margin-top:5px;font-family:'VT323',monospace;font-size:1.45rem;background:#ffbfcf;color:#7a3141;border:2px solid #d1497a;border-radius:10px;padding:5px 38px;cursor:pointer;box-shadow:0 2px 0 #fff8;">OK</button>
-      </div>
+</div>
+<!-- Modal chúc mừng kiểu cửa sổ -->
+<div id="pin-success-modal" style="display:none;position:fixed;z-index:10000;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.88);align-items:center;justify-content:center;">
+  <div class="window-cute">
+    <div class="window-cute-titlebar">
+      <span class="window-cute-dot red"></span>
+      <span class="window-cute-dot yellow"></span>
+      <span class="window-cute-dot green"></span>
+      <span class="window-cute-titlebar-title">Lời chúc</span>
     </div>
+    <div class="window-cute-content" style="padding-top:36px;">
+      <div style="font-family:'VT323',monospace;font-size:2rem;color:#d1497a;margin-bottom:24px;">You are beautiful</div>
+      <button id="pin-success-ok" style="margin-top:5px;font-family:'VT323',monospace;font-size:1.45rem;background:#ffbfcf;color:#7a3141;border:2px solid #d1497a;border-radius:10px;padding:5px 38px;cursor:pointer;box-shadow:0 2px 0 #fff8;">OK</button>
+    </div>
+    <div class="pin-icons">
+      <img class="pi-star" src="https://img.icons8.com/color/48/000000/star.png"/>
+      <img class="pi-heart" src="https://img.icons8.com/color/48/000000/heart.png"/>
+      <img class="pi-cloud" src="https://img.icons8.com/ios-filled/50/000000/cloud.png"/>
+      <img class="pi-like" src="https://img.icons8.com/color/96/000000/facebook-like.png"/>
+      <img class="pi-smile1" src="https://img.icons8.com/emoji/48/000000/slightly-smiling-face.png"/>
+      <img class="pi-smile2" src="https://img.icons8.com/emoji/48/000000/smiling-face-with-smiling-eyes.png"/>
+    </div>
+  </div>
+</div>
 
     <div id="gift-boxes-area">
       <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖"></div>
@@ -252,13 +290,12 @@
     </div>
 
     <!-- Phần nội dung sinh nhật giữ nguyên -->
-    <div id="wrapper">
+    <div id="wrapper" style="background: transparent;">
         <!-- ... Nội dung sinh nhật ... -->
     </div>
-
 </body>
 <script>
-    // === MODAL PIN ĐIỆN THOẠI DỄ THƯƠNG ===
+    // === MODAL PIN ĐIỆN THOẠI DỄ THƯƠNG, CỬA SỔ ===
     const CORRECT_PIN = "1234"; // Đổi mã số tại đây
     const pinModal = document.getElementById('pin-modal');
     const pinDots = [
