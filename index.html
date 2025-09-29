@@ -19,6 +19,16 @@
 </head>
 
 <body>
+    <!-- Modal nhập mật khẩu -->
+    <div id="password-modal" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;flex-direction:column;">
+        <div style="background:#fff;padding:32px 24px;border-radius:12px;box-shadow:0 2px 12px #0002;text-align:center;min-width:280px;">
+            <h2 style="margin-bottom:18px;">Nhập mật khẩu để tiếp tục</h2>
+            <input id="password-input" type="password" placeholder="Mật khẩu..." style="padding:8px 12px;width:80%;font-size:1rem;margin-bottom:12px;border-radius:6px;border:1px solid #ccc;" />
+            <br>
+            <button id="password-btn" style="padding:8px 24px;font-size:1rem;border:none;border-radius:6px;background:#f57c00;color:#fff;cursor:pointer;">Xác nhận</button>
+            <div id="password-error" style="color:red;margin-top:10px;display:none;">Sai mật khẩu. Vui lòng thử lại!</div>
+        </div>
+    </div>
     <div id="wrapper">
         <div class="flag__birthday">
             <img src="./images/1.png" alt="" width="350" class="flag__left">
@@ -159,8 +169,36 @@
 
 </body>
 <script>
+    // Mật khẩu mong muốn, bạn có thể đổi thành mật khẩu của riêng bạn
+    const CORRECT_PASSWORD = "happymehwish";
+    const passwordModal = document.getElementById('password-modal');
+    const passwordInput = document.getElementById('password-input');
+    const passwordBtn = document.getElementById('password-btn');
+    const passwordError = document.getElementById('password-error');
+
+    // Ẩn nội dung chính khi chưa nhập đúng mật khẩu
+    document.getElementById('wrapper').style.filter = 'blur(8px)';
+    document.getElementById('wrapper').style.pointerEvents = 'none';
+
+    passwordBtn.onclick = function() {
+        if(passwordInput.value === CORRECT_PASSWORD){
+            passwordModal.style.display = "none";
+            document.getElementById('wrapper').style.filter = '';
+            document.getElementById('wrapper').style.pointerEvents = '';
+        } else {
+            passwordError.style.display = "block";
+            passwordInput.value = "";
+            passwordInput.focus();
+        }
+    }
+
+    // Cho phép nhấn Enter để xác nhận
+    passwordInput.addEventListener('keyup', function(e){
+        if(e.key === 'Enter') passwordBtn.click();
+    });
+
     let datetxt = "27 May";
-    let datatxtletter = "My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we will celebrate many more birthdays like this together. Happy birthday to you.💕";
+    let datatxtletter = "My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we wi[...]";
     let titleLetter = "To you";
     let charArrDate = datetxt.split('');
     let charArrDateLetter = datatxtletter.split('');
@@ -244,8 +282,6 @@
         $(".box__letter").slideUp();
         $(".letter__border").slideUp();
     })
-
-
 
     let mailBox = document.querySelector('.mail')
     let boxmail = document.querySelector('.boxMail')
