@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="title" content="Happy Birthday Website 2.0 | Aoudumber Bade">
-    <meta name="github" content="https://github.com/Aoudumber-Bade">
     <title>Mehwish Birthday</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@700&display=swap"
-        rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* ----------- Hộp quà SVG ----------- */
         #gift-boxes-area {
             position: fixed;
             top: 58%;
@@ -82,8 +74,6 @@
             50%  { transform: translateY(-24px);}
             100% { transform: translateY(0);}
         }
-
-        /* Modal lời chúc */
         #gift-modal {
             position: fixed; z-index: 3000; left: 0; top: 0; width: 100vw; height: 100vh;
             background: rgba(255,220,230,0.7); display: none; align-items: center; justify-content: center;
@@ -106,123 +96,8 @@
             position: absolute; right: 14px; top: 10px;
             font-size: 1.7rem; color: #f67280; cursor: pointer; font-family: 'Quicksand', Arial, sans-serif;
         }
-        /* ----------- Modal PIN ----------- */
-        .cute-pin-box {
-            background: #ffe6ed;
-            border: 3.4px solid #e497af;
-            border-radius: 28px;
-            box-shadow: 0 4px 24px #e497af66;
-            min-width: 320px;
-            min-height: 340px;
-            position: relative;
-            padding: 38px 28px 30px 28px;
-            font-family: 'Quicksand', 'Dancing Script', 'Segoe UI', Arial, Helvetica, sans-serif;
-            color: #d1497a;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .cute-pin-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.1rem;
-            font-weight: bold;
-            letter-spacing: 1.2px;
-            margin-bottom: 10px;
-        }
-        .cute-pin-desc {
-            font-size: 1.1rem;
-            margin-bottom: 18px;
-            color: #ac3b61;
-            text-align: center;
-            font-family: 'Quicksand', sans-serif;
-        }
-        .cute-pin-dots {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 18px;
-            margin-top: 12px;
-        }
-        .cute-pin-dot {
-            width: 22px; height: 22px;
-            border-radius: 50%;
-            border: 2.5px solid #e497af;
-            background: #fff6fb;
-            font-size: 1.6rem;
-            line-height: 22px;
-            text-align: center;
-            font-family: 'Quicksand', Arial, sans-serif;
-            color: #f67280;
-            transition: background .2s;
-            box-shadow: 0 2px 0 #fff8;
-        }
-        .cute-pin-dot.filled {
-            background: #f67280;
-            color: #fff;
-            border-color: #d1497a;
-        }
-        .cute-pin-keypad {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 50px);
-            grid-gap: 14px;
-            justify-content: center;
-            margin-bottom: 6px;
-        }
-        .cute-pin-key {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            border: 2px solid #d1497a;
-            background: #fff6fb;
-            border-radius: 50%;
-            height: 50px; width: 50px;
-            text-align: center;
-            color: #d1497a;
-            cursor: pointer;
-            transition: background 0.14s, box-shadow 0.12s;
-            box-shadow: 0 2px 0 #ffe6ed;
-            outline: none;
-            user-select: none;
-        }
-        .cute-pin-key:active {
-            background: #f67280;
-            color: #fff;
-        }
-        .cute-pin-key[disabled] {
-            opacity: 0.3; pointer-events: none;
-        }
-        .cute-pin-error {
-            color: #d1002c;
-            font-size: 1rem;
-            min-height: 22px;
-            margin-top: 6px;
-            text-align: center;
-            font-family: 'Quicksand', Arial, sans-serif;
-            display: none;
-        }
-        .pin-icons {
-            position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
-        }
-        .pin-icons img {
-            position: absolute; opacity: 0.8;
-        }
-        .pi-star { left: 6px; top: 12px; width: 32px;}
-        .pi-heart { right: 8px; top: 24px; width: 33px;}
-        .pi-cloud { left: -18px; bottom: 18px; width: 45px;}
-        .pi-like { right: -22px; bottom: 18px; width: 39px;}
-        @media (max-width: 700px) {
-            #gift-boxes-area {gap: 14px;}
-            .gift-box {width: 54px; height: 70px;}
-        }
-        @media (max-width: 450px) {
-            .cute-pin-box { min-width: 96vw; padding: 18px 2vw 20px 2vw;}
-            .cute-pin-keypad { grid-template-columns: repeat(3, 16vw);}
-            .cute-pin-key { width: 16vw; height: 16vw; font-size: 1.2rem;}
-            #gift-modal-content {min-width: 120px; padding: 16px 5vw;}
-        }
     </style>
 </head>
-
 <body>
     <!-- Hộp quà SVG lơ lửng với nắp bung -->
     <div id="gift-boxes-area">
@@ -239,42 +114,10 @@
         <div id="gift-modal-message"></div>
       </div>
     </div>
-
-    <!-- Modal nhập mã PIN -->
-    <div id="pin-modal"
-         style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.96);display:flex;align-items:center;justify-content:center;">
-      <div class="cute-pin-box">
-        <div class="cute-pin-title">Nhập mã PIN</div>
-        <div class="cute-pin-desc">Vui lòng nhập mã gồm 4 số để mở quà bất ngờ nhé! 💝</div>
-        <div class="cute-pin-dots" id="pin-dots">
-          <div class="cute-pin-dot" id="dot-0"></div>
-          <div class="cute-pin-dot" id="dot-1"></div>
-          <div class="cute-pin-dot" id="dot-2"></div>
-          <div class="cute-pin-dot" id="dot-3"></div>
-        </div>
-        <div class="cute-pin-keypad" id="pin-keypad">
-          <!-- Các nút số sẽ được JS render -->
-        </div>
-        <div class="cute-pin-error" id="pin-error"></div>
-        <div class="pin-icons">
-          <img class="pi-star" src="https://img.icons8.com/color/48/000000/star.png"/>
-          <img class="pi-heart" src="https://img.icons8.com/color/48/000000/heart.png"/>
-          <img class="pi-cloud" src="https://img.icons8.com/ios-filled/50/000000/cloud.png"/>
-          <img class="pi-like" src="https://img.icons8.com/color/96/000000/facebook-like.png"/>
-        </div>
-      </div>
-    </div>
-
-    <div id="wrapper">
-        <!-- Giữ nguyên phần nội dung sinh nhật của bạn ở đây -->
-        <!-- ... -->
-    </div>
-
-</body>
+    <!-- ...phần còn lại của bạn (nội dung sinh nhật, nhập PIN, v.v.)... -->
 <script>
     // ----------- Hộp quà SVG, bung nắp, phóng to, so le ----------
     document.querySelectorAll('.gift-box').forEach((box, i) => {
-      // SVG hộp quà dễ thương (nắp và thân)
       box.innerHTML = `
         <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40" xmlns="http://www.w3.org/2000/svg">
             <rect x="5" y="13" width="58" height="18" rx="6" fill="#fd6fae" stroke="#c03" stroke-width="2"/>
@@ -287,11 +130,9 @@
             <rect x="31" y="0" width="6" height="45" fill="#fff9c4"/>
         </svg>
       `;
-      // So le: sole-up, sole-down
       if (i % 2 === 1) box.classList.add('sole-up');
       if (i % 2 === 0 && i !== 0) box.classList.add('sole-down');
     });
-    // Sự kiện mở hộp
     document.querySelectorAll('.gift-box').forEach(box => {
       box.addEventListener('click', function(e) {
         document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
@@ -312,95 +153,7 @@
         document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
       }
     };
-
-    // ----------- Modal nhập PIN dễ thương ----------
-    const CORRECT_PIN = "1234"; // Đổi mã số tại đây
-    const pinModal = document.getElementById('pin-modal');
-    const pinDots = [
-      document.getElementById('dot-0'),
-      document.getElementById('dot-1'),
-      document.getElementById('dot-2'),
-      document.getElementById('dot-3')
-    ];
-    const pinKeypad = document.getElementById('pin-keypad');
-    const pinError = document.getElementById('pin-error');
-    let enteredPin = "";
-
-    // Render keypad 1-9, xóa, 0, OK
-    const KEYS = [
-      "1", "2", "3",
-      "4", "5", "6",
-      "7", "8", "9",
-      "del", "0", "ok"
-    ];
-    KEYS.forEach(key => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'cute-pin-key';
-      if(key === "del") {
-        btn.innerHTML = '<span style="font-family:\'Quicksand\';font-size:1.1rem;">Xóa</span>';
-        btn.onclick = () => {
-          enteredPin = enteredPin.slice(0, -1);
-          updatePinDots();
-          pinError.style.display = "none";
-        };
-      } else if(key === "ok") {
-        btn.innerHTML = '<span style="font-family:\'Quicksand\';font-size:1.1rem;">OK</span>';
-        btn.onclick = () => {
-          if(enteredPin.length === 4) {
-            if(enteredPin === CORRECT_PIN) {
-              pinModal.style.display = "none";
-              document.getElementById('wrapper').style.filter = '';
-              document.getElementById('wrapper').style.pointerEvents = '';
-            } else {
-              pinError.textContent = "Sai mã PIN rồi! 😳";
-              pinError.style.display = "block";
-              enteredPin = "";
-              updatePinDots();
-            }
-          }
-        };
-      } else {
-        btn.textContent = key;
-        btn.onclick = () => {
-          if(enteredPin.length < 4) {
-            enteredPin += key;
-            updatePinDots();
-            pinError.style.display = "none";
-            if(enteredPin.length === 4) {
-              setTimeout(() => {
-                if(enteredPin === CORRECT_PIN) {
-                  pinModal.style.display = "none";
-                  document.getElementById('wrapper').style.filter = '';
-                  document.getElementById('wrapper').style.pointerEvents = '';
-                } else {
-                  pinError.textContent = "Sai mã PIN rồi! 😳";
-                  pinError.style.display = "block";
-                  enteredPin = "";
-                  updatePinDots();
-                }
-              }, 200);
-            }
-          }
-        };
-      }
-      pinKeypad.appendChild(btn);
-    });
-
-    function updatePinDots() {
-      for(let i=0; i<4; ++i) {
-        pinDots[i].textContent = enteredPin[i] ? "•" : "";
-        if(enteredPin[i]) pinDots[i].classList.add("filled");
-        else pinDots[i].classList.remove("filled");
-      }
-    }
-    // Ẩn trang chính khi chưa nhập đúng PIN
-    document.getElementById('wrapper').style.filter = 'blur(8px)';
-    document.getElementById('wrapper').style.pointerEvents = 'none';
-    updatePinDots();
-
-    // ----------- Birthday animation code (phần này giữ nguyên) -----------
-    // ... giữ nguyên các đoạn JS khác của bạn ở phía dưới ...
 </script>
-
+<!-- ...Các script khác, phần sinh nhật, PIN, ... -->
+</body>
 </html>
