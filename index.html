@@ -9,130 +9,208 @@
     <title>Mehwish Birthday</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@700&display=swap"
         rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-</head>
+        crossorigin="anonymous"></script>
+    <style>
+        /* ----------- Hộp quà ----------- */
+        #gift-boxes-area {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 1001;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 40px;
+            pointer-events: none;
+        }
+        .gift-box {
+            width: 80px;
+            height: 80px;
+            background: url('https://img.icons8.com/fluency/96/gift.png') center/contain no-repeat;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: auto;
+            transition: transform 0.2s;
+            box-shadow: 0 6px 18px #ffc4d6a0;
+            border-radius: 18px;
+        }
+        .gift-box:nth-child(2) { animation-delay: 0.6s; }
+        .gift-box:nth-child(3) { animation-delay: 1.2s; }
+        .gift-box:nth-child(4) { animation-delay: 1.8s; }
+        .gift-box:nth-child(5) { animation-delay: 2.4s; }
+        .gift-box:active { transform: scale(1.12) rotate(-6deg); }
 
-<body>
-    <!-- Modal nhập mã số bàn phím điện thoại dễ thương -->
-    <div id="pin-modal"
-         style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.96);display:flex;align-items:center;justify-content:center;">
-      <style>
+        @keyframes float {
+            0%   { transform: translateY(0);}
+            50%  { transform: translateY(-32px);}
+            100% { transform: translateY(0);}
+        }
+
+        /* Modal lời chúc */
+        #gift-modal {
+            position: fixed; z-index: 3000; left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(255,220,230,0.7); display: none; align-items: center; justify-content: center;
+        }
+        #gift-modal-content {
+            background: #fff0f7;
+            border: 3px solid #f67280;
+            border-radius: 18px;
+            padding: 36px 28px 28px 28px;
+            min-width: 260px;
+            min-height: 110px;
+            box-shadow: 0 3px 36px #e497af88;
+            position: relative;
+            font-family: 'Dancing Script', 'Quicksand', cursive, sans-serif;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #d1497a;
+        }
+        #gift-modal-close {
+            position: absolute; right: 14px; top: 10px;
+            font-size: 1.7rem; color: #f67280; cursor: pointer; font-family: 'Quicksand', Arial, sans-serif;
+        }
+        /* ----------- Modal PIN ----------- */
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@700&display=swap');
         .cute-pin-box {
-          background: #ffe6ed;
-          border: 3.4px solid #e497af;
-          border-radius: 28px;
-          box-shadow: 0 4px 24px #e497af66;
-          min-width: 320px;
-          min-height: 340px;
-          position: relative;
-          padding: 38px 28px 30px 28px;
-          font-family: 'Quicksand', 'Dancing Script', 'Segoe UI', Arial, Helvetica, sans-serif;
-          color: #d1497a;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+            background: #ffe6ed;
+            border: 3.4px solid #e497af;
+            border-radius: 28px;
+            box-shadow: 0 4px 24px #e497af66;
+            min-width: 320px;
+            min-height: 340px;
+            position: relative;
+            padding: 38px 28px 30px 28px;
+            font-family: 'Quicksand', 'Dancing Script', 'Segoe UI', Arial, Helvetica, sans-serif;
+            color: #d1497a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .cute-pin-title {
-          font-family: 'Dancing Script', cursive;
-          font-size: 2.1rem;
-          font-weight: bold;
-          letter-spacing: 1.2px;
-          margin-bottom: 10px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.1rem;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+            margin-bottom: 10px;
         }
         .cute-pin-desc {
-          font-size: 1.1rem;
-          margin-bottom: 18px;
-          color: #ac3b61;
-          text-align: center;
-          font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            color: #ac3b61;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
         }
         .cute-pin-dots {
-          display: flex;
-          justify-content: center;
-          gap: 15px;
-          margin-bottom: 18px;
-          margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 18px;
+            margin-top: 12px;
         }
         .cute-pin-dot {
-          width: 22px; height: 22px;
-          border-radius: 50%;
-          border: 2.5px solid #e497af;
-          background: #fff6fb;
-          font-size: 1.6rem;
-          line-height: 22px;
-          text-align: center;
-          font-family: 'Quicksand', Arial, sans-serif;
-          color: #f67280;
-          transition: background .2s;
-          box-shadow: 0 2px 0 #fff8;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 2.5px solid #e497af;
+            background: #fff6fb;
+            font-size: 1.6rem;
+            line-height: 22px;
+            text-align: center;
+            font-family: 'Quicksand', Arial, sans-serif;
+            color: #f67280;
+            transition: background .2s;
+            box-shadow: 0 2px 0 #fff8;
         }
         .cute-pin-dot.filled {
-          background: #f67280;
-          color: #fff;
-          border-color: #d1497a;
+            background: #f67280;
+            color: #fff;
+            border-color: #d1497a;
         }
         .cute-pin-keypad {
-          width: 100%;
-          display: grid;
-          grid-template-columns: repeat(3, 50px);
-          grid-gap: 14px;
-          justify-content: center;
-          margin-bottom: 6px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-gap: 14px;
+            justify-content: center;
+            margin-bottom: 6px;
         }
         .cute-pin-key {
-          font-family: 'Dancing Script', cursive;
-          font-size: 1.5rem;
-          border: 2px solid #d1497a;
-          background: #fff6fb;
-          border-radius: 50%;
-          height: 50px; width: 50px;
-          text-align: center;
-          color: #d1497a;
-          cursor: pointer;
-          transition: background 0.14s, box-shadow 0.12s;
-          box-shadow: 0 2px 0 #ffe6ed;
-          outline: none;
-          user-select: none;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            border: 2px solid #d1497a;
+            background: #fff6fb;
+            border-radius: 50%;
+            height: 50px; width: 50px;
+            text-align: center;
+            color: #d1497a;
+            cursor: pointer;
+            transition: background 0.14s, box-shadow 0.12s;
+            box-shadow: 0 2px 0 #ffe6ed;
+            outline: none;
+            user-select: none;
         }
         .cute-pin-key:active {
-          background: #f67280;
-          color: #fff;
+            background: #f67280;
+            color: #fff;
         }
         .cute-pin-key[disabled] {
-          opacity: 0.3; pointer-events: none;
+            opacity: 0.3; pointer-events: none;
         }
         .cute-pin-error {
-          color: #d1002c;
-          font-size: 1rem;
-          min-height: 22px;
-          margin-top: 6px;
-          text-align: center;
-          font-family: 'Quicksand', Arial, sans-serif;
-          display: none;
+            color: #d1002c;
+            font-size: 1rem;
+            min-height: 22px;
+            margin-top: 6px;
+            text-align: center;
+            font-family: 'Quicksand', Arial, sans-serif;
+            display: none;
         }
         .pin-icons {
-          position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+            position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
         }
         .pin-icons img {
-          position: absolute; opacity: 0.8;
+            position: absolute; opacity: 0.8;
         }
         .pi-star { left: 6px; top: 12px; width: 32px;}
         .pi-heart { right: 8px; top: 24px; width: 33px;}
         .pi-cloud { left: -18px; bottom: 18px; width: 45px;}
         .pi-like { right: -22px; bottom: 18px; width: 39px;}
-        @media (max-width: 450px) {
-          .cute-pin-box { min-width: 96vw; padding: 18px 2vw 20px 2vw;}
-          .cute-pin-keypad { grid-template-columns: repeat(3, 16vw);}
-          .cute-pin-key { width: 16vw; height: 16vw; font-size: 1.2rem;}
+        @media (max-width: 700px) {
+            #gift-boxes-area {gap: 14px;}
+            .gift-box {width: 60px; height: 60px;}
         }
-      </style>
+        @media (max-width: 450px) {
+            .cute-pin-box { min-width: 96vw; padding: 18px 2vw 20px 2vw;}
+            .cute-pin-keypad { grid-template-columns: repeat(3, 16vw);}
+            .cute-pin-key { width: 16vw; height: 16vw; font-size: 1.2rem;}
+            #gift-modal-content {min-width: 120px; padding: 16px 5vw;}
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hộp quà lơ lửng -->
+    <div id="gift-boxes-area">
+      <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖"></div>
+      <div class="gift-box" data-msg="Thêm một tuổi mới, thêm thật nhiều niềm vui nhé! 🎂"></div>
+      <div class="gift-box" data-msg="Chúc mọi điều tốt lành nhất sẽ đến với bạn! 🍀"></div>
+      <div class="gift-box" data-msg="Mong bạn sẽ mãi cười thật tươi mỗi ngày! 😊"></div>
+      <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới thật tuyệt vời nha! 🎉"></div>
+    </div>
+    <!-- Modal lời chúc -->
+    <div id="gift-modal">
+      <div id="gift-modal-content">
+        <span id="gift-modal-close">&times;</span>
+        <div id="gift-modal-message"></div>
+      </div>
+    </div>
+
+    <!-- Modal nhập mã PIN -->
+    <div id="pin-modal"
+         style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.96);display:flex;align-items:center;justify-content:center;">
       <div class="cute-pin-box">
         <div class="cute-pin-title">Nhập mã PIN</div>
         <div class="cute-pin-desc">Vui lòng nhập mã gồm 4 số để mở quà bất ngờ nhé! 💝</div>
@@ -291,7 +369,7 @@
 
 </body>
 <script>
-    // Modal nhập PIN dễ thương
+    // ----------- Modal nhập PIN dễ thương ----------
     const CORRECT_PIN = "1234"; // Đổi mã số tại đây
     const pinModal = document.getElementById('pin-modal');
     const pinDots = [
@@ -378,7 +456,21 @@
     document.getElementById('wrapper').style.pointerEvents = 'none';
     updatePinDots();
 
-    // --- Birthday animation code (giữ nguyên phần này) ---
+    // ----------- Hộp quà & modal lời chúc -----------
+    document.querySelectorAll('.gift-box').forEach(box => {
+      box.addEventListener('click', function() {
+        document.getElementById('gift-modal-message').textContent = this.getAttribute('data-msg');
+        document.getElementById('gift-modal').style.display = 'flex';
+      });
+    });
+    document.getElementById('gift-modal-close').onclick = function() {
+      document.getElementById('gift-modal').style.display = 'none';
+    };
+    document.getElementById('gift-modal').onclick = function(e) {
+      if(e.target === this) this.style.display = 'none';
+    };
+
+    // ----------- Birthday animation code -----------
     let datetxt = "27 May";
     let datatxtletter = "My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we wi[...]";
     let titleLetter = "To you";
@@ -472,7 +564,6 @@
         mailBox.classList.toggle('active')
         boxmail.classList.add('active')
     }
-
     close.addEventListener('click', function () {
         boxmail.classList.remove('active')
     })
