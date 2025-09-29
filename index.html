@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Happy Birthday Website 2.0 | Aoudumber Bade">
+    <meta name="github" content="https://github.com/Aoudumber-Bade">
     <title>Mehwish Birthday</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        crossorigin="anonymous"></script>
     <style>
         #gift-boxes-area {
             position: fixed;
@@ -37,6 +42,9 @@
         .gift-box .box-body {
             position: absolute;
             left: 0;
+            right: 0;
+            margin: auto;
+            display: block;
         }
         .gift-box .box-lid {
             top: 0;
@@ -98,8 +106,8 @@
         }
     </style>
 </head>
+
 <body>
-    <!-- Hộp quà SVG lơ lửng với nắp bung -->
     <div id="gift-boxes-area">
       <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖"></div>
       <div class="gift-box" data-msg="Thêm một tuổi mới, thêm thật nhiều niềm vui nhé! 🎂"></div>
@@ -107,16 +115,20 @@
       <div class="gift-box" data-msg="Mong bạn sẽ mãi cười thật tươi mỗi ngày! 😊"></div>
       <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới thật tuyệt vời nha! 🎉"></div>
     </div>
-    <!-- Modal lời chúc -->
     <div id="gift-modal">
       <div id="gift-modal-content">
         <span id="gift-modal-close">&times;</span>
         <div id="gift-modal-message"></div>
       </div>
     </div>
-    <!-- ...phần còn lại của bạn (nội dung sinh nhật, nhập PIN, v.v.)... -->
+    <!-- Các thành phần khác của trang sinh nhật giữ nguyên -->
+    <div id="wrapper">
+        <!-- ... Nội dung sinh nhật ... -->
+    </div>
+</body>
+
 <script>
-    // ----------- Hộp quà SVG, bung nắp, phóng to, so le ----------
+    // Hộp quà SVG, bung nắp, phóng to, so le
     document.querySelectorAll('.gift-box').forEach((box, i) => {
       box.innerHTML = `
         <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40" xmlns="http://www.w3.org/2000/svg">
@@ -154,6 +166,5 @@
       }
     };
 </script>
-<!-- ...Các script khác, phần sinh nhật, PIN, ... -->
-</body>
+
 </html>
