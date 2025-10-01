@@ -186,7 +186,23 @@
 
   <!-- ===== JS mới: PIN + Hộp quà + Modal chúc + Pháo hoa ===== -->
   <script>
-     <!-- ========== HỘP QUÀ ========== -->
+  <!-- fireworks -->
+  <canvas id="fireworks"></canvas>
+
+    /* PIN */
+    const CORRECT_PIN="1010";
+    const pinModal=document.getElementById('pin-modal');
+    const pinDots=[...document.querySelectorAll('.cute-pin-dot')];
+    const pinKeypad=document.getElementById('pin-keypad');
+    const pinError=document.getElementById('pin-error');
+    let enteredPin="";
+    const KEYS=["1","2","3","4","5","6","7","8","9","del","0","ok"];
+    KEYS.forEach(k=>{const b=document.createElement('button');b.className="cute-pin-key";b.textContent=(k==="del")?"⌫":(k==="ok"?"OK":k);b.onclick=()=>{if(k==="del"){enteredPin=enteredPin.slice(0,-1);updDots();}else if(k==="ok"){checkPin();}else if(enteredPin.length<4){enteredPin+=k;updDots();if(enteredPin.length===4)setTimeout(checkPin,200);}};pinKeypad.appendChild(b);});
+    function updDots(){pinDots.forEach((d,i)=>{d.textContent=enteredPin[i]?"•":"";d.classList.toggle("filled",!!enteredPin[i]);});}
+    function checkPin(){if(enteredPin===CORRECT_PIN){pinModal.style.display="none";document.getElementById('wrapper').style.display='block';setTimeout(()=>{const gifts=document.getElementById('gift-boxes-area');gifts.style.display='flex';gifts.classList.add('gift-appear');},12000);}else{pinError.style.display="block";pinError.textContent="Sai mã PIN 😳";enteredPin="";updDots();}}
+
+    /* Hộp quà + modal */
+  <!-- ========== HỘP QUÀ ========== -->
   <div id="gift-boxes-area">
     <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖" data-img="images/balloon1.png"></div>
     <div class="gift-box" data-msg="Thêm một tuổi mới, nhiều niềm vui 🎂" data-img="images/cake.png"></div>
@@ -207,49 +223,6 @@
   <!-- fireworks -->
   <canvas id="fireworks"></canvas>
 
-    /* PIN */
-    const CORRECT_PIN="1010";
-    const pinModal=document.getElementById('pin-modal');
-    const pinDots=[...document.querySelectorAll('.cute-pin-dot')];
-    const pinKeypad=document.getElementById('pin-keypad');
-    const pinError=document.getElementById('pin-error');
-    let enteredPin="";
-    const KEYS=["1","2","3","4","5","6","7","8","9","del","0","ok"];
-    KEYS.forEach(k=>{const b=document.createElement('button');b.className="cute-pin-key";b.textContent=(k==="del")?"⌫":(k==="ok"?"OK":k);b.onclick=()=>{if(k==="del"){enteredPin=enteredPin.slice(0,-1);updDots();}else if(k==="ok"){checkPin();}else if(enteredPin.length<4){enteredPin+=k;updDots();if(enteredPin.length===4)setTimeout(checkPin,200);}};pinKeypad.appendChild(b);});
-    function updDots(){pinDots.forEach((d,i)=>{d.textContent=enteredPin[i]?"•":"";d.classList.toggle("filled",!!enteredPin[i]);});}
-    function checkPin(){if(enteredPin===CORRECT_PIN){pinModal.style.display="none";document.getElementById('wrapper').style.display='block';setTimeout(()=>{const gifts=document.getElementById('gift-boxes-area');gifts.style.display='flex';gifts.classList.add('gift-appear');},12000);}else{pinError.style.display="block";pinError.textContent="Sai mã PIN 😳";enteredPin="";updDots();}}
-
-    /* Hộp quà + modal */
-    document.querySelectorAll('.gift-box').forEach((box,i)=>{
-      box.innerHTML=`
-        <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40">
-          <rect x="5" y="13" width="58" height="18" rx="6" fill="#fd6fae" stroke="#c03" stroke-width="2"/>
-          <rect x="25" y="3" width="18" height="12" rx="5" fill="#fff9c4" stroke="#c03" stroke-width="2"/>
-          <rect x="39" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
-          <rect x="25" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
-        </svg>
-        <svg class="box-body" width="68" height="60" viewBox="0 0 68 60">
-          <rect x="5" y="0" width="58" height="45" rx="8" fill="#ffb7d5" stroke="#c03" stroke-width="2"/>
-          <rect x="31" y="0" width="6" height="45" fill="#fff9c4"/>
-        </svg>`;
-      box.addEventListener('click',()=>{
-        document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
-        box.classList.add('open');
-        setTimeout(()=>{
-          const img=box.dataset.img||"";
-          const msg=box.dataset.msg||"Happy Birthday!";
-          document.getElementById('gift-modal-img').src=img;
-          document.getElementById('gift-modal-message').textContent=msg;
-          document.getElementById('gift-modal').style.display='flex';
-          document.getElementById('background-gif').style.display='block';
-          launchFireworks();
-        },650);
-      });
-    });
-    document.getElementById('gift-modal-close').onclick=()=>{
-      document.getElementById('gift-modal').style.display='none';
-      document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
-    };
 
     /* Pháo hoa */
     const cvs=document.getElementById('fireworks');const ctx=cvs.getContext('2d');
