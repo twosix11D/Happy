@@ -39,32 +39,49 @@
       image-rendering: pixelated;
     }
 
-    /* ===== 5 HỘP QUÀ LƠ LỬNG ===== */
-    #gift-boxes-area{
-      position: fixed;
-      left: 50%; top: 62%;
-      transform: translateX(-50%);
-      display: none;                 /* sẽ bật bằng JS */
-      gap: 38px; z-index: 10;
-    }
-    .gift-box{
-      width: 92px; height: 92px;
-      position: relative; cursor: pointer;
-      display: grid; place-items: center;
-      animation: gfloat 3.2s ease-in-out infinite;
-      transition: transform .2s cubic-bezier(.44,1.5,.55,1.11);
-      will-change: transform;
-    }
-    .gift-box:nth-child(2), .gift-box:nth-child(4){ margin-top: 10px; }
-    .gift-box:nth-child(1), .gift-box:nth-child(3), .gift-box:nth-child(5){ margin-top: -6px; }
+/* ===== 5 HỘP QUÀ LƠ LỬNG (to hơn) ===== */
+#gift-boxes-area{
+  position: fixed;
+  left: 50%; top: 64%;           /* hạ nhẹ để không che phần chữ */
+  transform: translateX(-50%);
+  display: none;                 
+  gap: 48px;                     /* giãn khoảng cách giữa các hộp */
+  z-index: 10;
+}
+.gift-box{
+  width: 120px;                  /* tăng từ 92px lên 120px */
+  height: 120px;
+  position: relative; cursor: pointer;
+  display: grid; place-items: center;
+  animation: gfloat 3.2s ease-in-out infinite;
+  transition: transform .2s cubic-bezier(.44,1.5,.55,1.11);
+  will-change: transform;
+}
+.gift-box:nth-child(2),
+.gift-box:nth-child(4){ margin-top: 14px; }   /* so le nhẹ */
+.gift-box:nth-child(1),
+.gift-box:nth-child(3),
+.gift-box:nth-child(5){ margin-top: -8px; }
 
-    .gift-box img.gift-img{
-      width: 100%; height: auto; display: block;
-      filter: drop-shadow(0 6px 18px rgba(255,135,155,.35));
-      user-select: none; -webkit-user-drag: none;
-    }
-    .gift-box:active{ transform: scale(1.06); }
-    .gift-box.open{ transform: scale(1.18) translateY(-8px) rotate(-2deg); }
+.gift-box img.gift-img{
+  width: 100%; height: auto; display: block;
+  filter: drop-shadow(0 10px 24px rgba(255,135,155,.35)); /* bóng đổ mạnh hơn chút */
+  user-select: none; -webkit-user-drag: none;
+}
+.gift-box:active{ transform: scale(1.06); }
+.gift-box.open{ transform: scale(1.18) translateY(-8px) rotate(-2deg); }
+
+/* Đảm bảo vừa vặn trên mobile */
+@media (max-width: 768px){
+  #gift-boxes-area{ top: 70%; gap: 18px; }
+  .gift-box{ width: 78px; height: 78px; }
+  .gift-box:nth-child(2),
+  .gift-box:nth-child(4){ margin-top: 8px; }
+  .gift-box:nth-child(1),
+  .gift-box:nth-child(3),
+  .gift-box:nth-child(5){ margin-top: -6px; }
+}
+
 
     @keyframes gfloat{
       0%{ transform: translateY(0) }
