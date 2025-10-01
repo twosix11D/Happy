@@ -170,6 +170,13 @@
       .gift-box:nth-child(2), .gift-box:nth-child(4){ margin-top: 8px; }
       .gift-box:nth-child(1), .gift-box:nth-child(3), .gift-box:nth-child(5){ margin-top: -6px; }
     }
+
+    /* === Thêm: hiệu ứng biến mất hộp quà sau khi mở === */
+    .gift-box.removing{
+      opacity: 0;
+      transform: scale(.6) translateY(20px);
+      transition: opacity .28s ease, transform .28s ease;
+    }
   </style>
 </head>
 
@@ -436,15 +443,26 @@
         document.querySelectorAll('#gift-boxes-area .gift-box').forEach((box)=>{
           box.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift">`;
           box.addEventListener('click',(ev)=>{
+            // mở hộp quà này
             document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
             box.classList.add('open');
+
+            // pháo hoa
             const r=cvs.getBoundingClientRect();
             burst(ev.clientX-r.left, ev.clientY-r.top);
+
+            // hiện modal lời chúc
             setTimeout(()=>{
               modalImg.src = box.dataset.img || '';
               modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
               modal.style.display='flex';
             },450);
+
+            // === Làm hộp quà vừa mở biến mất (ẩn mượt rồi xóa) ===
+            setTimeout(()=>{
+              box.classList.add('removing');      // hiệu ứng mờ/nhỏ lại
+              setTimeout(()=> box.remove(), 300);  // xóa khỏi DOM sau 0.3s
+            },200);
           });
         });
       }
@@ -491,8 +509,18 @@
         pinDots.forEach((d,i)=>{ d.textContent=entered[i]?'•':''; d.classList.toggle('filled',!!entered[i]); });
       }
       function check(){
-        if(entered===correct){ pinModal.style.display='none'; onUnlock&&onUnlock(); }
-        else{
+        if(entered===correct){
+          pinModal.style.display='none';
+          try {
+            const music = document.getElementById('unlock-music');
+            if (music) {
+              music.volume = 0.85;           // chỉnh âm lượng
+              const p = music.play();        // play trong hệ quả thao tác người dùng
+              if (p && typeof p.catch === 'function') p.catch(()=>{});
+            }
+          } catch(e){}
+          onUnlock&&onUnlock();
+        } else{
           pinError.textContent="Sai mã PIN rồi 😳";
           pinError.style.display='block';
           entered=''; updateDots();
@@ -524,5 +552,8 @@
       });
     });
   </script>
+
+  <!-- === Thêm: thẻ audio phát nhạc khi mở khóa thành công === -->
+  <audio id="unlock-music" src="https://www.youtube.com/watch?v=pBTp2RWxq-s&list=RDpBTp2RWxq-s&start_radio=1" preload="auto" loop></audio>
 </body>
 </html>
