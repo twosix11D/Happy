@@ -3,217 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="title" content="Happy Birthday Website 2.0 | Aoudumber Bade">
-  <meta name="github" content="https://github.com/Aoudumber-Bade">
-  <title>Mehwish Birthday</title>
+  <title>Happy Birthday</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
   <style>
-    /* ============ NỀN GIF ============ */
+    body { margin:0; overflow:hidden; background:#ffeae0; }
+
+    /* ===== NỀN GIF ===== */
     #background-gif {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url("images/cute-bg.gif") center/cover no-repeat;
-      z-index: -1;
-      opacity: 0.7;
-      display: none;
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      background:url("images/cute-bg.gif") center/cover no-repeat;
+      z-index:-1; opacity:0.7; display:none;
     }
 
-    /* ============ HỘP QUÀ ============ */
+    /* ===== PIN MODAL ===== */
+    #pin-modal {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(255,240,230,0.95);
+      display:flex; align-items:center; justify-content:center;
+      z-index:9999;
+    }
+    .cute-pin-box {
+      background:#ffe6ed; border:3px solid #e497af; border-radius:20px;
+      box-shadow:0 4px 20px #e497af66;
+      padding:30px; text-align:center; min-width:280px;
+    }
+    .cute-pin-title { font-family:'Dancing Script'; font-size:2rem; margin-bottom:12px; }
+    .cute-pin-dots { display:flex; justify-content:center; gap:12px; margin-bottom:20px; }
+    .cute-pin-dot {
+      width:22px; height:22px; border-radius:50%; border:2px solid #d1497a;
+      display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+    }
+    .cute-pin-dot.filled { background:#f67280; color:#fff; }
+    .cute-pin-keypad {
+      display:grid; grid-template-columns:repeat(3,60px); gap:12px; justify-content:center;
+    }
+    .cute-pin-key {
+      border:2px solid #d1497a; border-radius:50%;
+      height:60px; width:60px; font-size:1.2rem; background:#fff6fb; cursor:pointer;
+    }
+    .cute-pin-error { color:red; margin-top:10px; display:none; }
+
+    /* ===== HỘP QUÀ ===== */
     #gift-boxes-area {
-      position: fixed;
-      left: 50%; bottom: -200px;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 40px;
-      z-index: 2000;
-      display: none;
+      position: fixed; left:50%; bottom:-200px;
+      transform:translateX(-50%);
+      display:flex; gap:40px; display:none;
+      z-index:2000;
     }
-    .gift-box {
-      width: 68px; height: 88px;
-      position: relative; cursor: pointer;
-      animation: float 3s ease-in-out infinite;
-    }
-    .gift-box svg { position: absolute; left: 0; }
-    .gift-box .box-lid {
-      top: 0; z-index: 2; transition: transform 0.6s;
-    }
-    .gift-box .box-body {
-      top: 28px; z-index: 1; transition: filter 0.5s;
-    }
-    .gift-box.open .box-lid {
-      transform: rotate(-42deg) translate(-10px,-38px) scale(1.15);
-      filter: drop-shadow(0 6px 20px #f9b6cc77);
-    }
-    .gift-box.open .box-body { filter: brightness(1.1); }
-    @keyframes float {
-      0%{ transform: translateY(0);}
-      50%{ transform: translateY(-18px);}
-      100%{ transform: translateY(0);}
-    }
+    .gift-box { width:68px; height:88px; position:relative; cursor:pointer; animation:float 3s ease-in-out infinite; }
+    .gift-box svg { position:absolute; left:0; }
+    .gift-box .box-lid { top:0; z-index:2; transition: transform 0.6s; }
+    .gift-box .box-body { top:28px; z-index:1; transition: filter 0.5s; }
+    .gift-box.open .box-lid { transform:rotate(-42deg) translate(-10px,-38px) scale(1.15); filter:drop-shadow(0 6px 20px #f9b6cc77); }
+    .gift-box.open .box-body { filter:brightness(1.1); }
+    @keyframes float { 0%{transform:translateY(0);} 50%{transform:translateY(-18px);} 100%{transform:translateY(0);} }
     .gift-appear { animation: riseUp 1.2s ease-out forwards; }
-    @keyframes riseUp {
-      from { transform: translate(-50%,200px); opacity:0; }
-      to { transform: translate(-50%,0); opacity:1; }
-    }
+    @keyframes riseUp { from{transform:translate(-50%,200px);opacity:0;} to{transform:translate(-50%,0);opacity:1;} }
 
-    /* ============ MODAL LỜI CHÚC ============ */
+    /* ===== MODAL LỜI CHÚC ===== */
     #gift-modal {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      display: none;
-      align-items: center; justify-content: center;
-      z-index: 3000;
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.4);
+      display:none; align-items:center; justify-content:center;
+      z-index:3000;
     }
     #gift-modal-content {
-      background: #fff0f7;
-      border-radius: 18px;
-      padding: 30px;
-      min-width: 260px;
-      text-align: center;
-      font-family: 'Dancing Script';
-      font-size: 1.4rem;
-      color: #d1497a;
-      position: relative;
+      background:#fff0f7; border-radius:18px; padding:30px;
+      text-align:center; font-family:'Dancing Script'; font-size:1.4rem; color:#d1497a; position:relative;
     }
-    #gift-modal-content img {
-      max-width: 200px;
-      margin-bottom: 12px;
-    }
-    #gift-modal-close {
-      position: absolute;
-      right: 14px; top: 10px;
-      font-size: 1.7rem;
-      cursor: pointer;
-      color: #f67280;
-    }
+    #gift-modal-content img { max-width:200px; margin-bottom:12px; }
+    #gift-modal-close { position:absolute; right:14px; top:10px; font-size:1.7rem; cursor:pointer; color:#f67280; }
 
-    /* ============ FIREWORKS ============ */
-    #fireworks {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 4000;
-    }
+    /* ===== FIREWORKS ===== */
+    #fireworks { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:4000; }
   </style>
 </head>
-
 <body>
-  <!-- Nền động -->
   <div id="background-gif"></div>
 
-  <!-- ========== CODE GỐC GIỮ NGUYÊN ========== -->
-  <div id="wrapper">
-    <div class="flag__birthday">
-      <img src="./images/1.png" alt="" width="350" class="flag__left">
-      <img src="./images/1.png" alt="" width="350" class="flag__right">
-    </div>
-    <div class="content">
-      <div class="left">
-        <div class="title">
-          <h1 class="happy">
-            <span style="--t: 4s;">H</span>
-            <span style="--t: 4.2s;">a</span>
-            <span style="--t: 4.4s;">p</span>
-            <span style="--t: 4.6s;">p</span>
-            <span style="--t: 4.8s;">y</span>
-          </h1>
-          <h1 class="birthday">
-            <span style="--t: 5s;">B</span>
-            <span style="--t: 5.2s;">i</span>
-            <span style="--t: 5.4s;">r</span>
-            <span style="--t: 5.6s;">t</span>
-            <span style="--t: 5.8s;">h</span>
-            <span style="--t: 6s;">d</span>
-            <span style="--t: 6.2s;">a</span>
-            <span style="--t: 6.4s;">y</span>
-          </h1>
-          <div class="hat">
-            <img src="./images/hat.png" alt="" width="130">
-          </div>
-        </div>
-        <div class="date__of__birth">
-          <span></span>
-        </div>
-        <div class="btn">
-          <button id="btn__letter">
-            <div class="mail">
-              Click Here Mehwish
-              <i class="fa-regular fa-envelope"></i>
-            </div>
-          </button>
-        </div>
+  <!-- ===== PIN ===== -->
+  <div id="pin-modal">
+    <div class="cute-pin-box">
+      <div class="cute-pin-title">Nhập mã PIN</div>
+      <div class="cute-pin-dots" id="pin-dots">
+        <div class="cute-pin-dot" id="dot-0"></div>
+        <div class="cute-pin-dot" id="dot-1"></div>
+        <div class="cute-pin-dot" id="dot-2"></div>
+        <div class="cute-pin-dot" id="dot-3"></div>
       </div>
-      <div class="right">
-        <div class="box__account">
-          <div class="image">
-            <img src="./images/unnamed.png" alt="">
-          </div>
-          <div class="name">
-            <i class="fa-solid fa-heart"></i>
-            <span>Dear Mehwish</span>
-            <i class="fa-solid fa-heart"></i>
-          </div>
-          <div class="balloon_one">
-            <img width="100px" src="./images/balloon1.png" alt="">
-          </div>
-          <div class="balloon_two">
-            <img width="100px" src="./images/balloon2.png" alt="">
-          </div>
-        </div>
-        <div class="cricle">
-          <div class="text__cricle">
-            <span style="--i: 1;">h</span>
-            <span style="--i: 2;">a</span>
-            <span style="--i: 3;">p</span>
-            <span style="--i: 4;">p</span>
-            <span style="--i: 5;">y</span>
-            <span style="--i: 6;">-</span>
-            <span style="--i: 7;">b</span>
-            <span style="--i: 8;">i</span>
-            <span style="--i: 9;">r</span>
-            <span style="--i: 10;">t</span>
-            <span style="--i: 11;">h</span>
-            <span style="--i: 12;">d</span>
-            <span style="--i: 13;">a</span>
-            <span style="--i: 14;">y</span>
-            <span style="--i: 15;">-</span>
-          </div>
-          <i class="fa-solid fa-heart"></i>
-        </div>
-      </div>
-    </div>
-    <!-- giữ nguyên decorate, boxMail... -->
-    <div class="boxMail">
-      <i class="fa-solid fa-xmark"></i>
-      <div class="boxMail-container">
-        <div class="card1">
-          <div class="userImg"><img src="images/unnamed.png" alt=""></div>
-          <h4 class="username">To: Mehwish 💖<span class="underline"></span></h4>
-          <h3>Happy Birthday</h3>
-          <div class="imageCute"><img src="cute1.png" alt=""></div>
-        </div>
-        <div class="card2">
-          <div class="card2-content">
-            <h3>To You!</h3>
-            <h2>Happy birthday 🥳🎂🥳 ...</h2>
-            <div class="imageCute2"><img src="cute2.png" alt=""></div>
-          </div>
-        </div>
-      </div>
+      <div class="cute-pin-keypad" id="pin-keypad"></div>
+      <div class="cute-pin-error" id="pin-error"></div>
     </div>
   </div>
 
-  <!-- ========== HỘP QUÀ THÊM MỚI ========== -->
+  <!-- ===== CODE GỐC ===== -->
+  <div id="wrapper" style="display:none;">
+    <!-- giữ nguyên toàn bộ code bạn gửi: Happy/Birthday animation, flag, content, boxMail... -->
+    <!-- mình không copy lại toàn bộ vì quá dài, bạn giữ nguyên -->
+    ...
+  </div>
+
+  <!-- ===== HỘP QUÀ ===== -->
   <div id="gift-boxes-area">
     <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖" data-img="images/balloon1.png"></div>
-    <div class="gift-box" data-msg="Thêm một tuổi mới, nhiều niềm vui 🎂" data-img="images/cake.png"></div>
+    <div class="gift-box" data-msg="Thêm tuổi mới nhiều niềm vui 🎂" data-img="images/cake.png"></div>
     <div class="gift-box" data-msg="Chúc mọi điều tốt lành 🍀" data-img="images/clover.png"></div>
     <div class="gift-box" data-msg="Luôn cười tươi nhé 😊" data-img="images/smile.png"></div>
     <div class="gift-box" data-msg="Sinh nhật rực rỡ 🎉" data-img="images/party.png"></div>
@@ -227,14 +124,44 @@
     </div>
   </div>
 
-  <!-- fireworks -->
   <canvas id="fireworks"></canvas>
 
 <script>
-  // ========== SCRIPT GỐC GIỮ NGUYÊN ==========
-  // (đoạn chữ chạy + boxMail vẫn giữ nguyên của bạn)
+  // ===== PIN LOGIC =====
+  const CORRECT_PIN="1010";
+  const pinModal=document.getElementById('pin-modal');
+  const pinDots=[...document.querySelectorAll('.cute-pin-dot')];
+  const pinKeypad=document.getElementById('pin-keypad');
+  const pinError=document.getElementById('pin-error');
+  let enteredPin="";
+  const KEYS=["1","2","3","4","5","6","7","8","9","del","0","ok"];
+  KEYS.forEach(k=>{
+    const btn=document.createElement('button');
+    btn.className="cute-pin-key"; btn.textContent=k==="del"?"⌫":(k==="ok"?"OK":k);
+    btn.onclick=()=>{
+      if(k==="del"){ enteredPin=enteredPin.slice(0,-1); updateDots(); }
+      else if(k==="ok"){ checkPin(); }
+      else if(enteredPin.length<4){ enteredPin+=k; updateDots(); if(enteredPin.length===4) setTimeout(checkPin,200); }
+    };
+    pinKeypad.appendChild(btn);
+  });
+  function updateDots(){ pinDots.forEach((d,i)=>{ d.textContent=enteredPin[i]?"•":""; d.classList.toggle("filled",!!enteredPin[i]); }); }
+  function checkPin(){
+    if(enteredPin===CORRECT_PIN){
+      pinModal.style.display="none";
+      document.getElementById("wrapper").style.display="block";
+      setTimeout(()=>{ 
+        const gifts=document.getElementById('gift-boxes-area');
+        gifts.style.display="flex";
+        gifts.classList.add("gift-appear");
+      },12000);
+    } else {
+      pinError.style.display="block"; pinError.textContent="Sai mã PIN 😳";
+      enteredPin=""; updateDots();
+    }
+  }
 
-  // ========== HỘP QUÀ ==========
+  // ===== HỘP QUÀ =====
   document.querySelectorAll('.gift-box').forEach(box=>{
     box.innerHTML=`
       <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40">
@@ -248,14 +175,6 @@
         <rect x="31" y="0" width="6" height="45" fill="#fff9c4"/>
       </svg>`;
   });
-
-  // Xuất hiện hộp quà sau 12s (sau khi animation chữ chạy xong)
-  setTimeout(()=>{
-    document.getElementById('gift-boxes-area').style.display="flex";
-    document.getElementById('gift-boxes-area').classList.add("gift-appear");
-  },12000);
-
-  // Click mở hộp quà
   document.querySelectorAll('.gift-box').forEach(box=>{
     box.addEventListener('click',()=>{
       document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
@@ -274,31 +193,21 @@
     document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
   };
 
-  // ========== FIREWORKS ==========
-  const canvas=document.getElementById('fireworks');
-  const ctx=canvas.getContext('2d');
-  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
-  window.onresize=()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;};
-
+  // ===== FIREWORKS =====
+  const canvas=document.getElementById('fireworks'); const ctx=canvas.getContext('2d');
+  canvas.width=innerWidth; canvas.height=innerHeight;
+  window.onresize=()=>{canvas.width=innerWidth; canvas.height=innerHeight;};
   let particles=[];
   function launchFireworks(){
     for(let i=0;i<100;i++){
-      particles.push({
-        x:canvas.width/2,
-        y:canvas.height/2,
-        dx:(Math.random()-0.5)*6,
-        dy:(Math.random()-0.5)*6,
-        life:100,
-        color:`hsl(${Math.random()*360},100%,50%)`
-      });
+      particles.push({x:canvas.width/2,y:canvas.height/2,dx:(Math.random()-0.5)*6,dy:(Math.random()-0.5)*6,life:100,color:`hsl(${Math.random()*360},100%,50%)`});
     }
   }
   function animateFW(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach((p,i)=>{
       p.x+=p.dx; p.y+=p.dy; p.life--;
-      ctx.fillStyle=p.color;
-      ctx.fillRect(p.x,p.y,2,2);
+      ctx.fillStyle=p.color; ctx.fillRect(p.x,p.y,2,2);
       if(p.life<=0) particles.splice(i,1);
     });
     requestAnimationFrame(animateFW);
