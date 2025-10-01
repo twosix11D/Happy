@@ -16,15 +16,18 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
   <!-- ===== CSS BỔ SUNG: PIN + GIFTS + MODAL + PHÁO HOA ===== -->
-  <style>
-    /* ===== NỀN GIF (ẩn cho tới khi mở khóa) ===== */
-    #background-gif{
-      position: fixed; inset: 0;
-      background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif") center/cover no-repeat fixed;
-      opacity: .85;
-      z-index: -1;
-      display: none; /* bật sau khi nhập PIN đúng */
-    }
+<style>
+  /* ===== NỀN GIF: hiển thị ngay ===== */
+  #background-gif{
+    position: fixed; inset: 0;
+    background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif")
+                center / cover no-repeat fixed;
+    opacity: .85;
+    z-index: -1;
+    display: block;        /* <-- HIỆN NGAY */
+    pointer-events: none;  /* (tuỳ chọn) để không chặn click */
+  }
+</style>
 
     /* ===== GIF pixel ở chân màn (hiện cùng lúc hộp quà) ===== */
     #bottom-gif{
@@ -129,6 +132,21 @@
       .gift-box:nth-child(1), .gift-box:nth-child(3), .gift-box:nth-child(5){ margin-top: -6px; }
     }
   </style>
+  /* Gỡ nền ô ca-rô (grid) nếu trước đó đã thêm bằng body::before */
+body::before{
+  content: none !important;
+}
+
+/* Nền trắng đơn giản */
+html, body{
+  background: #ffffff !important;
+}
+
+/* Nếu trước đó có bật nền GIF, ép tắt để không đè lên nền trắng */
+#background-gif{
+  display: none !important;
+}
+
 </head>
 
 <body>
