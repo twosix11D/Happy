@@ -15,6 +15,76 @@
     --color-bg-letter: #fff8e4;
     --color-border: #DACCBF;
 }
+/* ===== MODAL PIN ===== */
+#pin-modal {
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(255,240,230,0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cute-pin-box {
+  background: #ffe6ed;
+  border: 3.4px solid #e497af;
+  border-radius: 28px;
+  box-shadow: 0 4px 24px #e497af66;
+  min-width: 320px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 38px 28px 30px 28px;
+}
+.cute-pin-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.cute-pin-dots {
+  display: flex;
+  gap: 15px;
+  margin: 12px 0 18px 0;
+}
+.cute-pin-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2.5px solid #e497af;
+  background: #fff6fb;
+  font-size: 1.6rem;
+  text-align: center;
+}
+.cute-pin-dot.filled {
+  background: #f67280;
+  color: #fff;
+  border-color: #d1497a;
+}
+.cute-pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3,50px);
+  grid-gap: 14px;
+  justify-content: center;
+}
+.cute-pin-key {
+  border: 2px solid #d1497a;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  font-size: 1.5rem;
+  background: #fff6fb;
+  color: #d1497a;
+  cursor: pointer;
+}
+.cute-pin-error {
+  color: #d1002c;
+  font-size: 1rem;
+  margin-top: 6px;
+  display: none;
+}
+
 html{
     height: 100%;
 }
