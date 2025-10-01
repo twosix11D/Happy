@@ -6,6 +6,7 @@
   <title>Happy Birthday</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     body { margin:0; background:#ffeae0; overflow:hidden; font-family:'Poppins',sans-serif; }
 
@@ -159,7 +160,7 @@
   </div>
 
 <script>
-  // ====== Render hộp quà SVG ======
+  // ===== Render hộp quà SVG =====
   document.querySelectorAll('.gift-box').forEach(box=>{
     box.innerHTML=`
       <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40">
@@ -174,7 +175,7 @@
       </svg>`;
   });
 
-  // ====== Mở hộp quà ======
+  // ===== Click hộp quà mở modal =====
   document.querySelectorAll('.gift-box').forEach(box=>{
     box.addEventListener('click',()=>{
       document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
@@ -191,8 +192,8 @@
     document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
   };
 
-  // ====== PIN logic ======
-  const CORRECT_PIN="1010"; // đổi mã PIN ở đây
+  // ===== PIN logic =====
+  const CORRECT_PIN="1010"; // đổi PIN ở đây
   const pinModal=document.getElementById('pin-modal');
   const pinDots=[...document.querySelectorAll('.cute-pin-dot')];
   const pinKeypad=document.getElementById('pin-keypad');
@@ -220,7 +221,7 @@
         const gifts=document.getElementById('gift-boxes-area');
         gifts.style.display="flex";
         gifts.classList.add("gift-appear");
-      },7000); // sau 7s mới hiện hộp quà
+      },7000); // sau 7s hộp quà bay lên
     }else{
       pinError.style.display="block"; pinError.textContent="Sai mã PIN 😳";
       enteredPin=""; updateDots();
