@@ -173,9 +173,10 @@
 
     /* === Thêm: hiệu ứng biến mất hộp quà sau khi mở === */
     .gift-box.removing{
-      opacity: 0;
-      transform: scale(.6) translateY(20px);
-      transition: opacity .28s ease, transform .28s ease;
+      opacity: 0 !important;
+      transform: scale(.6) translateY(20px) !important;
+      transition: opacity .28s ease, transform .28s ease !important;
+      pointer-events: none !important;
     }
   </style>
 </head>
@@ -442,28 +443,40 @@
       function renderGifts(){
         document.querySelectorAll('#gift-boxes-area .gift-box').forEach((box)=>{
           box.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift">`;
+
+          // Đảm bảo không binding trùng
+          box.replaceWith(box.cloneNode(true));
+        });
+        // gán lại sau khi clone (đảm bảo sạch listener cũ)
+        document.querySelectorAll('#gift-boxes-area .gift-box').forEach((box)=>{
+          box.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift">`;
           box.addEventListener('click',(ev)=>{
-            // mở hộp quà này
+            if (box.dataset.removed === '1') return; // tránh double
+
+            // đánh dấu đang mở
             document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
             box.classList.add('open');
 
             // pháo hoa
             const r=cvs.getBoundingClientRect();
-            burst(ev.clientX-r.left, ev.clientY-r.top);
+            burst(ev.clientX - r.left, ev.clientY - r.top);
 
             // hiện modal lời chúc
             setTimeout(()=>{
               modalImg.src = box.dataset.img || '';
               modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
               modal.style.display='flex';
-            },450);
+            }, 320);
 
-            // === Làm hộp quà vừa mở biến mất (ẩn mượt rồi xóa) ===
-            setTimeout(()=>{
-              box.classList.add('removing');      // hiệu ứng mờ/nhỏ lại
-              setTimeout(()=> box.remove(), 300);  // xóa khỏi DOM sau 0.3s
-            },200);
-          });
+            // === Biến mất hộp quà vừa mở bằng transitionend (chắc chắn) ===
+            box.dataset.removed = '1';
+            box.style.pointerEvents = 'none';
+            box.classList.add('removing');
+            const removeFn = ()=>{ box.removeEventListener('transitionend', removeFn); box.remove(); };
+            // nếu có transition -> chờ kết thúc; nếu không -> fallback 320ms
+            box.addEventListener('transitionend', removeFn);
+            setTimeout(removeFn, 500);
+          }, { once:false });
         });
       }
       modalClose.addEventListener('click',()=>{
@@ -514,8 +527,9 @@
           try {
             const music = document.getElementById('unlock-music');
             if (music) {
-              music.volume = 0.85;           // chỉnh âm lượng
-              const p = music.play();        // play trong hệ quả thao tác người dùng
+              music.volume = 0.85;
+              music.currentTime = 0; // phát từ đầu
+              const p = music.play();
               if (p && typeof p.catch === 'function') p.catch(()=>{});
             }
           } catch(e){}
@@ -554,6 +568,6 @@
   </script>
 
   <!-- === Thêm: thẻ audio phát nhạc khi mở khóa thành công === -->
-  <audio id="unlock-music" src="https://www.youtube.com/watch?v=pBTp2RWxq-s&list=RDpBTp2RWxq-s&start_radio=1" preload="auto" loop></audio>
+  <audio id="unlock-music" src="music/happy.mp3" preload="auto" loop></audio>
 </body>
 </html>
