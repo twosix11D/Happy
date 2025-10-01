@@ -41,6 +41,7 @@
     #gift-modal{position:fixed;z-index:3000;left:0;top:0;width:100%;height:100%;background:rgba(255,220,230,.7);display:none;align-items:center;justify-content:center;}
     #gift-modal-content{background:#fff0f7;border:3px solid #f67280;border-radius:18px;padding:28px;min-width:260px;min-height:110px;box-shadow:0 3px 36px #e497af88;font-family:'Dancing Script',cursive;text-align:center;font-size:1.3rem;color:#d1497a;position:relative;}
     #gift-modal-close{position:absolute;right:14px;top:10px;font-size:1.7rem;color:#f67280;cursor:pointer;}
+    #gift-modal-img{max-width:200px;display:block;margin:10px auto;}
 
     /* PIN modal */
     #pin-modal{position:fixed;z-index:9999;inset:0;background:rgba(255,240,230,.96);display:flex;align-items:center;justify-content:center;}
@@ -64,17 +65,18 @@
 
 <!-- Gift boxes -->
 <div id="gift-boxes-area">
-  <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖"></div>
-  <div class="gift-box" data-msg="Thêm một tuổi mới, thêm thật nhiều niềm vui nhé! 🎂"></div>
-  <div class="gift-box" data-msg="Chúc mọi điều tốt lành nhất sẽ đến với bạn! 🍀"></div>
-  <div class="gift-box" data-msg="Mong bạn sẽ mãi cười thật tươi mỗi ngày! 😊"></div>
-  <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới thật tuyệt vời nha! 🎉"></div>
+  <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖" data-img="images/balloon1.png"></div>
+  <div class="gift-box" data-msg="Thêm một tuổi mới, thêm thật nhiều niềm vui nhé! 🎂" data-img="images/cake.png"></div>
+  <div class="gift-box" data-msg="Chúc mọi điều tốt lành nhất sẽ đến với bạn! 🍀" data-img="images/clover.png"></div>
+  <div class="gift-box" data-msg="Mong bạn sẽ mãi cười thật tươi mỗi ngày! 😊" data-img="images/smile.png"></div>
+  <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới thật tuyệt vời nha! 🎉" data-img="images/party.png"></div>
 </div>
 
 <!-- Gift modal -->
 <div id="gift-modal">
   <div id="gift-modal-content">
     <span id="gift-modal-close">&times;</span>
+    <img id="gift-modal-img" src="" alt="">
     <div id="gift-modal-message"></div>
   </div>
 </div>
@@ -103,6 +105,7 @@
       <svg class="box-body" width="68" height="60"><rect x="5" y="0" width="58" height="45" rx="8" fill="#ffb7d5" stroke="#c03" stroke-width="2"/></svg>
     `;
   });
+
   // Gift click
   document.querySelectorAll('.gift-box').forEach(box=>{
     box.addEventListener('click',()=>{
@@ -110,6 +113,7 @@
       box.classList.add('open');
       setTimeout(()=>{
         document.getElementById('gift-modal-message').textContent=box.dataset.msg;
+        document.getElementById('gift-modal-img').src=box.dataset.img;
         document.getElementById('gift-modal').style.display='flex';
       },600);
     });
