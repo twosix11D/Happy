@@ -7,7 +7,7 @@
   <meta name="github" content="https://github.com/Aoudumber-Bade" />
   <title>Mehwish Birthday</title>
 
-  <!-- CSS gốc của bạn -->
+  <!-- CSS gốc -->
   <link rel="stylesheet" href="style.css" />
 
   <!-- Icon + Fonts -->
@@ -15,19 +15,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
-  <!-- ===== CSS BỔ SUNG: PIN + GIFTS + MODAL + PHÁO HOA ===== -->
-<style>
-  /* ===== NỀN GIF: hiển thị ngay ===== */
-  #background-gif{
-    position: fixed; inset: 0;
-    background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif")
-                center / cover no-repeat fixed;
-    opacity: .85;
-    z-index: -1;
-    display: block;        /* <-- HIỆN NGAY */
-    pointer-events: none;  /* (tuỳ chọn) để không chặn click */
-  }
-</style>
+  <!-- ===== CSS BỔ SUNG: NỀN GIF + TẮT CARO + PIN + GIFTS + MODAL + PHÁO HOA ===== -->
+  <style>
+    /* ==== HIỆN NỀN GIF NGAY ==== */
+    #background-gif{
+      position: fixed; inset: 0;
+      background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif")
+                  center / cover no-repeat fixed;
+      opacity: .85;
+      z-index: -1;
+      display: block;         /* hiển thị ngay */
+      pointer-events: none;   /* không chặn click */
+    }
+
+    /* ==== GỠ NỀN Ô CARO từ style.css (wrapper + body) ==== */
+    html, body{ background: transparent !important; }
+    #wrapper{
+      background: none !important;
+      background-image: none !important;
+    }
+    #wrapper::before, #wrapper::after, body::before{
+      content: none !important;
+      background: none !important;
+    }
 
     /* ===== GIF pixel ở chân màn (hiện cùng lúc hộp quà) ===== */
     #bottom-gif{
@@ -132,21 +142,6 @@
       .gift-box:nth-child(1), .gift-box:nth-child(3), .gift-box:nth-child(5){ margin-top: -6px; }
     }
   </style>
-  /* Gỡ nền ô ca-rô (grid) nếu trước đó đã thêm bằng body::before */
-body::before{
-  content: none !important;
-}
-
-/* Nền trắng đơn giản */
-html, body{
-  background: #ffffff !important;
-}
-
-/* Nếu trước đó có bật nền GIF, ép tắt để không đè lên nền trắng */
-#background-gif{
-  display: none !important;
-}
-
 </head>
 
 <body>
@@ -486,7 +481,7 @@ html, body{
     })();
   </script>
 
-  <!-- ===== TRÌNH TỰ: PIN → BẬT NỀN GIF → (đợi animation gốc) → HỘP QUÀ ===== -->
+  <!-- ===== TRÌNH TỰ: PIN → (đợi animation gốc) → HỘP QUÀ ===== -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       HB_Gifts.init(); // khởi tạo hộp quà
@@ -494,9 +489,7 @@ html, body{
       HB_Pin.require({
         pin: '1010',  // <<< đổi mã PIN tại đây
         onUnlock: function () {
-          // bật nền GIF cute ngay khi mở khóa
-          document.getElementById('background-gif').style.display='block';
-          // đợi khớp animation gốc (~12s) rồi cho hộp quà bay lên
+          // Nền GIF đã hiển thị sẵn; chỉ cần show hộp quà sau animation gốc
           setTimeout(()=>HB_Gifts.show(), 12000);
         }
       });
