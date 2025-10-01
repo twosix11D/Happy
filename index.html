@@ -9,42 +9,38 @@
 
   <!-- CSS gốc -->
   <link rel="stylesheet" href="style.css" />
-  <!-- NGAY SAU link style.css -->
-<style>
-  /* Tắt hoàn toàn nền caro từ style.css */
-  html, body {
-    background: transparent !important;
-  }
-  #wrapper{
-    background: none !important;
-    background-image: none !important;
-    background-size: initial !important;
-  }
-  /* Phòng khi có pseudo-element vẽ caro */
-  #wrapper::before, #wrapper::after, body::before{
-    content: none !important;
-    background: none !important;
-  }
 
-  /* Nếu muốn nền GIF hiển thị ngay */
-  #background-gif{
-    position: fixed; inset: 0;
-    background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif")
-                center/cover no-repeat fixed;
-    opacity: .85;
-    z-index: -1;
-    display: block;        /* hiện ngay */
-    pointer-events: none;
-  }
-</style>
+  <!-- NGAY SAU link style.css: tắt caro + nền GIF -->
+  <style>
+    html, body { background: transparent !important; }
+    #wrapper{
+      background: none !important;
+      background-image: none !important;
+      background-size: initial !important;
+    }
+    #wrapper::before, #wrapper::after, body::before{
+      content: none !important;
+      background: none !important;
+    }
 
+    /* Nền GIF */
+    #background-gif{
+      position: fixed; inset: 0;
+      background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif")
+                  center/cover no-repeat fixed;
+      opacity: .85;
+      z-index: -1;
+      display: block;
+      pointer-events: none;
+    }
+  </style>
 
   <!-- Icon + Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
-  <!-- ===== CSS BỔ SUNG: NỀN GIF + TẮT CARO + PIN + GIFTS + MODAL + PHÁO HOA ===== -->
+  <!-- ===== CSS BỔ SUNG: NỀN GIF + PIN + GIFTS + MODAL + PHÁO HOA + DECOR ===== -->
   <style>
     /* ==== HIỆN NỀN GIF NGAY ==== */
     #background-gif{
@@ -53,19 +49,37 @@
                   center / cover no-repeat fixed;
       opacity: .85;
       z-index: -1;
-      display: block;         /* hiển thị ngay */
-      pointer-events: none;   /* không chặn click */
+      display: block;
+      pointer-events: none;
     }
 
-    /* ==== GỠ NỀN Ô CARO từ style.css (wrapper + body) ==== */
-    html, body{ background: transparent !important; }
-    #wrapper{
-      background: none !important;
-      background-image: none !important;
+    /* ====== LỚP TRANG TRÍ (CHÈN ẢNH VÀO KHOẢNG TRỐNG) ====== */
+    .hero-holder{ position: relative; } /* nếu muốn bám riêng 1 section thì bọc wrapper bằng lớp này */
+    .decor{
+      position: absolute; inset: 0;   /* phủ khu vực hero/wrapper */
+      pointer-events: none;           /* không chặn click */
+      z-index: 1;                     /* nếu che nút, hạ xuống 0 */
     }
-    #wrapper::before, #wrapper::after, body::before{
-      content: none !important;
-      background: none !important;
+    .dec{
+      position:absolute;
+      left: var(--x, 50%);
+      top:  var(--y, 50%);
+      width: var(--w, clamp(48px, 8vw, 160px));
+      transform: rotate(var(--rot, 0deg));
+      filter: drop-shadow(0 2px 0 rgba(0,0,0,.06));
+      animation: float var(--dur, 6s) ease-in-out infinite alternate;
+      image-rendering: -webkit-optimize-contrast;
+    }
+    @keyframes float{
+      from { transform: translateY(0) rotate(var(--rot, 0deg)); }
+      to   { transform: translateY(-6px) rotate(var(--rot, 0deg)); }
+    }
+    @media (max-width: 768px){
+      .dec.mob1{ --x:6%;  --y:18%; --w:64px; }
+      .dec.mob2{ --x:12%; --y:62%; --w:70px; }
+      .dec.mob3{ --x:68%; --y:36%; --w:92px; }
+      .dec.mob4{ --x:78%; --y:74%; --w:96px; }
+      .dec.mob5{ --x:30%; --y:70%; --w:150px; }
     }
 
     /* ===== GIF pixel ở chân màn (hiện cùng lúc hộp quà) ===== */
@@ -81,7 +95,7 @@
       image-rendering: pixelated;
     }
 
-    /* ===== 5 HỘP QUÀ LƠ LỬNG (dùng PNG của bạn) ===== */
+    /* ===== 5 HỘP QUÀ LƠ LỬNG ===== */
     #gift-boxes-area{
       position: fixed;
       left: 50%; top: 64%;
@@ -163,7 +177,6 @@
     }
     .cute-pin-error{ color:#d1002c; font-size:1rem; margin-top:6px; display:none; }
 
-    /* Mobile tweak */
     @media (max-width:768px){
       #gift-boxes-area{ top: 70%; gap: 18px; }
       .gift-box{ width: 78px; height: 78px; }
@@ -171,7 +184,7 @@
       .gift-box:nth-child(1), .gift-box:nth-child(3), .gift-box:nth-child(5){ margin-top: -6px; }
     }
 
-    /* === Thêm: hiệu ứng biến mất hộp quà sau khi mở === */
+    /* Hộp quà biến mất sau khi mở */
     .gift-box.removing{
       opacity: 0 !important;
       transform: scale(.6) translateY(20px) !important;
@@ -186,6 +199,18 @@
   <div id="background-gif"></div>
   <!-- GIF pixel ở chân màn -->
   <img id="bottom-gif" alt="pixel gif">
+
+  <!-- ===== LỚP TRANG TRÍ (CHÈN ẢNH VÀO KHOẢNG TRỐNG) ===== -->
+  <!-- Đổi src theo ảnh PNG/GIF nền trong suốt của bạn.
+       Điều chỉnh vị trí nhanh: --x (trái→phải %), --y (trên→dưới %), --w (kích thước), --rot (xoay). -->
+  <div class="decor" aria-hidden="true">
+    <img src="images/star.png"            class="dec mob1" style="--x:6%;  --y:22%; --w:80px;  --rot:-8deg;"  alt="">
+    <img src="images/smile.png"           class="dec mob2" style="--x:18%; --y:58%; --w:90px;"                 alt="">
+    <img src="images/balloon3.png"        class="dec mob3" style="--x:74%; --y:40%; --w:110px; --rot:6deg;"    alt="">
+    <img src="images/ribbon.png"          class="dec mob4" style="--x:83%; --y:72%; --w:120px; --rot:-4deg;"   alt="">
+    <!-- Ví dụ dùng GIF/PNG đã xóa nền -->
+    <img src="happy-birthday-no-bg.gif"   class="dec mob5" style="--x:36%; --y:66%; --w:180px;"                alt="">
+  </div>
 
   <!-- ========== PHẦN GỐC (GIỮ NGUYÊN) ========== -->
   <div id="wrapper">
@@ -272,7 +297,7 @@
       </div>
     </div>
 
-    <!-- Modal Thư (để khớp script gốc) -->
+    <!-- Modal Thư -->
     <div class="box__letter" style="display:none;">
       <div class="letter__border" style="display:none;">
         <div class="close"><i class="fa-solid fa-xmark"></i></div>
@@ -299,7 +324,7 @@
   </div>
   <!-- /wrapper -->
 
-  <!-- ====== 5 HỘP QUÀ (dùng ảnh PNG hộp quà cute) ====== -->
+  <!-- ====== 5 HỘP QUÀ ====== -->
   <div id="gift-boxes-area">
     <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖" data-img="images/balloon1.png"></div>
     <div class="gift-box" data-msg="Thêm một tuổi mới, nhiều niềm vui 🎂" data-img="https://i.pinimg.com/originals/41/b3/45/41b345193965da1d2579c9ee38ae44a6.gif"></div>
@@ -403,9 +428,8 @@
 
   <!-- ===== SCRIPT BỔ SUNG: GIFTS + FIREWORKS ===== -->
   <script>
-    /* ==== THAY ĐƯỜNG DẪN ẢNH TẠI ĐÂY ==== */
-    const GIFT_IMAGE_SRC  = "images/gift-cute.png";          /* ảnh hộp quà PNG của bạn */
-    const BOTTOM_GIF_SRC  = "https://i.pinimg.com/originals/a7/5a/59/a75a59b1116cc8282873254511f57286.gif";    /* gif chân màn (đặt file vào images/ hoặc đổi link trực tiếp) */
+    const GIFT_IMAGE_SRC  = "images/gift-cute.png";
+    const BOTTOM_GIF_SRC  = "https://i.pinimg.com/originals/a7/5a/59/a75a59b1116cc8282873254511f57286.gif";
 
     (function(){
       const area = document.getElementById('gift-boxes-area');
@@ -439,41 +463,33 @@
         requestAnimationFrame(loop);
       })();
 
-      // Render 5 hộp quà = ảnh PNG
+      // Render 5 hộp quà
       function renderGifts(){
         document.querySelectorAll('#gift-boxes-area .gift-box').forEach((box)=>{
           box.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift">`;
-
-          // Đảm bảo không binding trùng
           box.replaceWith(box.cloneNode(true));
         });
-        // gán lại sau khi clone (đảm bảo sạch listener cũ)
         document.querySelectorAll('#gift-boxes-area .gift-box').forEach((box)=>{
           box.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift">`;
           box.addEventListener('click',(ev)=>{
-            if (box.dataset.removed === '1') return; // tránh double
+            if (box.dataset.removed === '1') return;
 
-            // đánh dấu đang mở
             document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
             box.classList.add('open');
 
-            // pháo hoa
             const r=cvs.getBoundingClientRect();
             burst(ev.clientX - r.left, ev.clientY - r.top);
 
-            // hiện modal lời chúc
             setTimeout(()=>{
               modalImg.src = box.dataset.img || '';
               modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
               modal.style.display='flex';
             }, 320);
 
-            // === Biến mất hộp quà vừa mở bằng transitionend (chắc chắn) ===
             box.dataset.removed = '1';
             box.style.pointerEvents = 'none';
             box.classList.add('removing');
             const removeFn = ()=>{ box.removeEventListener('transitionend', removeFn); box.remove(); };
-            // nếu có transition -> chờ kết thúc; nếu không -> fallback 320ms
             box.addEventListener('transitionend', removeFn);
             setTimeout(removeFn, 500);
           }, { once:false });
@@ -489,7 +505,7 @@
         show(){
           area.style.display='flex';
           area.classList.add('gift-appear');
-          bottomGif.style.display='block'; // hiện GIF chân màn cùng lúc hộp quà
+          bottomGif.style.display='block';
         }
       };
     })();
@@ -528,7 +544,7 @@
             const music = document.getElementById('unlock-music');
             if (music) {
               music.volume = 0.85;
-              music.currentTime = 0; // phát từ đầu
+              music.currentTime = 0;
               const p = music.play();
               if (p && typeof p.catch === 'function') p.catch(()=>{});
             }
@@ -555,19 +571,18 @@
   <!-- ===== TRÌNH TỰ: PIN → (đợi animation gốc) → HỘP QUÀ ===== -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      HB_Gifts.init(); // khởi tạo hộp quà
+      HB_Gifts.init();
 
       HB_Pin.require({
-        pin: '1010',  // <<< đổi mã PIN tại đây
+        pin: '1010',
         onUnlock: function () {
-          // Nền GIF đã hiển thị sẵn; chỉ cần show hộp quà sau animation gốc
           setTimeout(()=>HB_Gifts.show(), 12000);
         }
       });
     });
   </script>
 
-  <!-- === Thêm: thẻ audio phát nhạc khi mở khóa thành công === -->
+  <!-- Nhạc phát khi mở khóa -->
   <audio id="unlock-music" src="music/happy.mp3" preload="auto" loop></audio>
 </body>
 </html>
