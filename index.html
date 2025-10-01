@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -12,13 +12,454 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&family=VT323&family=Quicksand:wght@700&display=swap"
         rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background: #ffeae0;
+        }
+
+        #gift-boxes-area {
+            position: fixed;
+            top: 58%;
+            left: 50%;
+            z-index: 1001;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 40px;
+            pointer-events: none;
+            /* Ban đầu bị vô hiệu hóa */
+        }
+
+        .gift-box {
+            width: 68px;
+            height: 88px;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: auto;
+            transition: transform 0.24s cubic-bezier(.44, 1.5, .55, 1.11);
+            will-change: transform;
+            background: none;
+        }
+
+        .gift-box .box-lid,
+        .gift-box .box-body {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: auto;
+            display: block;
+        }
+
+        .gift-box .box-lid {
+            top: 0;
+            z-index: 2;
+            transition: transform 0.6s cubic-bezier(.61, 1.2, .39, 1.01);
+        }
+
+        .gift-box .box-body {
+            top: 32px;
+            z-index: 1;
+            transition: filter 0.5s, box-shadow 0.5s;
+        }
+
+        .gift-box.open .box-lid {
+            transform: rotate(-42deg) translate(-10px, -38px) scale(1.15);
+            filter: drop-shadow(0 6px 20px #f9b6cc77);
+        }
+
+        .gift-box.open .box-body {
+            filter: brightness(1.12);
+            box-shadow: 0 8px 32px #ffb6d577;
+        }
+
+        .gift-box.open {
+            z-index: 2002;
+            transform: scale(1.18) translateY(-16px);
+        }
+
+        .gift-box:active:not(.open) {
+            transform: scale(1.06);
+        }
+
+        .gift-box.sole-up {
+            transform: translateY(-18px);
+        }
+
+        .gift-box.sole-down {
+            transform: translateY(18px);
+        }
+
+        .gift-box:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        .gift-box:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+
+        .gift-box:nth-child(4) {
+            animation-delay: 1.8s;
+        }
+
+        .gift-box:nth-child(5) {
+            animation-delay: 2.4s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-24px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        #gift-modal {
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 220, 230, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #gift-modal-content {
+            background: #fff0f7;
+            border: 3px solid #f67280;
+            border-radius: 18px;
+            padding: 36px 28px 28px 28px;
+            min-width: 260px;
+            min-height: 110px;
+            box-shadow: 0 3px 36px #e497af88;
+            position: relative;
+            font-family: 'Dancing Script', 'Quicksand', cursive, sans-serif;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #d1497a;
+        }
+
+        #gift-modal-close {
+            position: absolute;
+            right: 14px;
+            top: 10px;
+            font-size: 1.7rem;
+            color: #f67280;
+            cursor: pointer;
+            font-family: 'Quicksand', Arial, sans-serif;
+        }
+
+        /* Modal PIN style - cửa sổ */
+        #pin-modal {
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 240, 230, 0.88);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Hiển thị ban đầu */
+        }
+
+        .window-cute {
+            background: #fff0e8;
+            border: 3px solid #ff7e85;
+            border-radius: 22px;
+            min-width: 340px;
+            min-height: 340px;
+            box-shadow: 0 4px 24px #efb6b488;
+            position: relative;
+            padding: 0 0 32px 0;
+            font-family: 'VT323', monospace;
+            color: #d1497a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .window-cute-titlebar {
+            width: 100%;
+            height: 48px;
+            background: #ff7e85;
+            border-top-left-radius: 19px;
+            border-top-right-radius: 19px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 18px;
+            border-bottom: 2px solid #222;
+        }
+
+        .window-cute-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 2px;
+            border: 2px solid #222;
+        }
+
+        .window-cute-dot.red {
+            background: #ff6464;
+        }
+
+        .window-cute-dot.yellow {
+            background: #ffe16b;
+        }
+
+        .window-cute-dot.green {
+            background: #82ffb6;
+        }
+
+        .window-cute-titlebar-title {
+            font-size: 1.2rem;
+            font-family: 'VT323', monospace;
+            color: #fff;
+            margin-left: 16px;
+            letter-spacing: 1px;
+        }
+
+        .window-cute-content {
+            padding: 24px 26px 10px 26px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cute-pin-dots {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 18px 0;
+        }
+
+        .cute-pin-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2.5px solid #ff7e85;
+            background: #fff;
+            font-size: 1.8rem;
+            line-height: 22px;
+            text-align: center;
+            color: #ff7e85;
+            transition: background 0.2s;
+            font-family: 'VT323', monospace;
+        }
+
+        .cute-pin-dot.filled {
+            background: #ff7e85;
+            color: #fff;
+            border-color: #d1497a;
+        }
+
+        .cute-pin-keypad {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 56px);
+            grid-gap: 16px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .cute-pin-key {
+            font-family: 'VT323', monospace;
+            font-size: 1.7rem;
+            border: 2.5px solid #ff7e85;
+            background: #fff;
+            border-radius: 15px;
+            height: 56px;
+            width: 56px;
+            color: #ff7e85;
+            cursor: pointer;
+            transition: background 0.14s, box-shadow 0.12s, color 0.14s;
+            box-shadow: 0 2px 0 #fff8, 0 4px 12px #ffd7df60;
+            outline: none;
+            user-select: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .cute-pin-key:active {
+            background: #ff7e85;
+            color: #fff;
+        }
+
+        .cute-pin-key[disabled] {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .cute-pin-error {
+            color: #d1002c;
+            font-size: 1.06rem;
+            margin-top: 6px;
+            min-height: 22px;
+            text-align: center;
+            font-family: inherit;
+            display: none;
+        }
+
+        .pin-icons img {
+            position: absolute;
+            opacity: 0.85;
+        }
+
+        .pi-star {
+            left: 2%;
+            top: 8px;
+            width: 28px;
+        }
+
+        .pi-heart {
+            right: 3%;
+            top: 16px;
+            width: 26px;
+        }
+
+        .pi-cloud {
+            left: -18px;
+            bottom: 12px;
+            width: 41px;
+        }
+
+        .pi-like {
+            right: -22px;
+            bottom: 18px;
+            width: 35px;
+        }
+
+        .pi-smile1 {
+            left: 18px;
+            top: 38px;
+            width: 26px;
+        }
+
+        .pi-smile2 {
+            right: 24px;
+            top: 63px;
+            width: 26px;
+        }
+
+        @media (max-width: 450px) {
+            .window-cute {
+                min-width: 96vw;
+                padding: 0 0 16px 0;
+            }
+
+            .window-cute-content {
+                padding: 16px 2vw 10px 2vw;
+            }
+
+            .cute-pin-keypad {
+                grid-template-columns: repeat(3, 18vw);
+            }
+
+            .cute-pin-key {
+                width: 18vw;
+                height: 18vw;
+                font-size: 1.18rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div id="pin-modal">
+        <div class="window-cute">
+            <div class="window-cute-titlebar">
+                <span class="window-cute-dot red"></span>
+                <span class="window-cute-dot yellow"></span>
+                <span class="window-cute-dot green"></span>
+                <span class="window-cute-titlebar-title">Mở khóa</span>
+            </div>
+            <div class="window-cute-content">
+                <div style="font-size:1.8rem;margin-top:8px;font-family:'VT323',monospace;">Nhập mã PIN</div>
+                <div
+                    style="font-size:1.11rem;color:#b55;margin:4px 0 0 0;font-family:'Quicksand',sans-serif; text-align: center;">
+                    Vui lòng nhập mã gồm 4 số để mở quà!</div>
+                <div class="cute-pin-dots" id="pin-dots">
+                    <div class="cute-pin-dot" id="dot-0"></div>
+                    <div class="cute-pin-dot" id="dot-1"></div>
+                    <div class="cute-pin-dot" id="dot-2"></div>
+                    <div class="cute-pin-dot" id="dot-3"></div>
+                </div>
+                <div class="cute-pin-keypad" id="pin-keypad"></div>
+                <div class="cute-pin-error" id="pin-error"></div>
+            </div>
+            <div class="pin-icons">
+                <img class="pi-star" src="./images/star.png" />
+                <img class="pi-heart" src="./images/heart.png" />
+                <img class="pi-cloud" src="./images/cloud.png" />
+                <img class="pi-like" src="./images/like.png" />
+                <img class="pi-smile1" src="./images/smile.png" />
+                <img class="pi-smile2" src="./images/smile2.png" />
+            </div>
+        </div>
+    </div>
+
+    <div id="pin-success-modal"
+        style="display:none;position:fixed;z-index:10000;top:0;left:0;width:100vw;height:100vh;background:rgba(255,240,230,0.88);align-items:center;justify-content:center;">
+        <div class="window-cute">
+            <div class="window-cute-titlebar">
+                <span class="window-cute-dot red"></span>
+                <span class="window-cute-dot yellow"></span>
+                <span class="window-cute-dot green"></span>
+                <span class="window-cute-titlebar-title">Lời chúc</span>
+            </div>
+            <div class="window-cute-content" style="padding-top:36px;">
+                <div style="font-family:'VT323',monospace;font-size:2rem;color:#d1497a;margin-bottom:24px;">
+                    You are beautiful</div>
+                <button id="pin-success-ok"
+                    style="margin-top:5px;font-family:'VT323',monospace;font-size:1.45rem;background:#ffbfcf;color:#7a3141;border:2px solid #d1497a;border-radius:10px;padding:5px 38px;cursor:pointer;box-shadow:0 2px 0 #fff8;">OK</button>
+            </div>
+            <div class="pin-icons">
+                <img class="pi-star" src="./images/star.png" />
+                <img class="pi-heart" src="./images/heart.png" />
+                <img class="pi-cloud" src="./images/cloud.png" />
+                <img class="pi-like" src="./images/like.png" />
+                <img class="pi-smile1" src="./images/smile.png" />
+                <img class="pi-smile2" src="./images/smile2.png" />
+            </div>
+        </div>
+    </div>
+
+    <div id="gift-boxes-area" style="display: none;">
+        <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc và tràn ngập yêu thương! 💖"></div>
+        <div class="gift-box" data-msg="Thêm một tuổi mới, thêm thật nhiều niềm vui nhé! 🎂"></div>
+        <div class="gift-box" data-msg="Chúc mọi điều tốt lành nhất sẽ đến với bạn! 🍀"></div>
+        <div class="gift-box" data-msg="Mong bạn sẽ mãi cười thật tươi mỗi ngày! 😊"></div>
+        <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới thật tuyệt vời nha! 🎉"></div>
+    </div>
+    <div id="gift-modal">
+        <div id="gift-modal-content">
+            <span id="gift-modal-close">&times;</span>
+            <div id="gift-modal-message"></div>
+        </div>
+    </div>
+
+
     <div id="wrapper">
         <div class="flag__birthday">
             <img src="./images/1.png" alt="" width="350" class="flag__left">
@@ -58,7 +499,6 @@
                             <i class="fa-regular fa-envelope"></i>
                         </div>
                     </button>
-
                 </div>
             </div>
             <div class="right">
@@ -123,33 +563,36 @@
 
 
         <div class="boxMail">
-            <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark close"></i>
             <div class="boxMail-container">
                 <div class="card1">
                     <div class="userImg">
                         <img src="images/unnamed.png" alt="">
                     </div>
                     <h4 class="username">To: Mehwish 💖<span class="underline"></span></h4>
-
                     <h3>Happy Birthday</h3>
                     <div class="imageCute">
-                        <img src="cute1.png" alt="">
+                        <img src="images/cute1.png" alt="">
                     </div>
                 </div>
                 <div class="card2">
                     <div class="card2-content">
-                        <h3>To You!</h3>
-                        <h2>Happy birthday 🥳🎂🥳 chanda the day you come into my life I was not really much attached to
-                            you but day by day you became close to my heart . And now you are truly my younger sister. I
+                        <h3 class="title__letter">To You!</h3>
+                        <h2 class="text__letter">
+                            Happy birthday 🥳🎂🥳 chanda the day you come into my life I was not really much attached
+                            to
+                            you but day by day you became close to my heart . And now you are truly my younger
+                            sister. I
                             wish I could remove some of the pain from your life which you are bearing alone. But you're
-                            always welcome 🤗 you can talk anytime you want to talk specially those which you can't say
+                            always welcome 🤗 you can talk anytime you want to talk specially those which you can't
+                            say
                             to others. And this year your all dreams come true . I wish that your
                             brother could wish you but if couldn't wish on him behalf I am wishing you happy birthday
                             🎈🎂🎈 sana . Don't be Sad ok be happy 😌
                         </h2>
 
                         <div class="imageCute2">
-                            <img src="cute2.png" alt="">
+                            <img src="images/cute2.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -159,17 +602,161 @@
 
 </body>
 <script>
-    let datetxt = "27 May";
-    let datatxtletter = "My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we will celebrate many more birthdays like this together. Happy birthday to you.💕";
-    let titleLetter = "To you";
+    // === LOGIC PIN VÀ HỘP QUÀ ===
+    const CORRECT_PIN = "1234"; // ⬅️ ĐỔI MÃ SỐ TẠI ĐÂY ⬅️
+    const pinModal = document.getElementById('pin-modal');
+    const giftBoxesArea = document.getElementById('gift-boxes-area');
+    const pinDots = [
+        document.getElementById('dot-0'),
+        document.getElementById('dot-1'),
+        document.getElementById('dot-2'),
+        document.getElementById('dot-3')
+    ];
+    const pinKeypad = document.getElementById('pin-keypad');
+    const pinError = document.getElementById('pin-error');
+    const pinSuccessModal = document.getElementById('pin-success-modal');
+    const pinSuccessOk = document.getElementById('pin-success-ok');
+    const wrapper = document.getElementById('wrapper');
+    let enteredPin = "";
+
+    // Render keypad 1-9, xóa, 0, OK
+    const KEYS = [
+        "1", "2", "3",
+        "4", "5", "6",
+        "7", "8", "9",
+        "del", "0", "ok"
+    ];
+    pinKeypad.innerHTML = "";
+    KEYS.forEach(key => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cute-pin-key';
+        if (key === "del") {
+            btn.innerHTML = '<span style="font-family:\'VT323\';font-size:1.1rem;">Xóa</span>';
+            btn.onclick = () => {
+                enteredPin = enteredPin.slice(0, -1);
+                updatePinDots();
+                pinError.style.display = "none";
+            };
+        } else if (key === "ok") {
+            btn.innerHTML = '<span style="font-family:\'VT323\';font-size:1.1rem;">OK</span>';
+            btn.onclick = checkPin;
+        } else {
+            btn.textContent = key;
+            btn.onclick = () => {
+                if (enteredPin.length < 4) {
+                    enteredPin += key;
+                    updatePinDots();
+                    pinError.style.display = "none";
+                    if (enteredPin.length === 4) {
+                        setTimeout(checkPin, 200);
+                    }
+                }
+            };
+        }
+        pinKeypad.appendChild(btn);
+    });
+
+    function updatePinDots() {
+        for (let i = 0; i < 4; ++i) {
+            pinDots[i].textContent = enteredPin[i] ? "•" : "";
+            if (enteredPin[i]) pinDots[i].classList.add("filled");
+            else pinDots[i].classList.remove("filled");
+        }
+    }
+
+    function checkPin() {
+        if (enteredPin.length === 4) {
+            if (enteredPin === CORRECT_PIN) {
+                pinModal.style.display = "none";
+                pinSuccessModal.style.display = "flex";
+            } else {
+                pinError.textContent = "Sai mã PIN rồi! 😳";
+                pinError.style.display = "block";
+                enteredPin = "";
+                updatePinDots();
+            }
+        }
+    }
+
+    // Modal chúc mừng OK - HIỂN THỊ HỘP QUÀ và BỎ BLUR
+    pinSuccessOk.onclick = function () {
+        pinSuccessModal.style.display = "none";
+        wrapper.style.filter = '';
+        wrapper.style.pointerEvents = '';
+        giftBoxesArea.style.display = 'flex'; // Hiển thị khu vực hộp quà
+    };
+
+    // ÁP DỤNG BLUR BAN ĐẦU
+    wrapper.style.filter = 'blur(8px)';
+    wrapper.style.pointerEvents = 'none';
+    updatePinDots();
+
+    // ----------- Hộp quà SVG, bung nắp, phóng to, so le ----------
+    document.querySelectorAll('#gift-boxes-area .gift-box').forEach((box, i) => {
+        box.innerHTML = `
+            <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="13" width="58" height="18" rx="6" fill="#fd6fae" stroke="#c03" stroke-width="2"/>
+                <rect x="25" y="3" width="18" height="12" rx="5" fill="#fff9c4" stroke="#c03" stroke-width="2"/>
+                <rect x="39" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
+                <rect x="25" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
+            </svg>
+            <svg class="box-body" width="68" height="60" viewBox="0 0 68 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="0" width="58" height="45" rx="8" fill="#ffb7d5" stroke="#c03" stroke-width="2"/>
+                <rect x="31" y="0" width="6" height="45" fill="#fff9c4"/>
+            </svg>
+        `;
+        // Điều chỉnh vị trí so le
+        if (i % 2 === 1) box.classList.add('sole-up');
+        if (i % 2 === 0 && i !== 0) box.classList.add('sole-down');
+    });
+
+    // Xử lý sự kiện click hộp quà
+    document.querySelectorAll('#gift-boxes-area .gift-box').forEach(box => {
+        box.addEventListener('click', function (e) {
+            // Đóng hộp quà cũ (nếu có)
+            document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
+            this.classList.add('open');
+            // Hiển thị modal lời chúc
+            setTimeout(() => {
+                document.getElementById('gift-modal-message').textContent = this.getAttribute('data-msg');
+                document.getElementById('gift-modal').style.display = 'flex';
+            }, 650);
+        });
+    });
+
+    // Đóng Modal lời chúc hộp quà
+    document.getElementById('gift-modal-close').onclick = function () {
+        document.getElementById('gift-modal').style.display = 'none';
+        document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
+    };
+    document.getElementById('gift-modal').onclick = function (e) {
+        if (e.target === this) {
+            this.style.display = 'none';
+            document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
+        }
+    };
+
+
+    // === LOGIC TRANG SINH NHẬT CHÍNH (Gõ Chữ Ngày Sinh và Hộp Thư Tình) ===
+    let datetxt = "27 May"; // ⬅️ NGÀY SINH ⬅️
     let charArrDate = datetxt.split('');
+    let currentIndex = 0;
+    let date__of__birth = document.querySelector(".date__of__birth span");
+
+    let datatxtletter =
+        "Happy birthday 🥳🎂🥳 chanda the day you come into my life I was not really much attached to you but day by day you became close to my heart . And now you are truly my younger sister. I wish I could remove some of the pain from your life which you are bearing alone. But you're always welcome 🤗 you can talk anytime you want to talk specially those which you can't say to others. And this year your all dreams come true . I wish that your brother could wish you but if couldn't wish on him behalf I am wishing you happy birthday 🎈🎂🎈 sana . Don't be Sad ok be happy 😌"; // ⬅️ LỜI CHÚC TRONG THƯ ⬅️
+    let titleLetter = "To you!";
     let charArrDateLetter = datatxtletter.split('');
     let charArrTitle = titleLetter.split('');
-    let currentIndex = 0;
     let currentIndexLetter = 0;
     let currentIndexTitle = 0;
-    let date__of__birth = document.querySelector(".date__of__birth span");
-    let text__letter = document.querySelector(".text__letter p");
+
+    // Element cần thiết cho hiệu ứng gõ chữ
+    let text__letter = document.querySelector(".text__letter h2"); // Đã đổi p thành h2
+    let title__letter = document.querySelector(".title__letter"); // Thêm class để dễ chọn
+
+    // Hiệu ứng gõ chữ ngày sinh
     setTimeout(function () {
         timeDatetxt = setInterval(function () {
             if (currentIndex < charArrDate.length) {
@@ -184,80 +771,70 @@
                 clearInterval(timeDatetxt)
             }
         }, 100)
-    }, 12000)
+    }, 12000) // Bắt đầu sau 12 giây
 
     var intervalContent;
     var intervalTitle;
-    $("#btn__letter").on("click", function () {
-        $(".box__letter").slideDown()
+
+    // Xử lý Hộp Thư Tình (BoxMail)
+    let mailBoxBtn = document.querySelector('#btn__letter .mail');
+    let boxmail = document.querySelector('.boxMail');
+    var closeBtn = document.querySelector('.boxMail .close');
+
+    mailBoxBtn.onclick = function () {
+        mailBoxBtn.classList.add('active');
+        boxmail.classList.add('active');
+
+        // Reset nội dung và bắt đầu hiệu ứng gõ chữ
+        if (title__letter) title__letter.textContent = "";
+        if (text__letter) text__letter.textContent = "";
+        currentIndexLetter = 0;
+        currentIndexTitle = 0;
+        clearInterval(intervalTitle);
+        clearInterval(intervalContent);
+
         setTimeout(function () {
-            $(".letter__border").slideDown();
-        }, 1000)
-        setTimeout(function () {
+            // Bắt đầu gõ tiêu đề
             intervalTitle = setInterval(function () {
                 if (currentIndexTitle < charArrTitle.length) {
-                    document.querySelector(".title__letter").textContent += charArrTitle[currentIndexTitle];
+                    title__letter.textContent += charArrTitle[currentIndexTitle];
+                    currentIndexTitle++;
+                } else {
+                    clearInterval(intervalTitle);
                     let i = document.createElement("i");
                     i.className = "fa-solid fa-heart"
-                    document.querySelector(".title__letter").appendChild(i)
-                    currentIndexTitle++;
+                    title__letter.appendChild(i);
                 }
-                else {
-                    clearInterval(intervalTitle)
-                }
-            }, 100)
-        }, 2000)
+            }, 100);
+        }, 500); // Đợi 0.5s sau khi mở thư
+
         setTimeout(function () {
-            document.querySelector("#heart__letter").classList.add("animationOp");
-            document.querySelector(".love__img").classList.add("animationOp");
-            document.querySelector("#mewmew").classList.add("animationOp");
-        }, 2800)
-        setTimeout(function () {
-            document.querySelectorAll(".heart").forEach((item) => {
-                item.classList.add("animation")
-            })
-        }, 3500)
-        setTimeout(function () {
+            // Bắt đầu gõ nội dung thư
             intervalContent = setInterval(function () {
                 if (currentIndexLetter < charArrDateLetter.length) {
                     text__letter.textContent += charArrDateLetter[currentIndexLetter];
                     currentIndexLetter++;
                 }
                 else {
-                    clearInterval(intervalContent)
+                    clearInterval(intervalContent);
                 }
-            }, 50)
-        }, 6000)
-    })
-    $(".close").on("click", function () {
-        clearInterval(intervalContent)
-        document.querySelector(".title__letter").textContent = "";
-        text__letter.textContent = "";
-        currentIndexLetter = 0
-        currentIndexTitle = 0
-        document.querySelector("#heart__letter").classList.remove("animationOp");
-        document.querySelector(".love__img").classList.remove("animationOp");
-        document.querySelector("#mewmew").classList.remove("animationOp");
-        document.querySelectorAll(".heart").forEach((item) => {
-            item.classList.remove("animation")
-        })
-        $(".box__letter").slideUp();
-        $(".letter__border").slideUp();
-    })
-
-
-
-    let mailBox = document.querySelector('.mail')
-    let boxmail = document.querySelector('.boxMail')
-    var close = document.querySelector('.fa-xmark')
-    mailBox.onclick = function () {
-        mailBox.classList.toggle('active')
-        boxmail.classList.add('active')
+            }, 50);
+        }, 2000); // Đợi 2s sau khi mở thư (hoặc điều chỉnh)
     }
 
-    close.addEventListener('click', function () {
-        boxmail.classList.remove('active')
-    })
+    closeBtn.addEventListener('click', function () {
+        boxmail.classList.remove('active');
+        mailBoxBtn.classList.remove('active');
+        clearInterval(intervalContent);
+        clearInterval(intervalTitle);
+        // Reset nội dung thư sau khi đóng nếu muốn
+        if (title__letter) title__letter.textContent = "To You!";
+        if (text__letter) text__letter.textContent = datatxtletter;
+    });
+
+    // Các hiệu ứng CSS/JS khác từ code gốc (cần CSS trong file style.css)
+    // Các phần như letter__border, heart__letter, love__img, mewmew, heart đều phụ thuộc vào CSS của bạn.
+    // Tôi đã loại bỏ các đoạn JS liên quan đến các selector không rõ ràng trong HTML hợp nhất.
 </script>
 
 </html>
