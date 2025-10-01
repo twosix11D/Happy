@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday</title>
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body { margin:0; background:#ffeae0; overflow:hidden; }
 
-    /* Modal PIN */
+  <style>
+    body { margin:0; background:#ffeae0; overflow:hidden; font-family: 'Poppins', sans-serif; }
+
+    /* ================= PIN MODAL ================= */
     #pin-modal {
       position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;
       background:rgba(255,240,230,0.96);
@@ -44,11 +44,52 @@
 
     /* Ẩn nội dung sinh nhật cho đến khi nhập PIN */
     #wrapper { display:none; }
+
+    /* ================= HAPPY BIRTHDAY CONTENT ================= */
+    .content { display:flex;justify-content:space-around;align-items:center;height:100vh; }
+    .happy, .birthday { font-family:'Dancing Script'; font-size:4rem; margin:0; }
+    .hat img { position:absolute; top:10px; left:100px; }
+
+    /* ================= GIFT BOXES ================= */
+    #gift-boxes-area {
+      position: fixed;
+      left: 50%;
+      top: 60%;
+      transform: translateX(-50%);
+      display: none; /* Ẩn khi chưa tới thời điểm */
+      gap: 38px;
+      z-index: 2000;
+    }
+    .gift-box {
+      width: 68px; height: 88px;
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+    }
+    /* so le các hộp */
+    .gift-box:nth-child(2){ animation-delay: 0.5s; transform: translateY(-10px);}
+    .gift-box:nth-child(3){ animation-delay: 1s; transform: translateY(10px);}
+    .gift-box:nth-child(4){ animation-delay: 1.5s; transform: translateY(-10px);}
+    .gift-box:nth-child(5){ animation-delay: 2s; transform: translateY(10px);}
+
+    @keyframes float {
+      0%{ transform: translateY(0);}
+      50%{ transform: translateY(-20px);}
+      100%{ transform: translateY(0);}
+    }
+
+    /* hiệu ứng bay từ dưới lên */
+    .gift-appear {
+      animation: riseUp 1s ease-out forwards;
+    }
+    @keyframes riseUp {
+      from { transform: translate(-50%, 300px); opacity:0; }
+      to   { transform: translate(-50%, 0); opacity:1; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Modal PIN -->
+  <!-- ============= MODAL PIN ============= -->
   <div id="pin-modal">
     <div class="pin-box">
       <div class="pin-title">Nhập mã PIN</div>
@@ -63,68 +104,56 @@
     </div>
   </div>
 
-  <!-- Nội dung sinh nhật -->
+  <!-- ============= HAPPY BIRTHDAY CONTENT ============= -->
   <div id="wrapper">
-    <div class="flag__birthday">
-      <img src="./images/1.png" alt="" width="350" class="flag__left">
-      <img src="./images/1.png" alt="" width="350" class="flag__right">
-    </div>
     <div class="content">
+      <!-- Bên trái -->
       <div class="left">
-        <div class="title">
-          <h1 class="happy">
-            <span style="--t: 4s;">H</span>
-            <span style="--t: 4.2s;">a</span>
-            <span style="--t: 4.4s;">p</span>
-            <span style="--t: 4.6s;">p</span>
-            <span style="--t: 4.8s;">y</span>
-          </h1>
-          <h1 class="birthday">
-            <span style="--t: 5s;">B</span>
-            <span style="--t: 5.2s;">i</span>
-            <span style="--t: 5.4s;">r</span>
-            <span style="--t: 5.6s;">t</span>
-            <span style="--t: 5.8s;">h</span>
-            <span style="--t: 6s;">d</span>
-            <span style="--t: 6.2s;">a</span>
-            <span style="--t: 6.4s;">y</span>
-          </h1>
-          <div class="hat"><img src="./images/hat.png" alt="" width="130"></div>
-        </div>
-        <div class="date__of__birth"><span></span></div>
-        <div class="btn">
-          <button id="btn__letter">
-            <div class="mail">Click Here Mehwish <i class="fa-regular fa-envelope"></i></div>
-          </button>
-        </div>
+        <h1 class="happy">
+          <span style="--t: 4s;">H</span>
+          <span style="--t: 4.2s;">a</span>
+          <span style="--t: 4.4s;">p</span>
+          <span style="--t: 4.6s;">p</span>
+          <span style="--t: 4.8s;">y</span>
+        </h1>
+        <h1 class="birthday">
+          <span style="--t: 5s;">B</span>
+          <span style="--t: 5.2s;">i</span>
+          <span style="--t: 5.4s;">r</span>
+          <span style="--t: 5.6s;">t</span>
+          <span style="--t: 5.8s;">h</span>
+          <span style="--t: 6s;">d</span>
+          <span style="--t: 6.2s;">a</span>
+          <span style="--t: 6.4s;">y</span>
+        </h1>
+        <div class="hat"><img src="./images/hat.png" alt="" width="130"></div>
+        <button id="btn__letter">Click Here Mehwish <i class="fa-regular fa-envelope"></i></button>
       </div>
+
+      <!-- Bên phải -->
       <div class="right">
         <div class="box__account">
           <div class="image"><img src="./images/unnamed.png" alt=""></div>
-          <div class="name">
-            <i class="fa-solid fa-heart"></i>
-            <span>Dear Mehwish</span>
-            <i class="fa-solid fa-heart"></i>
-          </div>
+          <div class="name"><i class="fa-solid fa-heart"></i> Dear Mehwish <i class="fa-solid fa-heart"></i></div>
           <div class="balloon_one"><img width="100px" src="./images/balloon1.png" alt=""></div>
           <div class="balloon_two"><img width="100px" src="./images/balloon2.png" alt=""></div>
         </div>
-        <div class="cricle">
-          <div class="text__cricle">
-            <span style="--i:1;">h</span><span style="--i:2;">a</span><span style="--i:3;">p</span><span style="--i:4;">p</span><span style="--i:5;">y</span>
-            <span style="--i:6;">-</span><span style="--i:7;">b</span><span style="--i:8;">i</span><span style="--i:9;">r</span><span style="--i:10;">t</span>
-            <span style="--i:11;">h</span><span style="--i:12;">d</span><span style="--i:13;">a</span><span style="--i:14;">y</span><span style="--i:15;">-</span>
-          </div>
-          <i class="fa-solid fa-heart"></i>
-        </div>
       </div>
     </div>
-    <!-- các hình trang trí, boxMail… giữ nguyên như code của bạn -->
+  </div>
+
+  <!-- ============= GIFT BOXES AREA ============= -->
+  <div id="gift-boxes-area">
+    <div class="gift-box">🎁</div>
+    <div class="gift-box">🎁</div>
+    <div class="gift-box">🎁</div>
+    <div class="gift-box">🎁</div>
+    <div class="gift-box">🎁</div>
   </div>
 
 <script>
-  // --- PIN logic ---
-  const CORRECT_PIN="1010";
+  /* ================= PIN LOGIC ================= */
+  const CORRECT_PIN="1010";  // 👉 chỉnh mật khẩu tại đây
   const pinModal=document.getElementById('pin-modal');
   const pinDots=[...document.querySelectorAll('.pin-dot')];
   const pinKeypad=document.getElementById('pin-keypad');
@@ -150,8 +179,15 @@
     if(enteredPin===CORRECT_PIN){
       pinModal.style.display="none";
       document.getElementById("wrapper").style.display="block";
+
+      // Sau khi vào wrapper -> 8s sau hiện hộp quà
+      setTimeout(()=>{
+        const gifts=document.getElementById('gift-boxes-area');
+        gifts.style.display="flex";
+        gifts.classList.add("gift-appear");
+      },8000); // 👉 chỉnh delay theo thời gian chữ Happy Birthday chạy
     }else{
-      pinError.style.display="block"; pinError.textContent="Sai mã PIN rồi 😳";
+      pinError.style.display="block"; pinError.textContent="Sai mã PIN 😳";
       enteredPin=""; updateDots();
     }
   }
