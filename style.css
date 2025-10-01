@@ -1023,3 +1023,35 @@ body {
     color: white;
     z-index: 10000000000000000;
 }
+/* === Avatar smaller (override) === */
+:root{
+  --avatar-size: 260px;   /* đổi số này nếu muốn nhỏ hơn/lớn hơn */
+  --avatar-border: 5px;
+}
+
+/* Desktop */
+.content .right .image{
+  width: var(--avatar-size) !important;
+  height: var(--avatar-size) !important;
+  border: var(--avatar-border) solid var(--color-black) !important;
+}
+
+/* Tablet */
+@media (max-width: 1024px){
+  :root{ --avatar-size: 220px; }
+}
+
+/* Mobile */
+@media (max-width: 768px){
+  :root{ --avatar-size: 180px; }
+}
+
+/* (tuỳ chọn) Thu nhỏ nhẹ vòng chữ để cân đối hơn */
+.text__cricle{
+  width: 88px;
+  height: 88px;
+}
+.text__cricle span{
+  transform-origin: 0 40px;
+}
+
