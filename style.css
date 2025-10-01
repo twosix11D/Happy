@@ -1054,4 +1054,57 @@ body {
 .text__cricle span{
   transform-origin: 0 40px;
 }
+/* === Tinh chỉnh avatar “Dear Mehwish” === */
+:root{
+  --avatar-size: 220px;      /* kích thước avatar desktop */
+  --avatar-shift-right: 24px;/* đẩy qua phải bao nhiêu */
+  --name-chip-offset: -10px; /* vị trí badge “Dear Mehwish” so với đáy avatar */
+}
+
+/* Thu nhỏ avatar + đẩy cụm avatar qua phải nhẹ bằng margin (không ảnh hưởng animation) */
+.content .right .box__account{
+  margin-left: var(--avatar-shift-right) !important;
+}
+
+.content .right .image{
+  width: var(--avatar-size) !important;
+  height: var(--avatar-size) !important;
+  border-width: 5px !important;           /* viền gọn hơn một chút, tùy bạn */
+}
+
+/* Badge “Dear Mehwish” cân lại theo avatar nhỏ hơn */
+.name{
+  bottom: var(--name-chip-offset) !important;
+  padding: 2px 12px !important;
+  transform: none !important;              /* tránh bị méo do scale ở nơi khác */
+}
+
+/* (tuỳ chọn) thu nhỏ vòng chữ để cân đối với avatar */
+.text__cricle{
+  width: 88px !important;
+  height: 88px !important;
+}
+.text__cricle span{
+  transform-origin: 0 40px !important;
+}
+
+/* Tablet */
+@media (max-width: 1024px){
+  :root{
+    --avatar-size: 200px;
+    --avatar-shift-right: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px){
+  :root{
+    --avatar-size: 170px;
+    --avatar-shift-right: 8px;
+    --name-chip-offset: -6px;
+  }
+  /* đẩy ít thôi để không tràn màn hình nhỏ */
+  .content .right .box__account{ margin-left: var(--avatar-shift-right) !important; }
+}
+
 
