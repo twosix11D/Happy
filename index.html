@@ -5,131 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body { margin:0; background:#ffeae0; overflow:hidden; font-family:'Poppins',sans-serif; }
 
-    /* ============ PIN MODAL ============ */
-    #pin-modal {
-      position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh;
-      background:rgba(255,240,230,0.96);
-      display:flex; align-items:center; justify-content:center;
+    /* ===== NỀN GIF ===== */
+    #background-gif {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url("images/cute-bg.gif") center/cover no-repeat;
+      z-index: 0;
+      opacity: 0.7;
+      display: none;
     }
-    .cute-pin-box {
-      background:#ffe6ed; border:3.4px solid #e497af; border-radius:28px;
-      box-shadow:0 4px 24px #e497af66;
-      min-width:320px; min-height:340px;
-      display:flex; flex-direction:column; align-items:center;
-      padding:38px 28px 30px 28px;
-    }
-    .cute-pin-title { font-family:'Dancing Script'; font-size:2rem; margin-bottom:10px; }
-    .cute-pin-dots { display:flex; gap:15px; margin:12px 0 18px 0; }
-    .cute-pin-dot {
-      width:22px; height:22px; border-radius:50%;
-      border:2.5px solid #e497af; background:#fff6fb;
-      font-size:1.6rem; text-align:center;
-    }
-    .cute-pin-dot.filled { background:#f67280; color:#fff; border-color:#d1497a; }
-    .cute-pin-keypad {
-      display:grid; grid-template-columns:repeat(3,50px);
-      grid-gap:14px; justify-content:center;
-    }
-    .cute-pin-key {
-      border:2px solid #d1497a; border-radius:50%;
-      height:50px; width:50px; font-size:1.5rem;
-      background:#fff6fb; color:#d1497a; cursor:pointer;
-    }
-    .cute-pin-error { color:#d1002c; font-size:1rem; margin-top:6px; display:none; }
 
-    /* ============ HAPPY BIRTHDAY ============ */
-    #wrapper { display:none; }
-    .content {
-      display:flex; justify-content:space-around; align-items:center;
-      height:100vh; padding:0 5%;
-    }
-    .happy, .birthday {
-      font-family:'Dancing Script'; font-size:4rem; margin:0;
-    }
+    /* ===== WRAPPER ===== */
+    #wrapper { display:none; position:relative; z-index:1; }
+    .content { display:flex; justify-content:space-around; align-items:center; height:100vh; padding:0 5%; }
+    .happy, .birthday { font-family:'Dancing Script'; font-size:4rem; margin:0; }
+    .left { text-align:center; }
     .hat img { width:120px; margin-top:10px; }
+    .btn { margin-top:20px; }
+    .btn button { padding:12px 24px; border:none; border-radius:12px; background:#f67280; color:white; font-size:1rem; cursor:pointer; }
     .box__account { text-align:center; }
     .box__account .image img { width:240px; border-radius:50%; }
+    .name { margin-top:10px; font-weight:bold; }
 
-    /* ============ HỘP QUÀ ============ */
+    /* ===== HỘP QUÀ ===== */
     #gift-boxes-area {
-      position: fixed; left: 50%; bottom:-200px;
+      position: fixed; bottom: -300px; left: 50%;
       transform: translateX(-50%);
-      display: none;
-      gap: 38px; z-index: 10;
+      display: none; gap: 40px; z-index: 10;
+      opacity: 0;
     }
-    .gift-box {
-      width: 68px; height: 88px;
-      position: relative; cursor: pointer;
-      animation: float 3s ease-in-out infinite;
-    }
-    .gift-box svg { position:absolute; left:0; }
-    .gift-box .box-lid { top:0; z-index:2; transition: transform 0.6s; }
-    .gift-box .box-body { top:28px; z-index:1; transition: filter 0.5s; }
-    .gift-box.open .box-lid {
-      transform: rotate(-42deg) translate(-10px,-38px) scale(1.15);
-      filter: drop-shadow(0 6px 20px #f9b6cc77);
-    }
-    .gift-box.open .box-body { filter: brightness(1.1); }
-    .gift-box.open { transform: scale(1.18) translateY(-12px); }
-    @keyframes float {
-      0%{ transform: translateY(0);}
-      50%{ transform: translateY(-18px);}
-      100%{ transform: translateY(0);}
-    }
-    .gift-appear { animation: riseUp 1s ease-out forwards; }
-    @keyframes riseUp {
-      from { transform: translate(-50%,300px); opacity:0; }
-      to { transform: translate(-50%,0); opacity:1; }
-    }
+    .gift-box { width: 100px; height: 120px; position: relative; cursor: pointer; }
+    .gift-box .lid { position:absolute; top:0; left:0; width:100%; height:40%; background:#fd6fae; border-bottom:2px solid #c03; transform-origin: top center; transition: transform 0.6s; }
+    .gift-box .body { position:absolute; bottom:0; left:0; width:100%; height:60%; background:#ffb7d5; border-top:2px solid #c03; }
 
-    /* ============ MODAL LỜI CHÚC ============ */
-    #gift-modal {
-      position:fixed; z-index:3000; top:0; left:0; width:100vw; height:100vh;
-      background:rgba(0,0,0,0.4); display:none; align-items:center; justify-content:center;
+    .gift-box.open .lid { transform: rotateX(-120deg) translateZ(20px); }
+    .gift-box.open .body { filter: brightness(1.15); }
+
+    /* animation bay lên */
+    @keyframes rise {
+      from { bottom: -300px; opacity: 0; }
+      to { bottom: 50%; opacity: 1; }
     }
-    #gift-modal-content {
-      background:#fff0f7; border-radius:18px;
-      padding:36px 28px; min-width:260px; text-align:center;
-      font-family:'Dancing Script'; font-size:1.5rem;
-      color:#d1497a; position:relative;
-    }
-    #gift-modal-content img { max-width:200px; margin-bottom:12px; }
-    #gift-modal-close {
-      position:absolute; right:14px; top:10px;
-      font-size:1.7rem; cursor:pointer; color:#f67280;
-    }
+    #gift-boxes-area.animate { animation: rise 1.2s ease-out forwards; }
+
+    /* ===== MODAL LỜI CHÚC ===== */
+    #gift-modal { position:fixed; z-index:3000; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; }
+    #gift-modal .modal-content { background:#fff0f7; border-radius:18px; padding:36px 28px; min-width:260px; text-align:center; font-family:'Dancing Script'; font-size:1.5rem; color:#d1497a; position:relative; }
+    #gift-modal img { max-width:200px; margin-bottom:12px; }
+    #gift-modal .close-btn { position:absolute; right:14px; top:10px; font-size:1.7rem; cursor:pointer; color:#f67280; }
+
+    /* ===== MODAL PIN ===== */
+    #pin-modal { position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(255,240,230,0.96); display:flex; align-items:center; justify-content:center; }
+    .cute-pin-box { background:#ffe6ed; border:3.4px solid #e497af; border-radius:28px; box-shadow:0 4px 24px #e497af66; min-width:320px; min-height:340px; display:flex; flex-direction:column; align-items:center; padding:38px 28px 30px 28px; }
+    .cute-pin-title { font-family:'Dancing Script'; font-size:2rem; margin-bottom:10px; }
+    .cute-pin-dots { display:flex; gap:15px; margin:12px 0 18px 0; }
+    .cute-pin-dot { width:22px; height:22px; border-radius:50%; border:2.5px solid #e497af; background:#fff6fb; font-size:1.6rem; text-align:center; }
+    .cute-pin-dot.filled { background:#f67280; color:#fff; border-color:#d1497a; }
+    .cute-pin-keypad { display:grid; grid-template-columns:repeat(3,50px); grid-gap:14px; justify-content:center; }
+    .cute-pin-key { border:2px solid #d1497a; border-radius:50%; height:50px; width:50px; font-size:1.5rem; background:#fff6fb; color:#d1497a; cursor:pointer; }
+    .cute-pin-error { color:#d1002c; font-size:1rem; margin-top:6px; display:none; }
   </style>
 </head>
 <body>
 
-  <!-- MODAL PIN -->
-  <div id="pin-modal">
-    <div class="cute-pin-box">
-      <div class="cute-pin-title">Nhập mã PIN</div>
-      <div class="cute-pin-dots" id="pin-dots">
-        <div class="cute-pin-dot" id="dot-0"></div>
-        <div class="cute-pin-dot" id="dot-1"></div>
-        <div class="cute-pin-dot" id="dot-2"></div>
-        <div class="cute-pin-dot" id="dot-3"></div>
-      </div>
-      <div class="cute-pin-keypad" id="pin-keypad"></div>
-      <div class="cute-pin-error" id="pin-error"></div>
-    </div>
-  </div>
+  <!-- NỀN GIF -->
+  <div id="background-gif"></div>
 
-  <!-- HAPPY BIRTHDAY -->
+  <!-- NỘI DUNG HAPPY BIRTHDAY -->
   <div id="wrapper">
     <div class="content">
+      <!-- Bên trái -->
       <div class="left">
         <h1 class="happy">Happy</h1>
         <h1 class="birthday">Birthday</h1>
-        <div class="hat"><img src="images/hat.png" alt=""></div>
+        <div class="hat"><img src="images/hat.png" alt="hat"></div>
+        <div class="btn"><button>Click Here Mehwish <i class="fa-regular fa-envelope"></i></button></div>
       </div>
+      <!-- Bên phải -->
       <div class="right">
         <div class="box__account">
           <div class="image"><img src="images/unnamed.png" alt=""></div>
@@ -143,57 +99,40 @@
 
   <!-- HỘP QUÀ -->
   <div id="gift-boxes-area">
-    <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖" data-img="images/balloon1.png"></div>
-    <div class="gift-box" data-msg="Thêm một tuổi mới, nhiều niềm vui 🎂" data-img="images/cake.png"></div>
-    <div class="gift-box" data-msg="Chúc mọi điều tốt lành 🍀" data-img="images/clover.png"></div>
-    <div class="gift-box" data-msg="Mong bạn luôn cười tươi 😊" data-img="images/smile.png"></div>
-    <div class="gift-box" data-msg="Sinh nhật rực rỡ, tuổi mới tuyệt vời 🎉" data-img="images/party.png"></div>
+    <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖" data-img="images/balloon1.png"><div class="lid"></div><div class="body"></div></div>
+    <div class="gift-box" data-msg="Thêm tuổi mới nhiều niềm vui 🎂" data-img="images/cake.png"><div class="lid"></div><div class="body"></div></div>
+    <div class="gift-box" data-msg="Chúc mọi điều tốt lành 🍀" data-img="images/clover.png"><div class="lid"></div><div class="body"></div></div>
+    <div class="gift-box" data-msg="Cười thật tươi nhé 😊" data-img="images/smile.png"><div class="lid"></div><div class="body"></div></div>
+    <div class="gift-box" data-msg="Sinh nhật rực rỡ 🎉" data-img="images/party.png"><div class="lid"></div><div class="body"></div></div>
   </div>
 
   <!-- MODAL LỜI CHÚC -->
   <div id="gift-modal">
-    <div id="gift-modal-content">
-      <span id="gift-modal-close">&times;</span>
-      <img id="gift-modal-img" src="" alt="">
-      <div id="gift-modal-message"></div>
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <img id="modal-img" src="" alt="">
+      <p id="modal-msg"></p>
+    </div>
+  </div>
+
+  <!-- MODAL PIN -->
+  <div id="pin-modal">
+    <div class="cute-pin-box">
+      <div class="cute-pin-title">Nhập mã PIN</div>
+      <div class="cute-pin-dots" id="pin-dots">
+        <div class="cute-pin-dot"></div>
+        <div class="cute-pin-dot"></div>
+        <div class="cute-pin-dot"></div>
+        <div class="cute-pin-dot"></div>
+      </div>
+      <div class="cute-pin-keypad" id="pin-keypad"></div>
+      <div class="cute-pin-error" id="pin-error"></div>
     </div>
   </div>
 
 <script>
-  // ===== Render hộp quà SVG =====
-  document.querySelectorAll('.gift-box').forEach(box=>{
-    box.innerHTML=`
-      <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40">
-        <rect x="5" y="13" width="58" height="18" rx="6" fill="#fd6fae" stroke="#c03" stroke-width="2"/>
-        <rect x="25" y="3" width="18" height="12" rx="5" fill="#fff9c4" stroke="#c03" stroke-width="2"/>
-        <rect x="39" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
-        <rect x="25" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
-      </svg>
-      <svg class="box-body" width="68" height="60" viewBox="0 0 68 60">
-        <rect x="5" y="0" width="58" height="45" rx="8" fill="#ffb7d5" stroke="#c03" stroke-width="2"/>
-        <rect x="31" y="0" width="6" height="45" fill="#fff9c4"/>
-      </svg>`;
-  });
-
-  // ===== Click hộp quà mở modal =====
-  document.querySelectorAll('.gift-box').forEach(box=>{
-    box.addEventListener('click',()=>{
-      document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
-      box.classList.add('open');
-      setTimeout(()=>{
-        document.getElementById('gift-modal-img').src=box.dataset.img;
-        document.getElementById('gift-modal-message').textContent=box.dataset.msg;
-        document.getElementById('gift-modal').style.display='flex';
-      },650);
-    });
-  });
-  document.getElementById('gift-modal-close').onclick=()=>{
-    document.getElementById('gift-modal').style.display='none';
-    document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
-  };
-
   // ===== PIN logic =====
-  const CORRECT_PIN="1010"; // đổi PIN ở đây
+  const CORRECT_PIN="1010";
   const pinModal=document.getElementById('pin-modal');
   const pinDots=[...document.querySelectorAll('.cute-pin-dot')];
   const pinKeypad=document.getElementById('pin-keypad');
@@ -210,23 +149,39 @@
     };
     pinKeypad.appendChild(btn);
   });
-  function updateDots(){
-    pinDots.forEach((d,i)=>{ d.textContent=enteredPin[i]?"•":""; d.classList.toggle("filled",!!enteredPin[i]); });
-  }
+  function updateDots(){ pinDots.forEach((d,i)=>{ d.textContent=enteredPin[i]?"•":""; d.classList.toggle("filled",!!enteredPin[i]); }); }
   function checkPin(){
     if(enteredPin===CORRECT_PIN){
       pinModal.style.display="none";
       document.getElementById("wrapper").style.display="block";
+      // sau 5s hiện hộp quà bay lên
       setTimeout(()=>{
         const gifts=document.getElementById('gift-boxes-area');
-        gifts.style.display="flex";
-        gifts.classList.add("gift-appear");
-      },7000); // sau 7s hộp quà bay lên
+        gifts.style.display="flex"; gifts.classList.add("animate");
+      },5000);
     }else{
       pinError.style.display="block"; pinError.textContent="Sai mã PIN 😳";
       enteredPin=""; updateDots();
     }
   }
+
+  // ===== Hộp quà mở modal =====
+  document.querySelectorAll('.gift-box').forEach(box=>{
+    box.addEventListener('click',()=>{
+      document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
+      box.classList.add('open');
+      setTimeout(()=>{
+        document.getElementById('modal-img').src=box.dataset.img;
+        document.getElementById('modal-msg').innerText=box.dataset.msg;
+        document.getElementById('gift-modal').style.display='flex';
+      },500);
+    });
+  });
+  document.querySelector('#gift-modal .close-btn').addEventListener('click',()=>{
+    document.getElementById('gift-modal').style.display='none';
+    document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
+    document.getElementById('background-gif').style.display='block'; // hiện nền gif
+  });
 </script>
 </body>
 </html>
