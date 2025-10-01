@@ -9,6 +9,35 @@
 
   <!-- CSS gốc -->
   <link rel="stylesheet" href="style.css" />
+  <!-- NGAY SAU link style.css -->
+<style>
+  /* Tắt hoàn toàn nền caro từ style.css */
+  html, body {
+    background: transparent !important;
+  }
+  #wrapper{
+    background: none !important;
+    background-image: none !important;
+    background-size: initial !important;
+  }
+  /* Phòng khi có pseudo-element vẽ caro */
+  #wrapper::before, #wrapper::after, body::before{
+    content: none !important;
+    background: none !important;
+  }
+
+  /* Nếu muốn nền GIF hiển thị ngay */
+  #background-gif{
+    position: fixed; inset: 0;
+    background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif")
+                center/cover no-repeat fixed;
+    opacity: .85;
+    z-index: -1;
+    display: block;        /* hiện ngay */
+    pointer-events: none;
+  }
+</style>
+
 
   <!-- Icon + Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
