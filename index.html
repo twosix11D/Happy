@@ -186,6 +186,27 @@
 
   <!-- ===== JS mới: PIN + Hộp quà + Modal chúc + Pháo hoa ===== -->
   <script>
+     <!-- ========== HỘP QUÀ ========== -->
+  <div id="gift-boxes-area">
+    <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖" data-img="images/balloon1.png"></div>
+    <div class="gift-box" data-msg="Thêm một tuổi mới, nhiều niềm vui 🎂" data-img="images/cake.png"></div>
+    <div class="gift-box" data-msg="Chúc mọi điều tốt lành 🍀" data-img="images/clover.png"></div>
+    <div class="gift-box" data-msg="Luôn cười tươi nhé 😊" data-img="images/smile.png"></div>
+    <div class="gift-box" data-msg="Sinh nhật rực rỡ 🎉" data-img="images/party.png"></div>
+  </div>
+
+  <!-- MODAL LỜI CHÚC -->
+  <div id="gift-modal">
+    <div id="gift-modal-content">
+      <span id="gift-modal-close">&times;</span>
+      <img id="gift-modal-img" src="" alt="">
+      <div id="gift-modal-message"></div>
+    </div>
+  </div>
+
+  <!-- fireworks -->
+  <canvas id="fireworks"></canvas>
+
     /* PIN */
     const CORRECT_PIN="1010";
     const pinModal=document.getElementById('pin-modal');
