@@ -1,333 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="title" content="Happy Birthday Website 2.0 | Aoudumber Bade">
+  <meta name="github" content="https://github.com/Aoudumber-Bade">
   <title>Mehwish Birthday</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap"
-    rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    crossorigin="anonymous"></script>
-  <style>
-    body {
-      margin: 0;
-      background: #ffeae0;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-    }
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    /* ========== BACKGROUND GIF ========== */
+  <style>
+    /* ============ NỀN GIF ============ */
     #background-gif {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url("images/cute-bg.gif") center/cover repeat;
-      opacity: 0.7;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url("images/cute-bg.gif") center/cover no-repeat;
       z-index: -1;
+      opacity: 0.7;
       display: none;
     }
 
-    /* ========== GIFT BOXES ========== */
+    /* ============ HỘP QUÀ ============ */
     #gift-boxes-area {
       position: fixed;
-      left: 50%;
-      top: 70%;
+      left: 50%; bottom: -200px;
       transform: translateX(-50%);
-      display: none;
-      gap: 38px;
-      z-index: 10;
-      opacity: 0;
-    }
-
-    .gift-box {
-      width: 80px;
-      height: 100px;
-      position: relative;
-      cursor: pointer;
-      animation: float 3s ease-in-out infinite;
-      transform-origin: bottom center;
-    }
-
-    .box-body {
-      width: 100%;
-      height: 70%;
-      background: linear-gradient(135deg, #ffb6d5, #ff80ab);
-      border-radius: 8px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      border: 3px solid #d14780;
-    }
-
-    .box-lid {
-      width: 110%;
-      height: 40%;
-      background: #fd6fae;
-      border-radius: 6px;
-      position: absolute;
-      top: -20px;
-      left: -5%;
-      border: 3px solid #d14780;
-      transition: transform 0.6s;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 40px;
+      z-index: 2000;
+      display: none;
     }
-
-    .box-lid::after {
-      content: "🎀";
-      font-size: 1.3rem;
+    .gift-box {
+      width: 68px; height: 88px;
+      position: relative; cursor: pointer;
+      animation: float 3s ease-in-out infinite;
     }
-
+    .gift-box svg { position: absolute; left: 0; }
+    .gift-box .box-lid {
+      top: 0; z-index: 2; transition: transform 0.6s;
+    }
+    .gift-box .box-body {
+      top: 28px; z-index: 1; transition: filter 0.5s;
+    }
     .gift-box.open .box-lid {
-      transform: rotate(-35deg) translate(-20px, -40px) scale(1.2);
+      transform: rotate(-42deg) translate(-10px,-38px) scale(1.15);
+      filter: drop-shadow(0 6px 20px #f9b6cc77);
     }
-
+    .gift-box.open .box-body { filter: brightness(1.1); }
     @keyframes float {
-      0% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-15px);
-      }
-
-      100% {
-        transform: translateY(0);
-      }
+      0%{ transform: translateY(0);}
+      50%{ transform: translateY(-18px);}
+      100%{ transform: translateY(0);}
+    }
+    .gift-appear { animation: riseUp 1.2s ease-out forwards; }
+    @keyframes riseUp {
+      from { transform: translate(-50%,200px); opacity:0; }
+      to { transform: translate(-50%,0); opacity:1; }
     }
 
-    #gift-boxes-area.show {
-      animation: rise 1s ease-out forwards;
-    }
-
-    @keyframes rise {
-      from {
-        top: 100%;
-        opacity: 0;
-      }
-
-      to {
-        top: 55%;
-        opacity: 1;
-      }
-    }
-
-    /* sparkle */
-    .sparkle {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center/contain;
-      opacity: 0;
-      animation: sparkleAnim 1s ease forwards;
-    }
-
-    @keyframes sparkleAnim {
-      from {
-        transform: scale(0.5) rotate(0);
-        opacity: 0;
-      }
-
-      to {
-        transform: scale(1.2) rotate(180deg);
-        opacity: 1;
-      }
-    }
-
-    /* MODAL LỜI CHÚC */
+    /* ============ MODAL LỜI CHÚC ============ */
     #gift-modal {
       position: fixed;
-      z-index: 3000;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
       display: none;
-      justify-content: center;
-      align-items: center;
+      align-items: center; justify-content: center;
+      z-index: 3000;
     }
-
-    #gift-modal .modal-content {
+    #gift-modal-content {
       background: #fff0f7;
       border-radius: 18px;
-      padding: 36px 28px;
+      padding: 30px;
+      min-width: 260px;
       text-align: center;
       font-family: 'Dancing Script';
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       color: #d1497a;
       position: relative;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
-
-    #gift-modal .close-btn {
+    #gift-modal-content img {
+      max-width: 200px;
+      margin-bottom: 12px;
+    }
+    #gift-modal-close {
       position: absolute;
-      top: 10px;
-      right: 14px;
-      font-size: 1.8rem;
+      right: 14px; top: 10px;
+      font-size: 1.7rem;
       cursor: pointer;
       color: #f67280;
     }
 
-    /* CANVAS PHÁO HOA */
+    /* ============ FIREWORKS ============ */
     #fireworks {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       pointer-events: none;
-      z-index: 2000;
+      z-index: 4000;
     }
   </style>
 </head>
 
 <body>
-
-  <!-- Background gif -->
+  <!-- Nền động -->
   <div id="background-gif"></div>
 
-  <!-- GIỮ NGUYÊN NỘI DUNG GỐC -->
+  <!-- ========== CODE GỐC GIỮ NGUYÊN ========== -->
   <div id="wrapper">
-    <!-- (nguyên code Happy Birthday + boxMail + balloons như bạn gửi) -->
-    <!-- ... giữ nguyên toàn bộ code wrapper của bạn ở đây ... -->
+    <div class="flag__birthday">
+      <img src="./images/1.png" alt="" width="350" class="flag__left">
+      <img src="./images/1.png" alt="" width="350" class="flag__right">
+    </div>
+    <div class="content">
+      <div class="left">
+        <div class="title">
+          <h1 class="happy">
+            <span style="--t: 4s;">H</span>
+            <span style="--t: 4.2s;">a</span>
+            <span style="--t: 4.4s;">p</span>
+            <span style="--t: 4.6s;">p</span>
+            <span style="--t: 4.8s;">y</span>
+          </h1>
+          <h1 class="birthday">
+            <span style="--t: 5s;">B</span>
+            <span style="--t: 5.2s;">i</span>
+            <span style="--t: 5.4s;">r</span>
+            <span style="--t: 5.6s;">t</span>
+            <span style="--t: 5.8s;">h</span>
+            <span style="--t: 6s;">d</span>
+            <span style="--t: 6.2s;">a</span>
+            <span style="--t: 6.4s;">y</span>
+          </h1>
+          <div class="hat">
+            <img src="./images/hat.png" alt="" width="130">
+          </div>
+        </div>
+        <div class="date__of__birth">
+          <span></span>
+        </div>
+        <div class="btn">
+          <button id="btn__letter">
+            <div class="mail">
+              Click Here Mehwish
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="right">
+        <div class="box__account">
+          <div class="image">
+            <img src="./images/unnamed.png" alt="">
+          </div>
+          <div class="name">
+            <i class="fa-solid fa-heart"></i>
+            <span>Dear Mehwish</span>
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <div class="balloon_one">
+            <img width="100px" src="./images/balloon1.png" alt="">
+          </div>
+          <div class="balloon_two">
+            <img width="100px" src="./images/balloon2.png" alt="">
+          </div>
+        </div>
+        <div class="cricle">
+          <div class="text__cricle">
+            <span style="--i: 1;">h</span>
+            <span style="--i: 2;">a</span>
+            <span style="--i: 3;">p</span>
+            <span style="--i: 4;">p</span>
+            <span style="--i: 5;">y</span>
+            <span style="--i: 6;">-</span>
+            <span style="--i: 7;">b</span>
+            <span style="--i: 8;">i</span>
+            <span style="--i: 9;">r</span>
+            <span style="--i: 10;">t</span>
+            <span style="--i: 11;">h</span>
+            <span style="--i: 12;">d</span>
+            <span style="--i: 13;">a</span>
+            <span style="--i: 14;">y</span>
+            <span style="--i: 15;">-</span>
+          </div>
+          <i class="fa-solid fa-heart"></i>
+        </div>
+      </div>
+    </div>
+    <!-- giữ nguyên decorate, boxMail... -->
+    <div class="boxMail">
+      <i class="fa-solid fa-xmark"></i>
+      <div class="boxMail-container">
+        <div class="card1">
+          <div class="userImg"><img src="images/unnamed.png" alt=""></div>
+          <h4 class="username">To: Mehwish 💖<span class="underline"></span></h4>
+          <h3>Happy Birthday</h3>
+          <div class="imageCute"><img src="cute1.png" alt=""></div>
+        </div>
+        <div class="card2">
+          <div class="card2-content">
+            <h3>To You!</h3>
+            <h2>Happy birthday 🥳🎂🥳 ...</h2>
+            <div class="imageCute2"><img src="cute2.png" alt=""></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- GIFT BOXES -->
+  <!-- ========== HỘP QUÀ THÊM MỚI ========== -->
   <div id="gift-boxes-area">
-    <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖">
-      <div class="box-body"></div>
-      <div class="box-lid"></div>
-    </div>
-    <div class="gift-box" data-msg="Sinh nhật vui vẻ 🎂">
-      <div class="box-body"></div>
-      <div class="box-lid"></div>
-    </div>
-    <div class="gift-box" data-msg="Mọi điều tốt lành 🍀">
-      <div class="box-body"></div>
-      <div class="box-lid"></div>
-    </div>
-    <div class="gift-box" data-msg="Cười tươi cả ngày 😊">
-      <div class="box-body"></div>
-      <div class="box-lid"></div>
-    </div>
-    <div class="gift-box" data-msg="Tuổi mới rực rỡ 🎉">
-      <div class="box-body"></div>
-      <div class="box-lid"></div>
-    </div>
+    <div class="gift-box" data-msg="Chúc bạn luôn hạnh phúc 💖" data-img="images/balloon1.png"></div>
+    <div class="gift-box" data-msg="Thêm một tuổi mới, nhiều niềm vui 🎂" data-img="images/cake.png"></div>
+    <div class="gift-box" data-msg="Chúc mọi điều tốt lành 🍀" data-img="images/clover.png"></div>
+    <div class="gift-box" data-msg="Luôn cười tươi nhé 😊" data-img="images/smile.png"></div>
+    <div class="gift-box" data-msg="Sinh nhật rực rỡ 🎉" data-img="images/party.png"></div>
   </div>
 
-  <!-- MODAL LỜI CHÚC -->
   <div id="gift-modal">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <p id="modal-msg"></p>
+    <div id="gift-modal-content">
+      <span id="gift-modal-close">&times;</span>
+      <img id="gift-modal-img" src="" alt="">
+      <div id="gift-modal-message"></div>
     </div>
   </div>
 
-  <!-- CANVAS FIREWORKS -->
+  <!-- fireworks -->
   <canvas id="fireworks"></canvas>
 
-  <!-- SCRIPT GỐC (animation chữ, boxMail, vv...) -->
-  <script>
-    /* === giữ nguyên script bạn gửi === */
-    /* ... code Happy Birthday + boxMail như bạn có ... */
-  </script>
+<script>
+  // ========== SCRIPT GỐC GIỮ NGUYÊN ==========
+  // (đoạn chữ chạy + boxMail vẫn giữ nguyên của bạn)
 
-  <!-- SCRIPT BỔ SUNG HỘP QUÀ -->
-  <script>
-    // Sau khi animation gốc chạy ~12s thì show hộp quà
-    setTimeout(() => {
-      const gifts = document.getElementById('gift-boxes-area');
-      gifts.style.display = "flex";
-      gifts.classList.add("show");
-    }, 12000);
+  // ========== HỘP QUÀ ==========
+  document.querySelectorAll('.gift-box').forEach(box=>{
+    box.innerHTML=`
+      <svg class="box-lid" width="68" height="40" viewBox="0 0 68 40">
+        <rect x="5" y="13" width="58" height="18" rx="6" fill="#fd6fae" stroke="#c03" stroke-width="2"/>
+        <rect x="25" y="3" width="18" height="12" rx="5" fill="#fff9c4" stroke="#c03" stroke-width="2"/>
+        <rect x="39" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
+        <rect x="25" y="3" width="4" height="11" rx="2" fill="#fd6fae"/>
+      </svg>
+      <svg class="box-body" width="68" height="60" viewBox="0 0 68 60">
+        <rect x="5" y="0" width="58" height="45" rx="8" fill="#ffb7d5" stroke="#c03" stroke-width="2"/>
+        <rect x="31" y="0" width="6" height="45" fill="#fff9c4"/>
+      </svg>`;
+  });
 
-    // Click hộp quà
-    document.querySelectorAll('.gift-box').forEach(box => {
-      box.addEventListener('click', () => {
-        box.classList.add('open');
+  // Xuất hiện hộp quà sau 12s (sau khi animation chữ chạy xong)
+  setTimeout(()=>{
+    document.getElementById('gift-boxes-area').style.display="flex";
+    document.getElementById('gift-boxes-area').classList.add("gift-appear");
+  },12000);
 
-        // Sparkle
-        for (let i = 0; i < 5; i++) {
-          let sp = document.createElement('div');
-          sp.className = 'sparkle';
-          sp.style.top = (Math.random() * 60 - 20) + "px";
-          sp.style.left = (Math.random() * 60 + 20) + "px";
-          box.appendChild(sp);
-          setTimeout(() => sp.remove(), 1000);
-        }
-
-        // Modal + background gif + fireworks
-        setTimeout(() => {
-          document.getElementById('modal-msg').innerText = box.dataset.msg;
-          document.getElementById('gift-modal').style.display = 'flex';
-          document.getElementById('background-gif').style.display = 'block';
-          launchFireworks();
-        }, 700);
-      });
+  // Click mở hộp quà
+  document.querySelectorAll('.gift-box').forEach(box=>{
+    box.addEventListener('click',()=>{
+      document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
+      box.classList.add('open');
+      setTimeout(()=>{
+        document.getElementById('gift-modal-img').src=box.dataset.img;
+        document.getElementById('gift-modal-message').textContent=box.dataset.msg;
+        document.getElementById('gift-modal').style.display='flex';
+        document.getElementById('background-gif').style.display='block';
+        launchFireworks();
+      },650);
     });
+  });
+  document.getElementById('gift-modal-close').onclick=()=>{
+    document.getElementById('gift-modal').style.display='none';
+    document.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
+  };
 
-    // Đóng modal
-    document.querySelector('.close-btn').addEventListener('click', () => {
-      document.getElementById('gift-modal').style.display = 'none';
-      document.querySelectorAll('.gift-box.open').forEach(b => b.classList.remove('open'));
-    });
+  // ========== FIREWORKS ==========
+  const canvas=document.getElementById('fireworks');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  window.onresize=()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;};
 
-    /* ==== FIREWORKS CANVAS ==== */
-    const canvas = document.getElementById('fireworks');
-    const ctx = canvas.getContext('2d');
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    let particles = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    function random(min, max) { return Math.random() * (max - min) + min; }
-
-    function createFirework(x, y) {
-      const count = 100;
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x, y,
-          angle: random(0, Math.PI * 2),
-          speed: random(2, 6),
-          radius: random(2, 4),
-          life: 100
-        });
-      }
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p, i) => {
-        const vx = Math.cos(p.angle) * p.speed;
-        const vy = Math.sin(p.angle) * p.speed;
-        p.x += vx; p.y += vy;
-        p.life--;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.life * 3},100%,60%,${p.life / 100})`;
-        ctx.fill();
-        if (p.life <= 0) particles.splice(i, 1);
+  let particles=[];
+  function launchFireworks(){
+    for(let i=0;i<100;i++){
+      particles.push({
+        x:canvas.width/2,
+        y:canvas.height/2,
+        dx:(Math.random()-0.5)*6,
+        dy:(Math.random()-0.5)*6,
+        life:100,
+        color:`hsl(${Math.random()*360},100%,50%)`
       });
-      requestAnimationFrame(draw);
     }
-    function launchFireworks() {
-      createFirework(canvas.width / 2, canvas.height / 2);
-    }
-    draw();
-  </script>
+  }
+  function animateFW(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach((p,i)=>{
+      p.x+=p.dx; p.y+=p.dy; p.life--;
+      ctx.fillStyle=p.color;
+      ctx.fillRect(p.x,p.y,2,2);
+      if(p.life<=0) particles.splice(i,1);
+    });
+    requestAnimationFrame(animateFW);
+  }
+  animateFW();
+</script>
 </body>
 </html>
