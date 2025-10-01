@@ -15,17 +15,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
-  <!-- ============ CSS BỔ SUNG: PIN + GIFTS + MODAL + PHÁO HOA ============ -->
+  <!-- ===== CSS BỔ SUNG: PIN + GIFTS + MODAL + PHÁO HOA ===== -->
   <style>
     /* ===== NỀN GIF (ẩn cho tới khi mở khóa) ===== */
-#background-gif{
-  position: fixed; inset: 0;
-  background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif") center/cover no-repeat fixed;
-  opacity: .85;          /* chỉnh độ đậm/nhạt nền (0–1) */
-  z-index: -1;
-  display: none;         /* vẫn ẩn cho đến khi nhập đúng PIN, JS sẽ bật lên */
-}
-
+    #background-gif{
+      position: fixed; inset: 0;
+      background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif") center/cover no-repeat fixed;
+      opacity: .85;
+      z-index: -1;
+      display: none; /* bật sau khi nhập PIN đúng */
+    }
 
     /* ===== GIF pixel ở chân màn (hiện cùng lúc hộp quà) ===== */
     #bottom-gif{
@@ -40,60 +39,37 @@
       image-rendering: pixelated;
     }
 
-/* ===== 5 HỘP QUÀ LƠ LỬNG (to hơn) ===== */
-#gift-boxes-area{
-  position: fixed;
-  left: 50%; top: 64%;           /* hạ nhẹ để không che phần chữ */
-  transform: translateX(-50%);
-  display: none;                 
-  gap: 48px;                     /* giãn khoảng cách giữa các hộp */
-  z-index: 10;
-}
-.gift-box{
-  width: 120px;                  /* tăng từ 92px lên 120px */
-  height: 120px;
-  position: relative; cursor: pointer;
-  display: grid; place-items: center;
-  animation: gfloat 3.2s ease-in-out infinite;
-  transition: transform .2s cubic-bezier(.44,1.5,.55,1.11);
-  will-change: transform;
-}
-.gift-box:nth-child(2),
-.gift-box:nth-child(4){ margin-top: 14px; }   /* so le nhẹ */
-.gift-box:nth-child(1),
-.gift-box:nth-child(3),
-.gift-box:nth-child(5){ margin-top: -8px; }
-
-.gift-box img.gift-img{
-  width: 100%; height: auto; display: block;
-  filter: drop-shadow(0 10px 24px rgba(255,135,155,.35)); /* bóng đổ mạnh hơn chút */
-  user-select: none; -webkit-user-drag: none;
-}
-.gift-box:active{ transform: scale(1.06); }
-.gift-box.open{ transform: scale(1.18) translateY(-8px) rotate(-2deg); }
-
-/* Đảm bảo vừa vặn trên mobile */
-@media (max-width: 768px){
-  #gift-boxes-area{ top: 70%; gap: 18px; }
-  .gift-box{ width: 78px; height: 78px; }
-  .gift-box:nth-child(2),
-  .gift-box:nth-child(4){ margin-top: 8px; }
-  .gift-box:nth-child(1),
-  .gift-box:nth-child(3),
-  .gift-box:nth-child(5){ margin-top: -6px; }
-}
-
-
-    @keyframes gfloat{
-      0%{ transform: translateY(0) }
-      50%{ transform: translateY(-18px) }
-      100%{ transform: translateY(0) }
+    /* ===== 5 HỘP QUÀ LƠ LỬNG (dùng PNG của bạn) ===== */
+    #gift-boxes-area{
+      position: fixed;
+      left: 50%; top: 64%;
+      transform: translateX(-50%);
+      display: none;
+      gap: 48px;
+      z-index: 10;
     }
+    .gift-box{
+      width: 120px; height: 120px;
+      position: relative; cursor: pointer;
+      display: grid; place-items: center;
+      animation: gfloat 3.2s ease-in-out infinite;
+      transition: transform .2s cubic-bezier(.44,1.5,.55,1.11);
+      will-change: transform;
+    }
+    .gift-box:nth-child(2), .gift-box:nth-child(4){ margin-top: 14px; }
+    .gift-box:nth-child(1), .gift-box:nth-child(3), .gift-box:nth-child(5){ margin-top: -8px; }
+
+    .gift-box img.gift-img{
+      width: 100%; height: auto; display: block;
+      filter: drop-shadow(0 10px 24px rgba(255,135,155,.35));
+      user-select: none; -webkit-user-drag: none;
+    }
+    .gift-box:active{ transform: scale(1.06); }
+    .gift-box.open{ transform: scale(1.18) translateY(-8px) rotate(-2deg); }
+
+    @keyframes gfloat{ 0%{transform:translateY(0)} 50%{transform:translateY(-18px)} 100%{transform:translateY(0)} }
     .gift-appear{ animation: riseUp .9s ease-out forwards }
-    @keyframes riseUp{
-      from{ transform: translate(-50%, 220px); opacity: 0 }
-      to  { transform: translate(-50%, 0);   opacity: 1 }
-    }
+    @keyframes riseUp{ from{transform:translate(-50%,220px);opacity:0} to{transform:translate(-50%,0);opacity:1} }
 
     /* ===== Modal lời chúc ===== */
     #gift-modal{
@@ -144,6 +120,14 @@
       background:#fff6fb; color:#d1497a; cursor:pointer;
     }
     .cute-pin-error{ color:#d1002c; font-size:1rem; margin-top:6px; display:none; }
+
+    /* Mobile tweak */
+    @media (max-width:768px){
+      #gift-boxes-area{ top: 70%; gap: 18px; }
+      .gift-box{ width: 78px; height: 78px; }
+      .gift-box:nth-child(2), .gift-box:nth-child(4){ margin-top: 8px; }
+      .gift-box:nth-child(1), .gift-box:nth-child(3), .gift-box:nth-child(5){ margin-top: -6px; }
+    }
   </style>
 </head>
 
@@ -155,9 +139,6 @@
 
   <!-- ========== PHẦN GỐC (GIỮ NGUYÊN) ========== -->
   <div id="wrapper">
-    <!-- …toàn bộ HTML gốc của bạn ở đây (đã giữ nguyên như bạn đang dùng)… -->
-    <!-- Mình lược bớt để ngắn: flag, content (left/right), decorate, smiley, boxMail -->
-    <!-- BẮT ĐẦU: đoạn bạn paste trước đó -->
     <div class="flag__birthday">
       <img src="./images/1.png" alt="" width="350" class="flag__left">
       <img src="./images/1.png" alt="" width="350" class="flag__right">
@@ -201,8 +182,72 @@
       </div>
     </div>
 
-    <!-- (giữ nguyên các phần decorate, smiley, boxMail của bạn) -->
+    <!-- Trang trí giữ nguyên -->
+    <div class="decorate_star star1" style="--t: 15s;"></div>
+    <div class="decorate_star star2" style="--t: 15.2s;"></div>
+    <div class="decorate_star star3" style="--t: 15.4s;"></div>
+    <div class="decorate_star star4" style="--t: 15.6s;"></div>
+    <div class="decorate_star star5" style="--t: 15.8s;"></div>
+    <div class="decorate_flower--one" style="--t: 15s;"><img width="20" src="./images/decorate_flower.png" alt=""></div>
+    <div class="decorate_flower--two" style="--t: 15.3s;"><img width="20" src="./images/decorate_flower.png" alt=""></div>
+    <div class="decorate_flower--three" style="--t: 15.6s;"><img width="20" src="./images/decorate_flower.png" alt=""></div>
+    <div class="decorate_bottom"><img src="./images/decorate.png" alt="" width="100"></div>
+    <div class="smiley__icon"><img src="./images/smiley_icon.png" alt="" width="100"></div>
+
+    <!-- Hộp thư (giữ nguyên) -->
+    <div class="boxMail">
+      <i class="fa-solid fa-xmark"></i>
+      <div class="boxMail-container">
+        <div class="card1">
+          <div class="userImg"><img src="images/unnamed.png" alt=""></div>
+          <h4 class="username">To: Mehwish 💖<span class="underline"></span></h4>
+          <h3>Happy Birthday</h3>
+          <div class="imageCute"><img src="cute1.png" alt=""></div>
+        </div>
+        <div class="card2">
+          <div class="card2-content">
+            <h3>To You!</h3>
+            <h2>
+              Happy birthday 🥳🎂🥳 chanda the day you come into my life I was not really much attached to
+              you but day by day you became close to my heart . And now you are truly my younger sister. I
+              wish I could remove some of the pain from your life which you are bearing alone. But you're
+              always welcome 🤗 you can talk anytime you want to talk specially those which you can't say
+              to others. And this year your all dreams come true . I wish that your
+              brother could wish you but if couldn't wish on him behalf I am wishing you happy birthday
+              🎈🎂🎈 sana . Don't be Sad ok be happy 😌
+            </h2>
+            <div class="imageCute2"><img src="cute2.png" alt=""></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Thư (để khớp script gốc) -->
+    <div class="box__letter" style="display:none;">
+      <div class="letter__border" style="display:none;">
+        <div class="close"><i class="fa-solid fa-xmark"></i></div>
+        <div class="letter">
+          <div class="title__letter"></div>
+          <div class="content__letter">
+            <div class="left">
+              <img id="heart__letter" src="images/heart.png" alt="" />
+              <i class="fa-solid fa-heart heart heart_1" style="--t:1s"></i>
+              <i class="fa-solid fa-heart heart heart_2" style="--t:1.2s"></i>
+              <i class="fa-solid fa-heart heart heart_3" style="--t:1.4s"></i>
+              <i class="fa-solid fa-heart heart heart_4" style="--t:1.6s"></i>
+            </div>
+            <div class="right">
+              <div class="love__img"><img src="images/love.png" alt="" /></div>
+              <div class="text__letter"><p></p></div>
+              <img id="mewmew" src="images/cat.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Modal Thư -->
   </div>
+  <!-- /wrapper -->
 
   <!-- ====== 5 HỘP QUÀ (dùng ảnh PNG hộp quà cute) ====== -->
   <div id="gift-boxes-area">
@@ -237,9 +282,8 @@
     </div>
   </div>
 
-  <!-- ========== SCRIPT GỐC của bạn (giữ nguyên) ========== -->
+  <!-- ===== SCRIPT GỐC (GIỮ NGUYÊN) ===== -->
   <script>
-    /* nguyên văn script gốc hiển thị chữ, mở thư,… của bạn (mình giữ nguyên) */
     let datetxt="27 May";
     let datatxtletter="My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we will celebrate many more birthdays like this together. Happy birthday to you.💕";
     let titleLetter="To you";
@@ -259,30 +303,28 @@
           clearInterval(timeDatetxt)
         }
       },100)
-    },12000);
+    },12000)
 
     var intervalContent,intervalTitle;
     $("#btn__letter").on("click",function(){
       $(".box__letter").slideDown();
-      setTimeout(()=>$(".letter__border").slideDown(),1000);
+      setTimeout(()=>{$(".letter__border").slideDown();},1000)
       setTimeout(function(){
         intervalTitle=setInterval(function(){
           if(currentIndexTitle<charArrTitle.length){
             document.querySelector(".title__letter").textContent+=charArrTitle[currentIndexTitle];
             let i=document.createElement("i"); i.className="fa-solid fa-heart";
-            document.querySelector(".title__letter").appendChild(i);
+            document.querySelector(".title__letter").appendChild(i)
             currentIndexTitle++;
           }else{ clearInterval(intervalTitle) }
         },100)
-      },2000);
+      },2000)
       setTimeout(function(){
         document.querySelector("#heart__letter")?.classList.add("animationOp");
         document.querySelector(".love__img")?.classList.add("animationOp");
         document.querySelector("#mewmew")?.classList.add("animationOp");
-      },2800);
-      setTimeout(function(){
-        document.querySelectorAll(".heart").forEach(it=>it.classList.add("animation"))
-      },3500);
+      },2800)
+      setTimeout(function(){ document.querySelectorAll(".heart").forEach((item)=>{ item.classList.add("animation") }) },3500)
       setTimeout(function(){
         intervalContent=setInterval(function(){
           if(currentIndexLetter<charArrDateLetter.length){
@@ -291,30 +333,29 @@
           }else{ clearInterval(intervalContent) }
         },50)
       },6000)
-    });
-    $(".close").on("click",function(){
-      clearInterval(intervalContent);
-      let tl=document.querySelector(".title__letter");
-      if(tl) tl.textContent="";
+    })
+    $(".close").on("click", function () {
+      clearInterval(intervalContent)
+      let tl=document.querySelector(".title__letter"); if(tl) tl.textContent="";
       if(text__letter) text__letter.textContent="";
-      currentIndexLetter=0; currentIndexTitle=0;
+      currentIndexLetter = 0; currentIndexTitle = 0;
       document.querySelector("#heart__letter")?.classList.remove("animationOp");
       document.querySelector(".love__img")?.classList.remove("animationOp");
       document.querySelector("#mewmew")?.classList.remove("animationOp");
-      document.querySelectorAll(".heart").forEach(it=>it.classList.remove("animation"));
+      document.querySelectorAll(".heart").forEach((item) => { item.classList.remove("animation") })
       $(".box__letter").slideUp(); $(".letter__border").slideUp();
-    });
+    })
 
-    let mailBox=document.querySelector('.mail'), boxmail=document.querySelector('.boxMail'), close=document.querySelector('.fa-xmark');
-    mailBox?.addEventListener('click',function(){ mailBox.classList.toggle('active'); boxmail?.classList.add('active') });
-    close?.addEventListener('click',function(){ boxmail?.classList.remove('active') });
+    let mailBox=document.querySelector('.mail'), boxmail=document.querySelector('.boxMail'), closeMail=document.querySelector('.boxMail .fa-xmark')
+    mailBox?.addEventListener('click', function(){ mailBox.classList.toggle('active'); boxmail?.classList.add('active') })
+    closeMail?.addEventListener('click', function(){ boxmail?.classList.remove('active') })
   </script>
 
-  <!-- ========== SCRIPT BỔ SUNG: GIFTS + FIREWORKS ========== -->
+  <!-- ===== SCRIPT BỔ SUNG: GIFTS + FIREWORKS ===== -->
   <script>
-    /* === CHỈNH 2 ĐƯỜNG DẪN NÀY CHO PHÙ HỢP === */
-    const GIFT_IMAGE_SRC  = "images/gift-cute.png"; /* ảnh hộp quà PNG bạn gửi */
-    const BOTTOM_GIF_SRC  = "images/pixel-christmas.gif"; /* hoặc link wifflegif bạn muốn */
+    /* ==== THAY ĐƯỜNG DẪN ẢNH TẠI ĐÂY ==== */
+    const GIFT_IMAGE_SRC  = "images/gift-cute.png";          /* ảnh hộp quà PNG của bạn */
+    const BOTTOM_GIF_SRC  = "images/pixel-christmas.gif";    /* gif chân màn (đặt file vào images/ hoặc đổi link trực tiếp) */
 
     (function(){
       const area = document.getElementById('gift-boxes-area');
@@ -324,7 +365,6 @@
       const modalClose = document.getElementById('gift-modal-close');
       const bottomGif = document.getElementById('bottom-gif');
 
-      // set gif chân màn
       bottomGif.src = BOTTOM_GIF_SRC;
 
       // Pháo hoa
@@ -382,7 +422,7 @@
     })();
   </script>
 
-  <!-- ========== SCRIPT BỔ SUNG: MODAL PIN ========== -->
+  <!-- ===== SCRIPT BỔ SUNG: MODAL PIN ===== -->
   <script>
     (function(){
       const pinModal=document.getElementById('pin-modal');
@@ -428,7 +468,7 @@
     })();
   </script>
 
-  <!-- ========== KÍCH HOẠT TRÌNH TỰ: PIN → NỀN GIF → (đợi animation gốc) → HỘP QUÀ ========== -->
+  <!-- ===== TRÌNH TỰ: PIN → BẬT NỀN GIF → (đợi animation gốc) → HỘP QUÀ ===== -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       HB_Gifts.init(); // khởi tạo hộp quà
@@ -438,7 +478,7 @@
         onUnlock: function () {
           // bật nền GIF cute ngay khi mở khóa
           document.getElementById('background-gif').style.display='block';
-          // đợi khớp animation gốc (12s) rồi cho hộp quà bay lên
+          // đợi khớp animation gốc (~12s) rồi cho hộp quà bay lên
           setTimeout(()=>HB_Gifts.show(), 12000);
         }
       });
