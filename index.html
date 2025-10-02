@@ -68,13 +68,26 @@
     .date__of__birth span{font-size:1.2rem}
     .name span{font-size:1.3rem}
 
-    .left .btn{transform:scale(0);animation:scaleCricle 2s 16s forwards ease-in-out}
-    #btn__letter{margin-top:30px;background:var(--color-text-pink);padding:5px 15px;font-size:1rem;border-radius:50px;border:3px solid var(--color-black);font-family:"Sriracha",cursive;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transform:scale(1);transition:all .5s}
-    #btn__letter:active{transform:scale(.7)} #btn__letter i{margin-left:5px}
-    #btn__letter:hover{border-color:var(--color-heart);background:var(--color-heart);color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.24)}
-    #btn__letter:hover i{animation:rotateHeart 1s infinite linear}
-    @keyframes rotateHeart{0%,50%,100%{transform:rotate(0)}25%{transform:rotate(12deg)}75%{transform:rotate(-12deg)}}
-    @keyframes scaleCricle{0%{transform:scale(0)}10%{transform:scale(1.3)}20%{transform:scale(.7)}30%,100%{transform:scale(1)}}
+    /* Nút CTA ở giữa màn hình */
+    #btn__letter{
+      position:fixed;
+      left:50%;
+      top:60vh;                 /* chỉnh cao/thấp tại đây */
+      transform:translate(-50%,-50%);
+      margin:0;
+      z-index:5;
+      background:var(--color-text-pink);
+      padding:8px 18px;
+      font-size:1rem;
+      border-radius:50px;
+      border:3px solid var(--color-black);
+      font-family:"Sriracha",cursive;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;transition:transform .2s, box-shadow .2s;
+    }
+    #btn__letter:hover{border-color:var(--color-heart);background:var(--color-heart);color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.24); transform:translate(-50%,-50%) scale(1.02)}
+    #btn__letter:active{transform:translate(-50%,-50%) scale(.94)}
+    #btn__letter i{margin-left:6px}
 
     .right .box__account{position:relative;transform:translateY(700px);animation:topBoxImage 8s 7s forwards ease-in}
     @keyframes topBoxImage{to{transform:translateY(0)}}
@@ -154,7 +167,7 @@
 
     /* ===== GIFTS ===== */
     #gift-boxes-area{
-      position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+      position:fixed;left:50%;bottom:64px;transform:translateX(-50%);
       display:none;gap:28px;z-index:30;
     }
     .gift-box{width:96px;height:96px;position:relative;cursor:pointer;display:grid;place-items:center;animation:gfloat 3.2s ease-in-out infinite;transition:opacity .28s cubic-bezier(.44,1.5,.55,1.11), transform .2s cubic-bezier(.44,1.5,.55,1.11);will-change:opacity,transform}
@@ -204,7 +217,7 @@
       .content{flex-direction:column;gap:25px;align-items:center;padding-top:2rem}
       .title{font-size:1.6rem;letter-spacing:6px}
       .content .right .image{width:200px;height:200px}
-      #gift-boxes-area{bottom:16px;gap:14px}
+      #gift-boxes-area{bottom:24px;gap:14px}
       .gift-box{width:68px;height:68px}
       .cute-pin-keypad{grid-template-columns:repeat(3,78px);grid-gap:14px}
       .cute-pin-key{width:78px;height:102px}
@@ -275,7 +288,7 @@
     <div class="decorate_bottom"><img src="./images/decorate.png" alt="" width="100"></div>
     <div class="smiley__icon"><img src="https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Mzc5djYwdWxscWJ2MHdyd2x1aGs3d2s5Y3l4Z2k5YWhsZWw5dWZ1YiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/4Ztytt2s2Cr7XyTI1z/200.webp" alt="" width="100"></div>
 
-    <!-- Hộp thư -->
+    <!-- Hộp thư (giữ file, không gán nút mở để tránh xung đột) -->
     <div class="boxMail">
       <i class="fa-solid fa-xmark"></i>
       <div class="boxMail-container">
@@ -288,12 +301,7 @@
         <div class="card2">
           <div class="card2-content">
             <h3>To You!</h3>
-            <h2>
-              Happy birthday 🥳🎂🥳 chanda the day you come into my life I was not really much attached to
-              you but day by day you became close to my heart . And now you are truly my younger sister. I
-              wish I could remove some of the pain from your life which you are bearing alone. But you're
-              always welcome 🤗 ...
-            </h2>
+            <h2>Happy birthday 🥳🎂🥳 ...</h2>
             <div class="imageCute2"><img src="cute2.png" alt=""></div>
           </div>
         </div>
@@ -315,7 +323,7 @@
               <i class="fa-solid fa-heart heart heart_4" style="--t:1.6s"></i>
             </div>
             <div class="right">
-              <div class="love__img"><img src="images/love.png" alt="" /></div>
+              <div class="love__img"><img src="https://media0.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Mzc5djYwdWxscWJ2MHdyd2x1aGs3d2s5Y3l4Z2k5YWhsZWw5dWZ1YiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/9V5fArpd99fLoemwn3/200.webp" alt="" /></div>
               <div class="text__letter"><p></p></div>
               <img id="mewmew" src="images/cat.png" alt="" />
             </div>
@@ -330,9 +338,9 @@
   <!-- ====== 5 HỘP QUÀ ====== -->
   <div id="gift-boxes-area">
     <div class="gift-box" data-msg="Chúc Bé iu của anh tuổi mới càng xinh đẹp 💖" data-img="images/1 (1).png"></div>
-    <div class="gift-box" data-msg="Năm nay sinh nhật của em có anh,và sau này vẫn là anhhhh 🎂" data-img="images/1 (10).png"></div>
-    <div class="gift-box" data-msg="Tuổi mới thì làm gì cũng phải may mắn nhaaaa 🍀" data-img="images/1 (11).png"></div>
-    <div class="gift-box" data-msg="Chúc Bé iu Luôn cười tươi,và rạng rỡ nhaaaa  😊" data-img="images/1 (12).png"></div>
+    <div class="gift-box" data-msg="Năm nay sinh nhật của em có anh, và sau này vẫn là anh 🎂" data-img="images/1 (10).png"></div>
+    <div class="gift-box" data-msg="Tuổi mới làm gì cũng may mắn nha 🍀" data-img="images/1 (11).png"></div>
+    <div class="gift-box" data-msg="Luôn cười tươi và rạng rỡ nhé 😊" data-img="images/1 (12).png"></div>
     <div class="gift-box" data-msg="CHÚC MỪNG SINH NHẬT BÉ IU CỦA ANH 🎉💖" data-img="images/1 (9).png"></div>
   </div>
 
@@ -360,13 +368,13 @@
     </div>
   </div>
 
-  <!-- Nhạc phát khi mở khóa -->
-  <audio id="unlock-music" src="https://www.youtube.com/watch?v=FvEznHc_MeE&list=RDFvEznHc_MeE&start_radio=1" preload="auto" loop playsinline></audio>
+  <!-- Nhạc phát khi mở khóa (YouTube URL thường không phát được trong <audio>) -->
+  <audio id="unlock-music" src="" preload="auto" loop playsinline></audio>
   <button id="music-unblock">Bật nhạc 🎵</button>
 
   <!-- ===== SCRIPT GỐC + CHỈNH ===== -->
   <script>
-    /* === Typing date & letter === */
+    /* === Typing date & letter (giữ nguyên) === */
     let datetxt="27 May";
     let datatxtletter="My love. You are a very special girl...";
     let titleLetter="To you";
@@ -388,50 +396,18 @@
       },100)
     },12000)
 
-    var intervalContent,intervalTitle;
-    $("#btn__letter").on("click",function(){
-      $(".box__letter").slideDown();
-      setTimeout(()=>{$(".letter__border").slideDown();},1000)
-      setTimeout(function(){
-        intervalTitle=setInterval(function(){
-          if(currentIndexTitle<charArrTitle.length){
-            document.querySelector(".title__letter").textContent+=charArrTitle[currentIndexTitle];
-            let i=document.createElement("i"); i.className="fa-solid fa-heart";
-            document.querySelector(".title__letter").appendChild(i)
-            currentIndexTitle++;
-          }else{ clearInterval(intervalTitle) }
-        },100)
-      },2000)
-      setTimeout(function(){
-        document.querySelector("#heart__letter")?.classList.add("animationOp");
-        document.querySelector(".love__img")?.classList.add("animationOp");
-        document.querySelector("#mewmew")?.classList.add("animationOp");
-      },2800)
-      setTimeout(function(){ document.querySelectorAll(".heart").forEach((item)=>{ item.classList.add("animation") }) },3500)
-      setTimeout(function(){
-        intervalContent=setInterval(function(){
-          if(currentIndexLetter<charArrDateLetter.length){
-            if(text__letter) text__letter.textContent+=charArrDateLetter[currentIndexLetter];
-            currentIndexLetter++;
-          }else{ clearInterval(intervalContent) }
-        },50)
-      },6000)
-    })
+    /* BỎ gán click nút để mở thư để tránh xung đột với hiển thị quà
+       (Modal thư vẫn còn, bạn có thể tự gán nút khác nếu cần) */
+
     $(".close").on("click", function () {
-      clearInterval(intervalContent)
       let tl=document.querySelector(".title__letter"); if(tl) tl.textContent="";
       if(text__letter) text__letter.textContent="";
-      currentIndexLetter = 0; currentIndexTitle = 0;
       document.querySelector("#heart__letter")?.classList.remove("animationOp");
       document.querySelector(".love__img")?.classList.remove("animationOp");
       document.querySelector("#mewmew")?.classList.remove("animationOp");
       document.querySelectorAll(".heart").forEach((item) => { item.classList.remove("animation") })
       $(".box__letter").slideUp(); $(".letter__border").slideUp();
-    })
-
-    let mailBox=document.querySelector('.mail'), boxmail=document.querySelector('.boxMail'), closeMail=document.querySelector('.boxMail .fa-xmark')
-    mailBox?.addEventListener('click', function(){ mailBox.classList.toggle('active'); boxmail?.classList.add('active') })
-    closeMail?.addEventListener('click', function(){ boxmail?.classList.remove('active') })
+    });
   </script>
 
   <!-- GIFTS + FIREWORKS -->
@@ -488,10 +464,9 @@
               modalImg.src = box.dataset.img || '';
               modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
               modal.style.display='flex';
-              area.style.visibility='hidden';           // ẩn strip quà trong lúc xem modal
+              area.style.visibility='hidden';
             }, 300);
 
-            // biến mất hộp quà vừa mở
             box.dataset.removed = '1';
             box.style.pointerEvents = 'none';
             requestAnimationFrame(()=>{
@@ -499,7 +474,7 @@
               box.classList.add('removing');
               const removeFn = ()=>{ box.removeEventListener('transitionend', removeFn); box.remove(); };
               box.addEventListener('transitionend', removeFn);
-              setTimeout(removeFn, 600); // fallback
+              setTimeout(removeFn, 600);
             });
           });
         });
@@ -507,7 +482,7 @@
 
       modalClose.addEventListener('click',()=>{
         modal.style.display='none';
-        area.style.visibility='visible';               // hiện lại strip
+        area.style.visibility='visible';
         area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
       });
 
@@ -611,15 +586,23 @@
     })();
   </script>
 
-  <!-- TRÌNH TỰ: PIN → animation → hiển thị quà -->
+  <!-- TRÌNH TỰ: PIN → (bấm nút) → hiện quà -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       HB_Gifts.init();
+
+      // Hiển thị yêu cầu PIN, KHÔNG tự show quà nữa
       HB_Pin.require({
         pin: '1010',
         onUnlock: function () {
-          setTimeout(()=>HB_Gifts.show(), 12000);
+          /* sau khi mở khóa, người dùng bấm nút để hiện quà */
         }
+      });
+
+      // Bấm nút ở giữa để hiện dãy hộp quà
+      document.getElementById('btn__letter')?.addEventListener('click', function(e){
+        e.preventDefault();
+        HB_Gifts.show();
       });
     });
   </script>
