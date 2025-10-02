@@ -382,6 +382,62 @@ body.modal-open #bottom-gif{ display: none !important; }
     }
   }
 }
+/* === Nút xuất hiện từng ký tự giống "Happy Birthday" === */
+:root{
+  /* có thể chỉnh thời điểm bắt đầu & nhịp */
+  --btn-start: 6.6s;   /* delay trước khi nút bắt đầu hiện */
+  --btn-step:  0.06s;  /* khoảng cách giữa các ký tự */
+}
+
+.left .btn{
+  /* cho khung nút đi lên nhẹ trước khi các ký tự chạy */
+  opacity: 0;
+  transform: translateY(22px);
+  animation: btnWrapIn .6s calc(var(--btn-start) - .2s) forwards cubic-bezier(.22,.9,.24,1);
+}
+
+/* container chữ trong nút */
+#btn__letter .mail{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+/* mỗi ký tự */
+#btn__letter .mail .ch{
+  display: inline-block;
+  transform: translateY(22px);
+  opacity: 0;
+  animation: btnCharIn .46s var(--d) forwards cubic-bezier(.22,.9,.24,1);
+}
+
+/* keyframes giống style chữ heading */
+@keyframes btnWrapIn{
+  to{ opacity:1; transform: translateY(0); }
+}
+@keyframes btnCharIn{
+  to{ opacity:1; transform: translateY(0); }
+}
+
+/* Mobile: vẫn giữ nút ở giữa như bạn muốn */
+@media (max-width:768px){
+  .left .btn{
+    position: fixed;
+    left: 50%;
+    top: 56vh;
+    transform: translate(-50%,-40%); /* trạng thái trước animation */
+    animation: btnWrapIn .6s calc(var(--btn-start) - .2s) forwards cubic-bezier(.22,.9,.24,1);
+    z-index: 2600;
+  }
+  .left .btn.showed{ transform: translate(-50%,-50%); } /* trạng thái sau */
+}
+
+/* Người dùng chọn reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .left .btn{ animation:none!important; opacity:1; transform:none; }
+  #btn__letter .mail .ch{ animation:none!important; opacity:1; transform:none; }
+}
   </style>
 </head>
 <body>
