@@ -537,29 +537,138 @@
     closeMail?.addEventListener('click', function(){ boxmail?.classList.remove('active') })
   </script>
 
-  <!-- GIFTS + FIREWORKS -->
-  <script>
-    const GIFT_IMAGE_SRC  = "images/gift-cute.png";
-    const BOTTOM_GIF_SRC  = "https://i.pinimg.com/originals/55/17/aa/5517aa7627534d2427e2eda5d72b434f.gif";
+<!-- GIFTS + FIREWORKS -->
+<script>
+  const GIFT_IMAGE_SRC  = "images/gift-cute.png";
+  const BOTTOM_GIF_SRC  = "https://i.pinimg.com/originals/55/17/aa/5517aa7627534d2427e2eda5d72b434f.gif";
 
-    (function(){
-      const area = document.getElementById('gift-boxes-area');
-      const modal = document.getElementById('gift-modal');
-      const modalImg = document.getElementById('gift-modal-img');
-      const modalMsg = document.getElementById('gift-modal-message');
-      const modalClose = document.getElementById('gift-modal-close');
-      const bottomGif = document.getElementById('bottom-gif');
+  (function(){
+    // Elements
+    const area      = document.getElementById('gift-boxes-area');
+    const modal     = document.getElementById('gift-modal');
+    const modalImg  = document.getElementById('gift-modal-img');
+    const modalMsg  = document.getElementById('gift-modal-message');
+    const modalClose= document.getElementById('gift-modal-close');
+    const bottomGif = document.getElementById('bottom-gif');
+    const cvs       = document.getElementById('fireworks');
 
-      const DEFAULT_BOTTOM_GIF = "https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3/2aZ3gij6Jp9eU/giphy.gif";
-      try {
-        if (typeof BOTTOM_GIF_SRC === 'string' && BOTTOM_GIF_SRC.trim()) {
-          bottomGif.src = BOTTOM_GIF_SRC;
-        } else {
-          bottomGif.src = DEFAULT_BOTTOM_GIF;
+    // 1) Bottom pixel GIF: safe fallback
+    const DEFAULT_BOTTOM_GIF = "https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3/2aZ3gij6Jp9eU/giphy.gif";
+    try {
+      bottomGif.src = (typeof BOTTOM_GIF_SRC === 'string' && BOTTOM_GIF_SRC.trim())
+        ? BOTTOM_GIF_SRC
+        : DEFAULT_BOTTOM_GIF;
+    } catch (e) {
+      bottomGif.src = DEFAULT_BOTTOM_GIF;
+    }
+
+    // 2) Fireworks (with guards)
+    let ctx = null;
+    if (cvs && cvs.getContext) {
+      ctx = cvs.getContext('2d');
+      function fit(){ cvs.width = innerWidth; cvs.height = innerHeight }
+      fit(); addEventListener('resize', fit);
+
+      const particles = [];
+      function burst(x, y){
+        for (let i=0;i<120;i++){
+          particles.push({
+            x, y,
+            dx:(Math.random()-0.5)*6,
+            dy:(Math.random()-0.5)*6,
+            life:100,
+            color:`hsl(${Math.random()*360},100%,50%)`
+          });
         }
-      } catch (e) {
-        bottomGif.src = DEFAULT_BOTTOM_GIF;
       }
+      (function loop(){
+        if (ctx) {
+          ctx.clearRect(0,0,cvs.width,cvs.height);
+          for (let i=particles.length-1;i>=0;i--){
+            const p=particles[i];
+            p.x+=p.dx; p.y+=p.dy; p.life--;
+            ctx.fillStyle=p.color;
+            ctx.fillRect(p.x,p.y,2,2);
+            if(p.life<=0) particles.splice(i,1);
+          }
+        }
+        requestAnimationFrame(loop);
+      })();
+
+      // expose to render handler
+      window.__hb_burst = burst;
+    } else {
+      // no canvas — stub to avoid errors
+      window.__hb_burst = function(){};
+    }
+
+    // 3) Render gifts and attach handlers
+    let __inited = false;
+    function renderGifts(){
+      if (!area || __inited) return;
+      __inited = true;
+      area.querySelectorAll('.gift-box').forEach((box)=>{
+        box.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift">`;
+        box.addEventListener('click',(ev)=>{
+          if (box.dataset.removed === '1') return;
+
+          // focus effect
+          area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
+          box.classList.add('open');
+
+          // fireworks burst
+          if (cvs) {
+            const r=cvs.getBoundingClientRect();
+            window.__hb_burst(ev.clientX - r.left, ev.clientY - r.top);
+          }
+
+          // open modal
+          setTimeout(()=>{
+            modalImg.src = box.dataset.img || '';
+            modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
+            modal.style.display='flex';
+            area.style.visibility='hidden';
+          }, 240);
+
+          // remove clicked gift nicely
+          box.dataset.removed = '1';
+          box.style.pointerEvents = 'none';
+          requestAnimationFrame(()=>{
+            void box.offsetWidth;
+            box.classList.add('removing');
+            const removeFn = ()=>{ box.removeEventListener('transitionend', removeFn); box.remove(); };
+            box.addEventListener('transitionend', removeFn);
+            setTimeout(removeFn, 600); // fallback
+          });
+        });
+      });
+    }
+
+    // 4) Modal close handler
+    if (modalClose) {
+      modalClose.addEventListener('click',()=>{
+        modal.style.display='none';
+        area && (area.style.visibility='visible');
+        area && area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
+      });
+    }
+
+    // 5) Export a stable API
+    window.HB_Gifts = {
+      init(){ renderGifts(); },
+      show(){
+        if (!area) return;
+        // ensure rendered
+        if (!__inited) renderGifts();
+        area.style.display='flex';
+        area.classList.add('gift-appear');
+        bottomGif && (bottomGif.style.display='block');
+        document.body.classList.add('gifts-visible');
+      }
+    };
+  })();
+</script>
+
 
       // Fireworks
       const cvs = document.getElementById('fireworks');
