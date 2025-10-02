@@ -386,7 +386,7 @@ body.modal-open #bottom-gif{ display: none !important; }
 :root{
   /* có thể chỉnh thời điểm bắt đầu & nhịp */
   --btn-start: 6.6s;   /* delay trước khi nút bắt đầu hiện */
-  --btn-step:  0.06s;  /* khoảng cách giữa các ký tự */
+  --btn-step:  8.6s;  /* khoảng cách giữa các ký tự */
 }
 
 .left .btn{
@@ -438,6 +438,32 @@ body.modal-open #bottom-gif{ display: none !important; }
   .left .btn{ animation:none!important; opacity:1; transform:none; }
   #btn__letter .mail .ch{ animation:none!important; opacity:1; transform:none; }
 }
+/* === DỜI CỤM AVATAR + VÒNG CHỮ + 2 STICKER MÀ VẪN GIỮ ANIMATION === */
+@media (max-width: 768px){
+  :root{
+    /* chỉnh số này để dời cụm xuống trên MOBILE mà KHÔNG ảnh hưởng hiệu ứng bay lên */
+    --cluster-shift: 56px; /* thử 40–80px tuỳ mắt */
+  }
+  /* .box__account có animation translateY -> dùng margin-top để không chạm transform */
+  .content .right .box__account{
+    margin-top: var(--cluster-shift);
+  }
+  /* .cricle & balloons là absolute -> dời bằng top calc, không chạm transform */
+  .cricle{
+    top: calc(20px + var(--cluster-shift)) !important;
+  }
+  .right .balloon_one{ top: calc(-70px + var(--cluster-shift)); }
+  .right .balloon_two{ top: calc(170px + var(--cluster-shift)); }
+}
+
+/* (tuỳ chọn) dời nhẹ trên PC mà vẫn giữ hiệu ứng */
+@media (min-width: 769px){
+  :root{ --cluster-shift-desktop: 20px; }
+  .content .right .box__account{ margin-top: var(--cluster-shift-desktop); }
+  .cricle{ top: calc(20px + var(--cluster-shift-desktop)) !important; }
+  .right .balloon_one{ top: calc(-70px + var(--cluster-shift-desktop)); }
+  .right .balloon_two{ top: calc(170px + var(--cluster-shift-desktop)); }
+    }
   </style>
 </head>
 <body>
