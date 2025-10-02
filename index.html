@@ -342,6 +342,21 @@ html, body { background: transparent !important; }
 
 body.modal-open #gift-boxes-area,
 body.modal-open #bottom-gif{ display: none !important; }
+/* --- Đưa nút "BẤM VÀO ĐÂY NÈEEE💌" vào giữa màn hình trên mobile --- */
+@media (max-width: 768px){
+  .left .btn{
+    position: fixed;          /* tách khỏi layout, bám vào viewport */
+    left: 50%;
+    top: 56vh;                /* 56–60vh là đẹp, có thể chỉnh */
+    transform: translate(-50%,-50%) scale(1) !important;
+    z-index: 2600;            /* nổi trên nền & sticker, dưới modal thư */
+    animation: none !important;   /* tránh bị scale/giật vị trí */
+  }
+  #btn__letter{
+    padding: 10px 18px;       /* bấm đã tay hơn */
+    font-size: 1.05rem;
+  }
+}
   </style>
 </head>
 <body>
