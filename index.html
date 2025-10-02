@@ -343,18 +343,43 @@ html, body { background: transparent !important; }
 body.modal-open #gift-boxes-area,
 body.modal-open #bottom-gif{ display: none !important; }
 /* --- Đưa nút "BẤM VÀO ĐÂY NÈEEE💌" vào giữa màn hình trên mobile --- */
+/* === Mobile: nút "BẤM VÀO ĐÂY NÈEEE💌" xuất hiện từ từ như PC === */
 @media (max-width: 768px){
   .left .btn{
-    position: fixed;          /* tách khỏi layout, bám vào viewport */
+    position: fixed;                /* bám theo viewport */
     left: 50%;
-    top: 56vh;                /* 56–60vh là đẹp, có thể chỉnh */
-    transform: translate(-50%,-50%) scale(1) !important;
-    z-index: 2600;            /* nổi trên nền & sticker, dưới modal thư */
-    animation: none !important;   /* tránh bị scale/giật vị trí */
+    top: 56vh;                      /* khoảng trống giữa màn */
+    transform: translate(-50%,-40%) scale(.88);
+    opacity: 0;
+    z-index: 2600;                  /* cao hơn strip quà (2000) */
+    /* 1) hiện dần + 2) lắc nhẹ sau khi hiện */
+    animation:
+      mobileBtnIn   1.05s 2.1s forwards cubic-bezier(.21,1,.22,1),
+      mobileBtnIdle 3.6s 3.3s ease-in-out infinite !important;
+    pointer-events: auto;
   }
   #btn__letter{
-    padding: 10px 18px;       /* bấm đã tay hơn */
-    font-size: 1.05rem;
+    padding: 11px 20px;
+    font-size: 1.06rem;
+  }
+
+  @keyframes mobileBtnIn{
+    0%   { opacity:0; filter:blur(2px); transform:translate(-50%,-35%) scale(.82); }
+    60%  { opacity:.9;                   transform:translate(-50%,-52%) scale(1.04); }
+    100% { opacity:1; filter:none;       transform:translate(-50%,-50%) scale(1); }
+  }
+  @keyframes mobileBtnIdle{
+    0%,100% { transform:translate(-50%,-50%) scale(1); }
+    50%     { transform:translate(-50%,-52%) scale(1.02); }
+  }
+
+  /* Tôn trọng người dùng tắt motion */
+  @media (prefers-reduced-motion: reduce){
+    .left .btn{
+      animation: none !important;
+      opacity: 1;
+      transform: translate(-50%,-50%) scale(1);
+    }
   }
 }
   </style>
@@ -499,7 +524,7 @@ body.modal-open #bottom-gif{ display: none !important; }
   <!-- Modal PIN -->
   <div id="pin-modal" aria-hidden="true">
     <div class="cute-pin-box">
-      <div class="cute-pin-title">Nhập mã PIN</div>
+      <div class="cute-pin-title">Nhập mật khẩu đi cục cưng à 😍</div>
       <div class="cute-pin-dots" id="pin-dots">
         <div class="cute-pin-dot"></div><div class="cute-pin-dot"></div><div class="cute-pin-dot"></div><div class="cute-pin-dot"></div>
       </div>
