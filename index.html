@@ -214,6 +214,7 @@ html, body { background: transparent !important; }
 .smiley__icon,
 .smileo__icon,
 .smilei__icon,
+.smileb__icon,
 .smilep__icon,
 .smileu__icon{
   position: absolute;
@@ -230,6 +231,7 @@ html, body { background: transparent !important; }
 .smilei__icon{ right: 600px; }                /* đã ở bên phải */
 .smileu__icon{ left: 200px; }                 /* ở bên trái */
 .smilep__icon{ left: 100px; }
+.smileb__icon{ right: 100px; }
 
 /* ===== LETTER MODAL ===== */
 .box__letter{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10;display:none}
@@ -608,7 +610,7 @@ body.modal-open #bottom-gif{ display: none !important; }
     <div class="smilei__icon"><img src="https://media0.giphy.com/media/pbKSEFrEEudOIclaL8/200.webp" alt="" width="100"></div>
     <div class="smileu__icon"><img src="https://media4.giphy.com/media/IEm8kcqLVCctHJ1kWm/giphy.webp" alt="" width="100"></div>
     <div class="smilep__icon"><img src="https://media2.giphy.com/media/SvK7Gxcq4QS4fNNjYH/200.webp" alt="" width="100"></div>
-
+    <div class="smileb__icon"><img src="https://media1.giphy.com/media/v1.Y2lkPTgyYTE0OTNiOXA1dGk2c2ppNml3aDY5d3h0bm9ma3p6dnJ0YmFyeWVyZzY3dTVndiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/9Ji1tn7DMHcT7FBaXT/200.webp" alt="" width="100"></div>
     <!-- Hộp thư (MAIL BOX) -->
     <div class="boxMail" aria-hidden="true">
       <i class="fa-solid fa-xmark" aria-label="Đóng"></i>
@@ -950,7 +952,7 @@ const GIFT_IMAGE_SRC  = "images/Picsart_25-10-02_22-15-12-725.png";
       area.style.left = '50%';
       area.style.transform = 'translateX(-50%)';
       area.style.bottom = 'auto';
-      area.style.top = Math.round(r.bottom + 16) + 'px';  // 16px dưới nút
+      area.style.top = Math.round(r.bottom + 13) + 'px';  // 16px dưới nút
     }
 
     // render gifts như cũ
