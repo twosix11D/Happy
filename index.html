@@ -11,6 +11,34 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
   <style>
+/* --- FIX LAYERING / MOBILE --- */
+#gift-boxes-area{ z-index: 2000; }    /* dưới modal */
+#fireworks{ z-index: 1500; }          /* thấp hơn modal */
+.boxMail{ z-index: 5000; }
+#gift-modal{ z-index: 6000; }         /* modal ảnh quà */
+.box__letter{ z-index: 7000; }        /* modal THƯ – cao nhất */
+
+/* Khi có modal -> ẩn strip quà + gif đáy để khỏi đè */
+body.modal-open #gift-boxes-area,
+body.modal-open #bottom-gif{
+  display: none !important;
+}
+
+/* THƯ responsive cho mobile */
+.box__letter .letter__border{
+  width: min(92vw, 760px);
+  max-width: 92vw;
+  height: auto;
+  max-height: 84vh;
+  overflow: hidden;
+}
+.letter__border .letter{
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 14px;
+}
+
     /* ============ RESET + TOKENS ============ */
     /* ===== CAPOO PALETTE ===== */
 :root{
@@ -535,9 +563,13 @@
     let giftShownOnce = false;
 
     var intervalContent,intervalTitle;
-    $("#btn__letter").on("click",function(){
-      $(".box__letter").slideDown();
-      setTimeout(()=>{$(".letter__border").slideDown();},1000)
+$("#btn__letter").on("click",function(){
+  document.body.classList.add('modal-open');        // NEW: khóa nền + ẩn strip quà
+  $(".box__letter").fadeIn(180);
+  setTimeout(()=>{$(".letter__border").fadeIn(180);},120);
+  // ... (giữ nguyên phần còn lại)
+});
+
 
       // Show gifts ngay khi mở thư (chỉ 1 lần)
       setTimeout(()=>{
@@ -572,8 +604,13 @@
         },50)
       },6000)
     })
-    $(".close").on("click", function () {
-      clearInterval(intervalContent)
+$(".close").on("click", function () {
+  document.body.classList.remove('modal-open');     // NEW
+  // (phần reset text/animation giữ nguyên)
+  $(".letter__border").fadeOut(160);
+  $(".box__letter").fadeOut(160);
+});
+
       let tl=document.querySelector(".title__letter"); if(tl) tl.textContent="";
       if(text__letter) text__letter.textContent="";
       currentIndexLetter = 0; currentIndexTitle = 0;
