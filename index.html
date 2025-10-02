@@ -267,8 +267,27 @@
       .content__letter .left{border-right:none; border-bottom:3px solid var(--color-border)}
       .right .box__account{margin-left:0}
     }
+    /* ===== FORCE-VISIBLE GIFTS STRIP (fallback) ===== */
+#gift-boxes-area{
+  position:fixed !important;
+  left:50% !important; bottom:24px !important;
+  transform:translateX(-50%) !important;
+  display:flex !important; gap:18px !important;
+  z-index:100000 !important;
+  padding:8px 10px; border-radius:14px;
+  background:rgba(255,255,255,.35); backdrop-filter:blur(4px);
+}
+.gift-box{
+  width:88px; height:88px; display:grid; place-items:center;
+  border-radius:14px; box-shadow:0 6px 16px rgba(0,0,0,.15);
+  background:linear-gradient(180deg,#fff,#fef1f4);
+  overflow:hidden;
+}
+.gift-box img.gift-img{ width:100%; height:auto; display:block }
+
   </style>
 </head>
+
 <body>
   <!-- NỀN GIF -->
   <div id="background-gif"></div>
@@ -537,13 +556,15 @@
     closeMail?.addEventListener('click', function(){ boxmail?.classList.remove('active') })
   </script>
 
-<!-- GIFTS + FIREWORKS (SAFE INIT + AUTO SHOW) -->
+<!-- GIFTS + FIREWORKS (force show & self-heal) -->
 <script>
-  const GIFT_IMAGE_SRC  = "images/gift-cute.png";
-  const BOTTOM_GIF_SRC  = "https://i.pinimg.com/originals/55/17/aa/5517aa7627534d2427e2eda5d72b434f.gif";
+  const GIFT_IMAGE_SRC = "https://media0.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3MmNuYWVxdnc0b3RsbWx5Z21ydDVvOTR4cHFzYTd4cmNyY3pvOWRmaiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/fjxupFeOlzwRnhKT0b/200.webp";
+  const BOTTOM_GIF_SRC = "https://i.pinimg.com/originals/55/17/aa/5517aa7627534d2427e2eda5d72b434f.gif";
 
-  document.addEventListener('DOMContentLoaded', () => {
-    (function(){
+  (function(){
+    function ready(fn){ document.readyState!=='loading' ? fn() : document.addEventListener('DOMContentLoaded', fn); }
+
+    ready(function(){
       const area      = document.getElementById('gift-boxes-area');
       const modal     = document.getElementById('gift-modal');
       const modalImg  = document.getElementById('gift-modal-img');
@@ -552,19 +573,42 @@
       const bottomGif = document.getElementById('bottom-gif');
       const cvs       = document.getElementById('fireworks');
 
-      /* 1) Bottom GIF fallback */
+      // 0) Pixel GIF (fallback)
       const DEFAULT_BOTTOM_GIF = "https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3/2aZ3gij6Jp9eU/giphy.gif";
-      try {
-        bottomGif.src = (typeof BOTTOM_GIF_SRC === 'string' && BOTTOM_GIF_SRC.trim())
-          ? BOTTOM_GIF_SRC : DEFAULT_BOTTOM_GIF;
-      } catch(e){ bottomGif.src = DEFAULT_BOTTOM_GIF; }
+      try { bottomGif.src = (BOTTOM_GIF_SRC||"").trim() || DEFAULT_BOTTOM_GIF; } catch(e){ bottomGif.src = DEFAULT_BOTTOM_GIF; }
+      bottomGif.style.display = 'block';
 
-      /* 2) Fireworks (with guards) */
+      // 1) Nếu thiếu strip trong DOM, tự tạo
+      if(!area){
+        const a = document.createElement('div');
+        a.id = 'gift-boxes-area';
+        document.body.appendChild(a);
+      }
+      const _area = document.getElementById('gift-boxes-area');
+
+      // 2) Nếu strip rỗng, tự bơm 5 hộp dựa vào data gốc bạn đang dùng
+      if(!_area.querySelector('.gift-box')){
+        const gifts = [
+          {msg:"Chúc Bé iu của anh tuổi mới càng xinh đẹp 💖", img:"images/1 (1).png"},
+          {msg:"Năm nay sinh nhật của em có anh, và sau này vẫn là anhhhh 🎂", img:"images/1 (10).png"},
+          {msg:"Tuổi mới thì làm gì cũng phải may mắn nhaaaa 🍀", img:"images/1 (11).png"},
+          {msg:"Luôn cười tươi và rạng rỡ nhaaaa 😊", img:"images/1 (12).png"},
+          {msg:"CHÚC MỪNG SINH NHẬT BÉ IU CỦA ANH 🎉💖", img:"images/1 (9).png"},
+        ];
+        gifts.forEach(g=>{
+          const d = document.createElement('div');
+          d.className = 'gift-box';
+          d.dataset.msg = g.msg; d.dataset.img = g.img;
+          d.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift" onerror="this.parentElement.style.background='#ffdbe8';this.remove();">`;
+          _area.appendChild(d);
+        });
+      }
+
+      // 3) Pháo hoa (guard nếu thiếu canvas)
       let ctx=null, particles=[];
-      if (cvs && cvs.getContext) {
+      if(cvs && cvs.getContext){
         ctx = cvs.getContext('2d');
-        function fit(){ cvs.width=innerWidth; cvs.height=innerHeight }
-        fit(); addEventListener('resize',fit);
+        function fit(){ cvs.width=innerWidth; cvs.height=innerHeight } fit(); addEventListener('resize',fit);
         function burst(x,y){
           for(let i=0;i<120;i++){
             particles.push({x,y,dx:(Math.random()-0.5)*6,dy:(Math.random()-0.5)*6,life:100,color:`hsl(${Math.random()*360},100%,50%)`});
@@ -582,89 +626,78 @@
           requestAnimationFrame(loop);
         })();
         window.__hb_burst = burst;
-      } else {
+      }else{
         window.__hb_burst = function(){};
       }
 
-      /* 3) Gifts render + handlers */
-      let __inited=false;
-      function renderGifts(){
-        if (!area || __inited) return;
-        __inited = true;
-        area.querySelectorAll('.gift-box').forEach((box)=>{
-          box.innerHTML = `<img class="gift-img" src="${GIFT_IMAGE_SRC}" alt="gift">`;
-          box.addEventListener('click',(ev)=>{
-            if (box.dataset.removed === '1') return;
-
-            area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
+      // 4) Gắn click cho từng hộp (và force show strip)
+      function bindGifts(){
+        _area.style.setProperty('display','flex','important');
+        _area.style.visibility = 'visible';
+        _area.querySelectorAll('.gift-box').forEach((box)=>{
+          if(box.__bound) return; box.__bound = true;
+          box.addEventListener('click', (ev)=>{
+            _area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
             box.classList.add('open');
-
-            if (cvs) {
-              const r=cvs.getBoundingClientRect();
+            if(cvs){
+              const r = cvs.getBoundingClientRect();
               window.__hb_burst(ev.clientX - r.left, ev.clientY - r.top);
             }
-
             setTimeout(()=>{
-              modalImg.src = box.dataset.img || '';
-              modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
-              modal.style.display='flex';
-              area.style.visibility='hidden';
-            }, 240);
+              if(modal){
+                modalImg.src = box.dataset.img || '';
+                modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
+                modal.style.display = 'flex';
+                _area.style.visibility = 'hidden';
+              } else {
+                // fallback: mở ảnh/thông điệp bằng alert nếu thiếu modal
+                alert((box.dataset.msg||'Happy Birthday!') + '\n(' + (box.dataset.img||'') + ')');
+              }
+            }, 200);
 
             box.dataset.removed = '1';
             box.style.pointerEvents = 'none';
             requestAnimationFrame(()=>{
               void box.offsetWidth;
               box.classList.add('removing');
-              const removeFn = ()=>{ box.removeEventListener('transitionend', removeFn); box.remove(); };
-              box.addEventListener('transitionend', removeFn);
+              const removeFn=()=>{ box.removeEventListener('transitionend',removeFn); box.remove(); };
+              box.addEventListener('transitionend',removeFn);
               setTimeout(removeFn, 600);
             });
           });
         });
       }
+      bindGifts();
 
-      if (modalClose) {
+      // 5) Đóng modal → hiện lại strip
+      if(modalClose){
         modalClose.addEventListener('click',()=>{
           modal.style.display='none';
-          if (area) {
-            area.style.visibility='visible';
-            area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
-          }
+          _area.style.visibility='visible';
+          _area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
         });
       }
 
-      /* 4) Public API + auto init/show with retries */
+      // 6) Xuất API + auto show (có retry nếu CSS ngoài ẩn)
+      let retries = 10;
       window.HB_Gifts = {
-        init(){ renderGifts(); },
+        init(){ bindGifts(); },
         show(){
-          if (!area) return;
-          if (!__inited) renderGifts();
-          // ép hiển thị, kể cả khi CSS khác ghi đè
-          area.style.setProperty('display','flex','important');
-          area.classList.add('gift-appear');
-          if (bottomGif) bottomGif.style.display='block';
-          document.body.classList.add('gifts-visible');
+          _area.style.setProperty('display','flex','important');
+          _area.style.visibility='visible';
+          bottomGif.style.display='block';
         }
       };
-
-      // --- Auto init + show (bảo hiểm) ---
-      function safeShow(retry=8){
-        try {
-          HB_Gifts.init();
-          HB_Gifts.show();
-          // nếu vẫn bị CSS ẩn, ép lại
-          if (area && getComputedStyle(area).display === 'none') {
-            area.style.setProperty('display','flex','important');
-          }
-        } catch(e) {}
-        if (retry>0) setTimeout(()=>safeShow(retry-1), 300);
-      }
-      // Đợi DOM settle một nhịp rồi show
-      setTimeout(safeShow, 400);
-    })();
-  });
+      (function autoshow(){
+        HB_Gifts.init(); HB_Gifts.show();
+        if(getComputedStyle(_area).display==='none' && retries--){
+          setTimeout(autoshow, 300);
+        }
+      })();
+    });
+  })();
 </script>
+
 
 
       // Fireworks
