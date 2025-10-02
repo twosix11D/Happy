@@ -464,6 +464,82 @@ body.modal-open #bottom-gif{ display: none !important; }
   .right .balloon_one{ top: calc(-70px + var(--cluster-shift-desktop)); }
   .right .balloon_two{ top: calc(170px + var(--cluster-shift-desktop)); }
     }
+/* ==== THEME CAPOO CHO PIN MODAL ==== */
+/* Nền phủ nhẹ xanh thay vì hồng */
+#pin-modal{
+  background: rgba(37,192,241,.10) !important; /* var(--capoo-blue) */
+}
+
+/* Hộp chính */
+.cute-pin-box{
+  background: #e6f8ff !important;                 /* xanh nhạt */
+  border: 3.4px solid var(--capoo-blue) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 6px 28px rgba(37,192,241,.28) !important;
+  color: var(--capoo-dark) !important;
+}
+
+/* Tiêu đề */
+.cute-pin-title{
+  color: var(--capoo-dark) !important;
+}
+
+/* 4 chấm PIN */
+.cute-pin-dot{
+  border-color: var(--capoo-blue) !important;
+  background: #ffffff !important;
+}
+.cute-pin-dot.filled{
+  /* chấm đã nhập chuyển sang xanh Capoo */
+  background: radial-gradient(ellipse at 50% 40%,
+              #fff 0 40%, var(--capoo-blue) 42% 100%) !important;
+  border-color: var(--capoo-dark) !important;
+}
+
+/* Nút số */
+.cute-pin-key{
+  border: 3px solid var(--capoo-blue) !important;
+  background: #ffffff !important;
+  box-shadow: 0 6px 0 #bfeafc, 0 10px 20px rgba(37,192,241,.22) !important;
+}
+.cute-pin-key:active{
+  box-shadow: 0 4px 0 #bfeafc, 0 6px 12px rgba(37,192,241,.18) !important;
+}
+
+/* Phần “gà con” trên mỗi phím – giữ tim hồng làm điểm nhấn */
+.cute-pin-key .chick{
+  border-color: #bfeafc !important;
+}
+.cute-pin-key .comb{ color: var(--capoo-pink) !important; }  /* tim hồng */
+.cute-pin-key .eye{ background: #123c50 !important; }        /* mắt xanh đậm */
+.cute-pin-key .beak{ border-top-color: #ffa63b !important; } /* mỏ giữ cam tươi */
+
+/* Số in trên phím – viền tối cho rõ ràng trên nền xanh nhạt */
+.cute-pin-key .digit{
+  color: #0E4E68 !important; /* var(--capoo-dark) */
+  text-shadow:
+    -2px -2px 0 #ffffff, 2px -2px 0 #ffffff,
+    -2px  2px 0 #ffffff, 2px  2px 0 #ffffff,
+     0    3px 0 rgba(0,0,0,.08) !important;   /* viền trắng nhẹ */
+}
+
+/* Phím đặc biệt (Xoá, OK) */
+.cute-pin-key.special{
+  background: #e6f8ff !important;
+  border-color: var(--capoo-blue) !important;
+}
+.cute-pin-key .label{
+  color: var(--capoo-dark) !important;
+  font-weight: 700 !important;
+}
+
+/* Nút “Bật nhạc” đã đồng bộ xanh; giữ nguyên nhưng đảm bảo hover xanh */
+#music-unblock{
+  background:#e6f8ff !important;
+  border-color: var(--capoo-blue) !important;
+  color: var(--capoo-dark) !important;
+}
+#music-unblock:hover{ background:#d9f2ff !important; }
   </style>
 </head>
 <body>
