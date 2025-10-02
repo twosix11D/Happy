@@ -182,6 +182,8 @@
     .smiley__icon{position:absolute;bottom:180px;left:600px;transform:scale(0);animation:scaleCricle 3s 15s forwards ease-in-out}
     .smileo__icon{position:absolute;bottom:180px;right:600px;transform:scale(0);animation:scaleCricle 3s 15s forwards ease-in-out}
     .smilei__icon{position:absolute;bottom:180px;right:300px;transform:scale(0);animation:scaleCricle 3s 15s forwards ease-in-out}
+    .smileu__icon{position:absolute;bottom:180px;left:300px;transform:scale(0);animation:scaleCricle 3s 15s forwards ease-in-out}
+    .smiley__icon{position:absolute;bottom:180px;left:900px;transform:scale(0);animation:scaleCricle 3s 15s forwards ease-in-out}
     /* ===== LETTER MODAL ===== */
     .box__letter{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10;display:none}
     .box__letter .letter__border{position:absolute;width:55vw;height:450px;background:var(--color-white);border-radius:27px;padding:17px;box-shadow:0 3px 8px rgba(0,0,0,.24);top:50%;left:50%;transform:translate(-50%,-50%);display:none}
@@ -285,6 +287,62 @@
     }
   </style>
 </head>
+<audio>
+  <!-- ===== MUSIC ===== -->
+<audio id="bg-music"
+       src="music/1.mp3"
+       preload="auto"
+       loop
+       playsinline
+       autoplay
+       muted></audio>
+
+<button id="music-unblock"
+        style="position:fixed;right:14px;bottom:14px;z-index:5000;display:none;border:2px solid #d1497a;background:#fff0f7;color:#d1497a;border-radius:999px;padding:10px 16px;font-weight:600;box-shadow:0 4px 16px rgba(209,73,122,.25)">
+  Bật nhạc 🎵
+</button>
+  <script>
+(function () {
+  const music = document.getElementById('bg-music');
+  const btn   = document.getElementById('music-unblock');
+
+  function tryPlay() {
+    if (!music) return;
+    music.muted = true;               // autoplay được phép khi mute
+    music.volume = 0.9;
+    const p = music.play();
+    if (p && typeof p.then === 'function') {
+      p.then(() => {
+        setTimeout(()=> music.muted = false, 120); // bật tiếng nhẹ sau khi đã phát
+        if (btn) btn.style.display = 'none';
+      }).catch(() => {
+        if (btn) btn.style.display = 'inline-flex'; // nếu bị chặn, hiện nút
+      });
+    }
+  }
+
+  // gọi khi trang sẵn sàng
+  if (document.readyState !== 'loading') tryPlay();
+  else document.addEventListener('DOMContentLoaded', tryPlay);
+
+  // huých bằng tương tác lần đầu
+  const once = () => { tryPlay();
+    window.removeEventListener('mousemove', once);
+    window.removeEventListener('touchstart', once);
+    window.removeEventListener('keydown', once);
+  };
+  window.addEventListener('mousemove', once, { once:true });
+  window.addEventListener('touchstart', once, { once:true });
+  window.addEventListener('keydown', once, { once:true });
+  window.addEventListener('pageshow', tryPlay);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+
+  // click nút dự phòng
+  btn && btn.addEventListener('click', () => { music.muted = false; tryPlay(); });
+})();
+</script>
+
+
 <body>
   <!-- NỀN GIF -->
   <div id="background-gif"></div>
@@ -349,7 +407,8 @@
     <div class="smiley__icon"><img src="https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Mzc5djYwdWxscWJ2MHdyd2x1aGs3d2s5Y3l4Z2k5YWhsZWw5dWZ1YiZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/4Ztytt2s2Cr7XyTI1z/200.webp" alt="" width="100"></div>
     <div class="smileo__icon"><img src="https://media3.giphy.com/media/1tiwQhwReXrSQ66wsB/200.webp" alt="" width="100"></div>
     <div class="smilei__icon"><img src="https://media0.giphy.com/media/pbKSEFrEEudOIclaL8/200.webp" alt="" width="100"></div>
-
+    <div class="smilei__icon"><img src="https://media4.giphy.com/media/IEm8kcqLVCctHJ1kWm/giphy.webp" alt="" width="100"></div>
+    <div class="smiley__icon"><img src="https://media2.giphy.com/media/SvK7Gxcq4QS4fNNjYH/200.webp" alt="" width="100"></div>
     <!-- Hộp thư -->
     <div class="boxMail">
       <i class="fa-solid fa-xmark"></i>
@@ -433,8 +492,7 @@
   </div>
 
   <!-- Nhạc phát khi mở khóa -->
-  <audio id="unlock-music" src="https://www.nhaccuatui.com/song/xcZ3M6w5G5v9" preload="auto" loop playsinline></audio>
-  <button id="music-unblock">Bật nhạc 🎵</button>
+<audio id="unlock-music" src="music/1.mp3" preload="auto" loop playsinline autoplay muted></audio>
 
   <!-- ===== SCRIPT GỐC + CHỈNH ===== -->
   <script>
