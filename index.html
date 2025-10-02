@@ -427,7 +427,7 @@ body.modal-open #bottom-gif{ display: none !important; }
     left: 50%;
     top: 56vh;
     transform: translate(-50%,-40%); /* trạng thái trước animation */
-    animation: btnWrapIn .6s calc(var(--btn-start) - .2s) forwards cubic-bezier(.22,.9,.24,1);
+    animation: btnWrapIn .6s calc(var(--btn-start) - .6s) forwards cubic-bezier(.22,.9,.24,1);
     z-index: 2600;
   }
   .left .btn.showed{ transform: translate(-50%,-50%); } /* trạng thái sau */
@@ -631,7 +631,21 @@ body.modal-open #bottom-gif{ display: none !important; }
         style="position:fixed;right:14px;bottom:14px;z-index:5000;display:none;border:2px solid #d1497a;background:#fff0f7;color:#d1497a;border-radius:999px;padding:10px 16px;font-weight:600;box-shadow:0 4px 16px rgba(209,73,122,.25)">
     Bật nhạc 🎵
   </button>
+<script>
+  // Đặt strip quà ngay sau khối .btn (nút thư) trong cột trái
+  document.addEventListener('DOMContentLoaded', function(){
+    var area = document.getElementById('gift-boxes-area');
+    var btnWrap = document.querySelector('.left .btn');
+    if(area && btnWrap && btnWrap.parentElement){
+      // chèn ngay sau .btn (nút "BẤM VÀO ĐÂY NÈEEE💌")
+      btnWrap.insertAdjacentElement('afterend', area);
+    }
 
+    // (tuỳ chọn) Ẩn luôn pixel GIF đáy nếu không cần nữa
+    var bottomGif = document.getElementById('bottom-gif');
+    if(bottomGif) bottomGif.style.display = 'none';
+  });
+</script>
   <script>
 /* ===== TỰ PHÁT NHẠC AN TOÀN + NÚT BẬT LẠI ===== */
 (function () {
@@ -813,7 +827,7 @@ document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeMail(); }
 
   <!-- GIFTS + FIREWORKS -->
   <script>
-const GIFT_IMAGE_SRC  = "images/gift-cute.png";
+const GIFT_IMAGE_SRC  = "https://pin.it/5s3VzzNNT";
 const BOTTOM_GIF_SRC  = "https://i.pinimg.com/originals/55/17/aa/5517aa7627534d2427e2eda5d72b434f.gif";
 
 (function(){
