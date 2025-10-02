@@ -5,13 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mehwish Birthday</title>
 
-  <!-- Fonts & Icons -->
+  <!-- Icons & Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Coiny&family=Titan+One&family=Nerko+One&family=Sriracha&family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Hiệu năng -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Preload ảnh quan trọng -->
+  <link rel="preload" as="image" href="images/unnamed.png" fetchpriority="high">
+  <link rel="preload" as="image" href="images/1.png">
+  <link rel="preload" as="image" href="images/hat.png">
+  <link rel="preload" as="image" href="images/gift-cute.png">
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
   <style>
-    /* ============ RESET + TOKENS ============ */
+    /* ===== RESET & TOKENS ===== */
     *{margin:0;padding:0;box-sizing:border-box}
     :root{
       --color-pink:#feecea;
@@ -22,7 +34,6 @@
       --color-bg-letter:#fff8e4;
       --color-border:#DACCBF;
 
-      /* Avatar tinh chỉnh */
       --avatar-size: 240px;
       --avatar-border: 5px;
       --avatar-shift-right: 20px;
@@ -30,22 +41,22 @@
     html,body{height:100%}
     body{min-height:100%;font-size:16px;background:var(--color-pink);position:relative}
 
-    /* TẮT caro nền từ css cũ */
+    /* Tắt caro nền từ css cũ */
     html, body { background: transparent !important; }
     #wrapper{background:none!important;background-image:none!important;background-size:initial!important}
     #wrapper::before,#wrapper::after,body::before{content:none!important;background:none!important}
 
-    /* NỀN GIF */
+    /* NỀN GIF (set sau DOM để nhanh render) */
     #background-gif{
       position: fixed; inset: 0;
-      background: url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif") center/cover no-repeat fixed;
+      background: transparent center/cover no-repeat fixed;
       opacity:.85; z-index:-1; pointer-events:none;
     }
 
     /* GIF pixel chân màn (tuỳ chọn) */
     #bottom-gif{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);width:min(560px,60vw);z-index:1;display:none;pointer-events:none;opacity:.95;image-rendering:pixelated}
 
-    /* ===== HERO / FLAGS ===== */
+    /* ===== LAYOUT CHÍNH ===== */
     #wrapper{position:relative;min-height:100%;overflow:hidden;z-index:1}
     .flag__birthday{display:flex;justify-content:space-between;transform:translateY(-200px);animation:translateYFlag 1.5s 2s forwards}
     @keyframes translateYFlag{to{transform:translateY(-10px)}}
@@ -102,7 +113,7 @@
     .right .balloon_two{position:absolute;top:170px;right:-65px;z-index:-1;transform:rotate(10deg);animation:balloon2 2s infinite linear}
     @keyframes balloon2{0%,50%,100%{transform-origin:bottom left;transform:rotate(10deg)}25%{transform-origin:bottom left;transform:rotate(7deg)}75%{transform-origin:bottom left;transform:rotate(13deg)}}
 
-    /* Decor từ bản gốc */
+    /* Decor cũ */
     .decorate_star{position:absolute;transform:scale(0);background:var(--color-black);clip-path:polygon(0 50%,35% 35%,50% 0,65% 35%,100% 50%,65% 65%,50% 100%,35% 65%);animation:scaleCricle 3s var(--t) forwards,scaleStar 2s 16s infinite ease-in-out}
     @keyframes scaleStar{25%{transform:scale(.8)}50%{transform:scale(1.1)}}
     .star1{width:20px;height:20px;top:75px;left:300px}
@@ -115,6 +126,23 @@
     .decorate_flower--two{position:absolute;top:225px;left:540px;transform:scale(0);animation:scaleCricle 3s var(--t) forwards ease-in-out}
     .decorate_flower--three{position:absolute;top:150px;right:235px;transform:scale(0);animation:scaleCricle 3s var(--t) forwards ease-in-out}
     .smiley__icon{position:absolute;bottom:180px;left:600px;transform:scale(0);animation:scaleCricle 3s 15s forwards ease-in-out}
+
+    /* ===== DECOR BỔ SUNG THEO VỊ TRÍ KHOANH TRÒN ===== */
+    .custom-decor{position:absolute;inset:0;pointer-events:none;z-index:2}
+    .custom-decor .dec{
+      position:absolute;
+      left:var(--x); top:var(--y);
+      transform:translate(-50%,-50%) rotate(var(--rot,0deg));
+      width:var(--w,120px); height:auto;
+      filter:drop-shadow(0 3px 10px rgba(0,0,0,.08));
+      animation:float 6s ease-in-out infinite alternate;
+    }
+    @keyframes float{from{transform:translate(-50%,-50%) rotate(var(--rot,0deg))}to{transform:translate(-50%,-56%) rotate(var(--rot,0deg))}}
+    /* Vị trí mặc định (có thể chỉnh %) */
+    .dec--top-mid { --x:52%; --y:20%; --w:140px; --rot:-4deg; }     /* khoanh tròn phía trên */
+    .dec--left-low{ --x:14%; --y:66%; --w:150px; --rot:0deg; }      /* khoanh tròn mây trái dưới */
+    .dec--right-low{--x:81%; --y:72%; --w:170px; --rot:5deg; }      /* khoanh tròn mây phải dưới */
+    .dec--left-mid{ --x:18%; --y:82%; --w:160px; --rot:-6deg;}      /* thêm 1 chỗ trống bên trái dưới cùng */
 
     /* ===== LETTER MODAL ===== */
     .box__letter{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10;display:none}
@@ -169,9 +197,10 @@
     .boxMail .boxMail-container .card2 .imageCute2 img{width:40px}
     .boxMail .fa-xmark{position:fixed;top:0;right:0;font-size:30px;padding:10px 25px;cursor:pointer;color:#fff;z-index:10000000000000000}
 
-    /* ===== GIFTS (dưới đáy) ===== */
+    /* ===== HỘP QUÀ (đưa lên trên một chút) ===== */
     #gift-boxes-area{
-      position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+      position:fixed;left:50%;bottom:100px; /* nâng lên ~100px */
+      transform:translateX(-50%);
       display:none;gap:28px;z-index:30;
     }
     .gift-box{width:96px;height:96px;position:relative;cursor:pointer;display:grid;place-items:center;animation:gfloat 3.2s ease-in-out infinite;transition:opacity .28s cubic-bezier(.44,1.5,.55,1.11), transform .2s cubic-bezier(.44,1.5,.55,1.11);will-change:opacity,transform}
@@ -191,55 +220,46 @@
     /* Pháo hoa */
     #fireworks{position:fixed;inset:0;pointer-events:none;z-index:4000}
 
-    /* ===== PIN MODAL (khung) ===== */
-    #pin-modal{position:fixed;inset:0;background:rgba(255,240,230,.96);display:flex;align-items:center;justify-content:center;z-index:9999}
-    .cute-pin-box{background:#ffe6ed;border:3.4px solid #e497af;border-radius:28px;box-shadow:0 4px 24px #e497af66;min-width:320px;min-height:340px;display:flex;flex-direction:column;align-items:center;padding:38px 28px 30px;color:#d1497a}
-    .cute-pin-title{font-family:'Dancing Script',cursive;font-size:2rem;margin-bottom:10px}
-    .cute-pin-dots{display:flex;gap:15px;margin:12px 0 18px}
-    .cute-pin-dot{width:24px;height:30px;border-radius:50% / 60%;border:2.5px solid #e497af;background:#fff6fb;position:relative}
-    .cute-pin-dot.filled{background:radial-gradient(ellipse at 50% 40%, #fff 0 40%, #f67280 42% 100%);border-color:#d1497a}
-    .cute-pin-keypad{display:grid;grid-template-columns:repeat(3,86px);grid-gap:18px;justify-content:center}
-
-    /* Nút “số gà con” */
-    .cute-pin-key{position:relative;width:86px;height:110px;border-radius:22px;border:3px solid #d1497a;background:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 0 #eeb9c8,0 8px 18px rgba(209,73,122,.25);transition:transform .08s,box-shadow .08s}
-    .cute-pin-key:active{transform:translateY(2px);box-shadow:0 4px 0 #eeb9c8,0 6px 12px rgba(209,73,122,.2)}
-    .cute-pin-key .chick{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:42px;height:30px;background:#fff;border:3px solid #ff9db0;border-radius:18px;box-shadow:0 2px 0 rgba(0,0,0,.06)}
-    .cute-pin-key .chick .comb{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:16px;line-height:1;color:#ff4d6d;font-family:'Coiny',system-ui,sans-serif}
-    .cute-pin-key .chick .eye{position:absolute;top:10px;width:6px;height:6px;background:#2d2d2d;border-radius:50%}
-    .cute-pin-key .chick .eye.e1{left:11px} .cute-pin-key .chick .eye.e2{right:11px}
-    .cute-pin-key .chick .beak{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #ff9e2c}
-    .cute-pin-key .digit{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'Titan One','Coiny',system-ui,sans-serif;font-size:46px;color:#fff;text-shadow:-3px -3px 0 #222,3px -3px 0 #222,-3px 3px 0 #222,3px 3px 0 #222,0 5px 0 rgba(0,0,0,.12)}
-    .cute-pin-key.special{background:#fff6fb}
-    .cute-pin-key.special .digit,.cute-pin-key.special .chick{display:none}
-    .cute-pin-key .label{font-weight:700;color:#d1497a;font-family:'Poppins',system-ui,sans-serif}
-
-    /* Music unblock (ẩn theo mặc định, chỉ show khi cần) */
+    /* Music button (khi autoplay bị chặn) */
     #music-unblock{position:fixed;right:14px;bottom:14px;z-index:5000;display:none;border:2px solid #d1497a;background:#fff0f7;color:#d1497a;border-radius:999px;padding:10px 16px;font-weight:600;box-shadow:0 4px 16px rgba(209,73,122,.25)}
 
-    /* Responsive gọn */
+    /* Responsive */
     @media (max-width:768px){
       .content{flex-direction:column;gap:25px;align-items:center;padding-top:2rem}
       .title{font-size:1.6rem;letter-spacing:6px}
       .content .right .image{width:200px;height:200px}
-      #gift-boxes-area{bottom:16px;gap:14px}
-      .gift-box{width:68px;height:68px}
-      .cute-pin-keypad{grid-template-columns:repeat(3,78px);grid-gap:14px}
-      .cute-pin-key{width:78px;height:102px}
-      .cute-pin-key .digit{font-size:42px}
+      #gift-boxes-area{bottom:78px;gap:16px}
+      .gift-box{width:76px;height:76px}
+      .dec--top-mid { --y:24%; --w:120px; }
+      .dec--left-low{ --y:70%; --w:120px; }
+      .dec--right-low{--y:76%; --w:140px; }
+      .dec--left-mid{ --y:86%; --w:130px; }
     }
   </style>
 </head>
 <body>
   <!-- NỀN GIF -->
-  <div id="background-gif"></div>
+  <div id="background-gif" aria-hidden="true"></div>
   <!-- GIF pixel chân màn -->
   <img id="bottom-gif" alt="pixel gif">
 
   <!-- MAIN WRAPPER -->
   <div id="wrapper">
     <div class="flag__birthday">
-      <img src="./images/1.png" alt="" width="350" class="flag__left">
-      <img src="./images/1.png" alt="" width="350" class="flag__right">
+      <img src="./images/1.png" alt="" width="350" height="120" class="flag__left" decoding="async" loading="eager">
+      <img src="./images/1.png" alt="" width="350" height="120" class="flag__right" decoding="async" loading="eager">
+    </div>
+
+    <!-- DECOR BỔ SUNG THEO VỊ TRÍ KHOANH TRÒN -->
+    <div class="custom-decor" aria-hidden="true">
+      <!-- Trên giữa -->
+      <img class="dec dec--top-mid"    src="images/party.png"   alt="" loading="lazy" decoding="async">
+      <!-- Trái dưới (trên mây) -->
+      <img class="dec dec--left-low"   src="images/smile.png"   alt="" loading="lazy" decoding="async">
+      <!-- Phải dưới (trên mây) -->
+      <img class="dec dec--right-low"  src="images/balloon1.png" alt="" loading="lazy" decoding="async">
+      <!-- Trái rất dưới (thêm) -->
+      <img class="dec dec--left-mid"   src="images/clover.png"  alt="" loading="lazy" decoding="async">
     </div>
 
     <div class="content">
@@ -251,7 +271,7 @@
           <h1 class="birthday">
             <span style="--t:5s;">B</span><span style="--t:5.2s;">i</span><span style="--t:5.4s;">r</span><span style="--t:5.6s;">t</span><span style="--t:5.8s;">h</span><span style="--t:6s;">d</span><span style="--t:6.2s;">a</span><span style="--t:6.4s;">y</span>
           </h1>
-          <div class="hat"><img src="./images/hat.png" alt="" width="130"></div>
+          <div class="hat"><img src="./images/hat.png" alt="" width="130" height="130" decoding="async" loading="eager"></div>
         </div>
 
         <div class="date__of__birth"><span></span></div>
@@ -265,10 +285,12 @@
 
       <div class="right">
         <div class="box__account">
-          <div class="image"><img src="./images/unnamed.png" alt=""></div>
+          <div class="image">
+            <img src="./images/unnamed.png" alt="avatar" width="480" height="480" decoding="async" fetchpriority="high" loading="eager">
+          </div>
           <div class="name"><i class="fa-solid fa-heart"></i><span>Dear Mehwish</span><i class="fa-solid fa-heart"></i></div>
-          <div class="balloon_one"><img width="100" src="./images/balloon1.png" alt=""></div>
-          <div class="balloon_two"><img width="100" src="./images/balloon2.png" alt=""></div>
+          <div class="balloon_one"><img width="100" height="140" src="./images/balloon1.png" alt="" loading="lazy" decoding="async"></div>
+          <div class="balloon_two"><img width="100" height="140" src="./images/balloon2.png" alt="" loading="lazy" decoding="async"></div>
         </div>
         <div class="cricle">
           <div class="text__cricle">
@@ -280,7 +302,7 @@
       </div>
     </div>
 
-    <!-- Decor giữ nguyên -->
+    <!-- Decor cũ -->
     <div class="decorate_star star1" style="--t: 15s;"></div>
     <div class="decorate_star star2" style="--t: 15.2s;"></div>
     <div class="decorate_star star3" style="--t: 15.4s;"></div>
@@ -350,9 +372,9 @@
   <!-- ====== 5 HỘP QUÀ ====== -->
   <div id="gift-boxes-area">
     <div class="gift-box" data-msg="Chúc Bé iu của anh tuổi mới càng xinh đẹp 💖" data-img="images/1 (1).png"></div>
-    <div class="gift-box" data-msg="Năm nay sinh nhật của em có anh,và sau này vẫn là anhhhh 🎂" data-img="images/1 (10).png"></div>
-    <div class="gift-box" data-msg="Tuổi mới thì làm gì cũng phải may mắn nhaaaa 🍀" data-img="images/1 (11).png"></div>
-    <div class="gift-box" data-msg="Chúc Bé iu Luôn cười tươi,và rạng rỡ nhaaaa  😊" data-img="images/1 (12).png"></div>
+    <div class="gift-box" data-msg="Năm nay sinh nhật của em có anh, và sau này vẫn là anh 🎂" data-img="images/1 (10).png"></div>
+    <div class="gift-box" data-msg="Tuổi mới làm gì cũng may mắn nha 🍀" data-img="images/1 (11).png"></div>
+    <div class="gift-box" data-msg="Luôn cười tươi, rạng rỡ nhé 😊" data-img="images/1 (12).png"></div>
     <div class="gift-box" data-msg="CHÚC MỪNG SINH NHẬT BÉ IU CỦA ANH 🎉💖" data-img="images/1 (9).png"></div>
   </div>
 
@@ -380,13 +402,19 @@
     </div>
   </div>
 
-  <!-- Nhạc phát khi mở khóa -->
-  <audio id="unlock-music" src="https://www.youtube.com/watch?v=FvEznHc_MeE&list=RDFvEznHc_MeE&start_radio=1" preload="auto" loop playsinline></audio>
+  <!-- Nhạc phát khi mở khóa (dùng file mp3, tránh link YouTube) -->
+  <audio id="unlock-music" src="music/happy.mp3" preload="metadata" loop playsinline></audio>
   <button id="music-unblock">Bật nhạc 🎵</button>
 
   <!-- ===== SCRIPT GỐC + CHỈNH ===== -->
   <script>
-    /* === Typing date & letter === */
+    // Lazy set background GIF sau khi DOM sẵn (mượt First Paint)
+    document.addEventListener('DOMContentLoaded', function(){
+      const bg = document.getElementById('background-gif');
+      if (bg) bg.style.backgroundImage = 'url("https://i.pinimg.com/originals/b4/58/1d/b4581df9e47ce538d21555c94f75da95.gif")';
+    });
+
+    /* Typing date & letter */
     let datetxt="27 May";
     let datatxtletter="My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we will celebrate many more birthdays like this together. Happy birthday to you.💕";
     let titleLetter="To you";
@@ -508,7 +536,7 @@
               modalImg.src = box.dataset.img || '';
               modalMsg.textContent = box.dataset.msg || 'Happy Birthday!';
               modal.style.display='flex';
-              area.style.visibility='hidden';           // ẩn strip quà trong lúc xem modal
+              area.style.visibility='hidden';
             }, 300);
 
             // biến mất hộp quà vừa mở
@@ -519,7 +547,7 @@
               box.classList.add('removing');
               const removeFn = (e)=>{ box.removeEventListener('transitionend', removeFn); box.remove(); };
               box.addEventListener('transitionend', removeFn);
-              setTimeout(removeFn, 600); // fallback
+              setTimeout(removeFn, 600);
             });
           });
         });
@@ -527,9 +555,16 @@
 
       modalClose.addEventListener('click',()=>{
         modal.style.display='none';
-        area.style.visibility='visible';               // hiện lại strip
+        area.style.visibility='visible';
         area.querySelectorAll('.gift-box.open').forEach(b=>b.classList.remove('open'));
       });
+
+      // Prefetch ảnh quà để mở modal nhanh
+      const eagerList = [
+        "images/gift-cute.png",
+        "images/1 (1).png","images/1 (9).png","images/1 (10).png","images/1 (11).png","images/1 (12).png"
+      ];
+      eagerList.forEach(src=>{ const i=new Image(); i.decoding="async"; i.loading="eager"; i.src=src; });
 
       window.HB_Gifts = {
         init(){ renderGifts(); },
@@ -537,7 +572,6 @@
           area.style.display='flex';
           area.classList.add('gift-appear');
           bottomGif.style.display='block';
-          document.body.classList.add('gifts-visible');
         }
       };
     })();
@@ -555,7 +589,7 @@
 
       let entered='', correct='1010', onUnlock=()=>{};
 
-      // Safari/iOS priming để play được khi người dùng tương tác lần đầu
+      // Priming audio cho iOS/Safari
       window.addEventListener('pointerdown', function prime(){
         if(!music) return;
         window.removeEventListener('pointerdown', prime);
@@ -608,6 +642,7 @@
         if(entered===correct){
           pinModal.style.display='none';
           try { tryPlayMusic(); } catch(e){}
+          document.dispatchEvent(new CustomEvent('HB_PIN_UNLOCKED'));
           onUnlock&&onUnlock();
         } else {
           pinError.textContent="Sai mã PIN rồi 😳";
@@ -632,6 +667,7 @@
   <!-- TRÌNH TỰ: PIN → animation → hiển thị quà -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // gán nền gif đã làm ở trên
       HB_Gifts.init();
       HB_Pin.require({
         pin: '1010',
