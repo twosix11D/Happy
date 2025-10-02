@@ -12,6 +12,78 @@
 
   <style>
     /* ============ RESET + TOKENS ============ */
+    /* ===== CAPOO PALETTE ===== */
+:root{
+  --capoo-blue:   #25C0F1;  /* thân Capoo */
+  --capoo-blue-2: #17B3E6;  /* hover */
+  --capoo-dark:   #0E4E68;  /* viền/đổ bóng chữ */
+  --capoo-cream:  #FFF3E6;  /* nền nhạt */
+  --capoo-pink:   #FF7AA2;  /* má hồng/nhấn */
+}
+
+/* Tiêu đề chuyển sang xanh Capoo + viền xanh đậm */
+.title .happy,
+.title .birthday{
+  color: var(--capoo-blue) !important;
+  text-shadow:
+    4px 4px var(--capoo-dark), -4px 4px var(--capoo-dark),
+    4px -4px var(--capoo-dark), -4px -4px var(--capoo-dark),
+    4px 8px 0 var(--capoo-dark) !important;
+}
+
+/* Icon tim sang hồng Capoo */
+.fa-heart{ color: var(--capoo-pink) !important; }
+
+/* Dải ngày, thẻ tên, và nút chính về cùng tông Capoo */
+.date__of__birth,
+.name,
+#btn__letter{
+  background: var(--capoo-blue) !important;
+  border-color: var(--capoo-dark) !important;
+  color: #fff !important;
+}
+
+/* Hover nút/biểu ngữ */
+#btn__letter:hover{
+  background: var(--capoo-blue-2) !important;
+  border-color: #09384c !important;
+  color:#fff !important;
+  box-shadow: 0 6px 14px rgba(14,78,104,.25) !important;
+}
+
+/* Nút “Bật nhạc”, v.v… cho đồng bộ */
+#music-unblock{
+  background:#e6f8ff !important;
+  border-color: var(--capoo-dark) !important;
+  color: var(--capoo-dark) !important;
+}
+#music-unblock:hover{
+  background:#d9f2ff !important;
+}
+
+/* Viền avatar và bảng tên hài hoà tông xanh đậm */
+.content .right .image{
+  border-color: var(--capoo-dark) !important;
+}
+.name{
+  color:#fff !important;
+}
+
+/* Chấm tròn quay (cricle) đổi khung xanh Capoo */
+.text__cricle{
+  background: var(--capoo-blue) !important;
+  border-color: var(--capoo-dark) !important;
+}
+.text__cricle span{ color: #07384c !important; }
+
+/* Thanh ngày có sao: màu sao hồng Capoo */
+.date__of__birth i.fa-star{ color: var(--capoo-pink) !important; }
+
+/* Nếu muốn cả nền thư (modal) dịu theo Capoo */
+.letter__border .letter{
+  background: var(--capoo-cream) !important;
+}
+
     *{margin:0;padding:0;box-sizing:border-box}
     :root{
       --color-pink:#feecea; --color-white:#fff; --color-black:#333;
