@@ -584,45 +584,10 @@
       $(".box__letter").slideUp(); $(".letter__border").slideUp();
     })
 
-<script>
-/* Mailbox: mở khi bấm "mail", và đóng khi bấm vào CHỖ BẤT KỲ */
-(function(){
-  const mailBox = document.querySelector('.mail');
-  const boxmail = document.querySelector('.boxMail');
-  let openedAt = 0; // để tránh việc click mở bị bắt luôn thành click đóng
-
-  // Mở mailbox
-  mailBox?.addEventListener('click', function(e){
-    // chặn nổi bọt để click mở không bị handler "đóng mọi nơi" bắt ngay
-    e.stopPropagation();
-    if (!boxmail) return;
-
-    boxmail.classList.add('active');
-    openedAt = Date.now();
-
-    // chỉ show quà LẦN ĐẦU khi mở mailbox
-    try { setTimeout(()=>{ HB_Gifts && HB_Gifts.show && HB_Gifts.show(); }, 600); } catch(e){}
-  });
-
-  // Đóng mailbox khi bấm vào CHỖ BẤT KỲ trên tài liệu
-  document.addEventListener('click', function(){
-    if (!boxmail) return;
-    if (!boxmail.classList.contains('active')) return;
-
-    // tránh close bởi chính cú click mở (phòng hờ trình duyệt lạ)
-    if (Date.now() - openedAt < 120) return;
-
-    boxmail.classList.remove('active');
-  });
-
-  // Đóng bằng phím ESC (tiện lợi)
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && boxmail?.classList.contains('active')) {
-      boxmail.classList.remove('active');
-    }
-  });
-})();
-</script>
+    let mailBox=document.querySelector('.mail'), boxmail=document.querySelector('.boxMail'), closeMail=document.querySelector('.boxMail .fa-xmark')
+    mailBox?.addEventListener('click', function(){ mailBox.classList.toggle('active'); boxmail?.classList.add('active') })
+    closeMail?.addEventListener('click', function(){ boxmail?.classList.remove('active') })
+  </script>
 
 
   <!-- GIFTS + FIREWORKS -->
