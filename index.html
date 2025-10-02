@@ -388,10 +388,22 @@
       },100)
     },12000)
 
+    /* HIỆN QUÀ KHI MỞ THƯ */
+    let giftShownOnce = false;
+
     var intervalContent,intervalTitle;
     $("#btn__letter").on("click",function(){
       $(".box__letter").slideDown();
       setTimeout(()=>{$(".letter__border").slideDown();},1000)
+
+      // Show gifts ngay khi mở thư (chỉ 1 lần)
+      setTimeout(()=>{
+        if(!giftShownOnce){
+          HB_Gifts.show();
+          giftShownOnce = true;
+        }
+      },700);
+
       setTimeout(function(){
         intervalTitle=setInterval(function(){
           if(currentIndexTitle<charArrTitle.length){
@@ -611,14 +623,14 @@
     })();
   </script>
 
-  <!-- TRÌNH TỰ: PIN → animation → hiển thị quà -->
+  <!-- TRÌNH TỰ: PIN → animation (không auto-show quà) -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       HB_Gifts.init();
       HB_Pin.require({
         pin: '1010',
         onUnlock: function () {
-          setTimeout(()=>HB_Gifts.show(), 12000);
+          /* Không auto-show; quà sẽ xuất hiện khi mở thư */
         }
       });
     });
