@@ -725,46 +725,55 @@ body.modal-open #bottom-gif{ display: none !important; }
   });
 </script>
   <script>
-/* ===== TỰ PHÁT NHẠC AN TOÀN + NÚT BẬT LẠI ===== */
+<script>
+/* ===== PHÁT NHẠC CHỈ SAU KHI MỞ KHÓA PIN ===== */
 (function () {
   const music = document.getElementById('bg-music');
   const btn   = document.getElementById('music-unblock');
 
-  function tryPlay() {
+  // Cờ cho phép phát nhạc: false cho tới khi nhập PIN đúng
+  window.__MUSIC_ALLOWED = false;
+
+  function hardStop() {
     if (!music) return;
-    music.muted = true;               // autoplay được phép khi mute
+    try { music.pause(); } catch(e){}
+    try { music.currentTime = 0; } catch(e){}
+    music.muted = true;
+    if (btn) btn.style.display = 'none';
+  }
+
+  function tryPlay(force = false) {
+    if (!music) return;
+    if (!window.__MUSIC_ALLOWED && !force) {
+      hardStop();
+      return;
+    }
+    music.muted = false;
     music.volume = 0.9;
     const p = music.play();
-    if (p && typeof p.then === 'function') {
-      p.then(() => {
-        setTimeout(()=> music.muted = false, 120); // bật tiếng nhẹ sau khi đã phát
-        if (btn) btn.style.display = 'none';
-      }).catch(() => {
-        if (btn) btn.style.display = 'inline-flex'; // nếu bị chặn, hiện nút
-      });
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => { if (btn) btn.style.display = 'inline-flex'; });
+    } else {
+      if (btn) btn.style.display = 'none';
     }
   }
 
-  // gọi khi trang sẵn sàng
-  if (document.readyState !== 'loading') tryPlay();
-  else document.addEventListener('DOMContentLoaded', tryPlay);
+  // Không tự phát khi chưa mở khóa: ép dừng ngay khi load
+  function primeStop() { if (!window.__MUSIC_ALLOWED) hardStop(); }
+  if (document.readyState !== 'loading') primeStop();
+  else document.addEventListener('DOMContentLoaded', primeStop);
 
-  // huých bằng tương tác lần đầu
-  const once = () => { tryPlay();
-    window.removeEventListener('mousemove', once);
-    window.removeEventListener('touchstart', once);
-    window.removeEventListener('keydown', once);
-  };
-  window.addEventListener('mousemove', once, { once:true });
-  window.addEventListener('touchstart', once, { once:true });
-  window.addEventListener('keydown', once, { once:true });
-  window.addEventListener('pageshow', tryPlay);
+  // Khi quay lại tab, nếu đã mở khóa thì thử phát
   document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
 
-  // click nút dự phòng
-  btn && btn.addEventListener('click', () => { music.muted = false; tryPlay(); });
+  // Nút “Bật nhạc” chỉ hoạt động sau khi đã được cho phép
+  btn && btn.addEventListener('click', () => tryPlay(true));
+
+  // Cho phần PIN gọi sau khi mở khóa
+  window.__playBgMusic = () => tryPlay(true);
 })();
-  </script>
+</script>
+
 
   <!-- Nhạc phát khi mở khóa -->
   <audio id="unlock-music" src="images/1.mp3" preload="auto" loop playsinline autoplay muted></audio>
@@ -1107,18 +1116,23 @@ const GIFT_IMAGE_SRC  = "images/Picsart_25-10-02_22-15-12-725.png";
 })();
   </script>
 
-  <!-- TRÌNH TỰ: PIN → animation (không auto-show quà) -->
-  <script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
   HB_Gifts.init();
   HB_Pin.require({
     pin: '1010',
     onUnlock: function () {
-      /* Không auto-show; quà sẽ xuất hiện khi mở thư */
+      // Cho phép phát nhạc & phát luôn
+      window.__MUSIC_ALLOWED = true;
+      if (typeof window.__playBgMusic === 'function') {
+        window.__playBgMusic();
+      }
+      /* Không auto-show quà; quà sẽ xuất hiện khi mở thư */
     }
   });
 });
-  </script>
+</script>
+
 
   <!-- ======= Filler chú thích để đảm bảo tổng số dòng > 800 (không ảnh hưởng chức năng) ======= -->
   <!-- line filler 1 -->
